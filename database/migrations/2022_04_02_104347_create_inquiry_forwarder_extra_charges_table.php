@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContainersTable extends Migration
+class CreateInquiryForwarderExtraChargesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateContainersTable extends Migration
      */
     public function up()
     {
-        Schema::create('containers', function (Blueprint $table) {
+        Schema::create('inquiry_forwarder_extra_charges', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('is_active')->default(1);
+            $table->foreignId('inquiry_forwarder_rate_id');
+            $table->string('charge_name');
+            $table->string('rate');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateContainersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('containers');
+        Schema::dropIfExists('inquiry_forwarder_extra_charges');
     }
 }

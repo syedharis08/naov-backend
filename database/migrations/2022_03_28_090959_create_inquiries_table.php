@@ -15,6 +15,13 @@ class CreateInquiriesTable extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('service_id');
+            $table->foreignId('forwarder_id')->nullable();
+            $table->string('volume')->nullable();
+            $table->string('weight')->nullable();
+            $table->text('notes')->nullable();
+            $table->boolean('is_dangerous')->default(0);
             $table->timestamps();
         });
     }

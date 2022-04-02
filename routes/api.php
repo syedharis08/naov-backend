@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CarrierController;
+use App\Http\Controllers\ContainerController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SeaPortController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -41,6 +44,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
     Route::apiResource('service', ServiceController::class);
+    Route::apiResource('sea-port', SeaPortController::class);
+    Route::apiResource('container', ContainerController::class);
+    Route::apiResource('carrier', CarrierController::class);
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
 // });

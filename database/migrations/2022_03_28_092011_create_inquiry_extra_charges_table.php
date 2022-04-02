@@ -15,6 +15,9 @@ class CreateInquiryExtraChargesTable extends Migration
     {
         Schema::create('inquiry_extra_charges', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('inquiry_id');
+            $table->foreignId('forwarder_id');
+
             $table->timestamps();
         });
     }

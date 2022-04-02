@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Container extends Model
 {
     use HasFactory;
+    protected  $fillable  = [
+      'name'
+    ];
 }
