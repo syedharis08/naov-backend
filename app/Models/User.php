@@ -20,7 +20,20 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    protected $guarded = [];
+    protected $fillable = [
+        'role_id',
+        'company_name',
+        'company_email',
+        'name',
+        'phone',
+        'email',
+        'email_verified_at',
+        'password',
+        'is_logged_in',
+        'remember_token',
+        'created_at',
+        'updated_at'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -70,5 +83,10 @@ class User extends Authenticatable
     public function shipperusers()
     {
         return $this->belongsToMany(User::class,'shipper_users','shipper_id','user_id');
+    }
+
+    public function address()
+    {
+        return $this->hasMany(Address::class);
     }
 }
