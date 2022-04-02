@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
@@ -33,6 +34,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('add-forwarders',[UserController ::class,'addForwarders']);
     Route::get('get-shippers',[UserController ::class,'getShippers']);
     Route::post('add-shipper',[UserController ::class,'addShipper']);
+
+    Route::get('get-countries',[AddressController::class,'getCountries']);
+    Route::get('get-states/{id}',[AddressController::class,'getStates']);
+    Route::get('get-cities/{id}',[AddressController::class,'getCities']);
 
 
     Route::apiResource('service', ServiceController::class);
