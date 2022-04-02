@@ -28,6 +28,7 @@ class UserController extends Controller
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
         $user = $this->model::create($request->toArray());
+        $user->
         $respone['token'] = $user->createToken('Naov')->accessToken;
         $respone['message'] = "successfully user added";
         return response()->json($respone, Response::HTTP_OK);
