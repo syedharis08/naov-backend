@@ -16,10 +16,10 @@ class CreateSeaFreightsTable extends Migration
         Schema::create('sea_freights', function (Blueprint $table) {
             $table->id();
             $table->foreignId('inquiry_id');
-            $table->foreignId('container_id');
+            $table->foreignId('container_id')->nullable();
             $table->foreignId('shipper_id')->nullable();
-            $table->foreignId('loading_port')->nullable();
-            $table->foreignId('destination_port')->nullable();
+            $table->foreignId('loading_port_id')->nullable();
+            $table->foreignId('destination_port_id')->nullable();
             $table->integer('sea_freight_type')->nullable();
             $table->string('date')->nullable();
             $table->timestamps();

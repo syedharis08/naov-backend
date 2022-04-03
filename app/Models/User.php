@@ -89,4 +89,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
+
+    public function inquiries()
+    {
+        return $this->hasMany(Inquiry::class);
+    }
 }

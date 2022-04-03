@@ -17,7 +17,7 @@ class CreateInquiryForwarderContainerRatesTable extends Migration
             $table->id();
             $table->foreignId('inquiry_forwarder_rate_id');
             $table->foreignId('container_id');
-            $table->string('num_of_containers');
+            $table->string('num_of_containers')->nullable();
             $table->string('exw_charge')->nullable();
             $table->string('rate')->nullable();
             $table->timestamps();

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CarrierController;
 use App\Http\Controllers\ContainerController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeaPortController;
@@ -41,6 +42,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('get-countries',[AddressController::class,'getCountries']);
     Route::get('get-states/{id}',[AddressController::class,'getStates']);
     Route::get('get-cities/{id}',[AddressController::class,'getCities']);
+
+    Route::post('inquiry-create',[InquiryController::class,'create']);
 
 
     Route::apiResource('service', ServiceController::class);
