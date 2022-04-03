@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(CountriesTableSeeder::class);
         $this->call(StatesTableSeeder::class);
+        $this->call(ServicesTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
 
         $shipment_lines = [
             'COSCO',
