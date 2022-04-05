@@ -31,7 +31,9 @@ class UserController extends Controller
         $address = $request->get('address');
         $service_ids = $request->get('service_ids');
         $user->address()->create($address);
-        $user->services()->attach($service_ids);
+        if(count($service_ids) >0 ) {
+            $user->services()->attach($service_ids);
+        }
         $respone['token'] = $user->createToken('Naov')->accessToken;
         $respone['message'] = "successfully user added";
         return response()->json($respone, Response::HTTP_OK);
