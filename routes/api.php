@@ -35,9 +35,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('add-user-service',[UserController ::class,'addUserServices']);
     Route::get('get-services',[UserController ::class,'addGetServices']);
     Route::get('get-forwarders',[UserController ::class,'getForwarders']);
+    Route::get('get-forwarder/{user}',[UserController ::class,'getForwarder']);
     Route::post('add-forwarders',[UserController ::class,'addForwarders']);
     Route::get('get-shippers',[UserController ::class,'getShippers']);
     Route::post('add-shipper',[UserController ::class,'addShipper']);
+    Route::get('get-user/{user}/{role_id}',[UserController::class , 'getUser']);
+//    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
 
     Route::get('get-countries',[AddressController::class,'getCountries']);
     Route::get('get-states/{id}',[AddressController::class,'getStates']);
@@ -45,11 +48,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::post('inquiry-create',[InquiryController::class,'create']);
 
-
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);
     Route::apiResource('container', ContainerController::class);
     Route::apiResource('carrier', CarrierController::class);
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
+
 // });

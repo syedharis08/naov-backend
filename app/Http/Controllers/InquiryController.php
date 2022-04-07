@@ -20,15 +20,14 @@ class InquiryController extends Controller
         $user = request()->user();
         $inquiry= $user->inquiries()->create($request->all());
         $services = $request->get('serviceFields');
+        $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
         foreach ($services['forwarder_ids'] as $forwarder_id) {
             $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->create([
                 'forwarder_id' => $forwarder_id
             ]);
-            foreach ($services['container_ids'] as $container_id) {
-                $inquiryForwarderRates->inquiryForwarderContainerRate()->create([
-                    "container_id" => $container_id
-                ]);
+            foreach ($containers as $container) {
+                $inquiryForwarderRates->inquiryForwarderContainerRate()->create($container);
             }
         }
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);

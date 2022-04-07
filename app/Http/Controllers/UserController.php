@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\ShipperConfirmationNotification;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
@@ -29,8 +30,9 @@ class UserController extends Controller
         }
         $user = $this->model::create($request->toArray());
         $address = $request->get('address');
-        $service_ids = $request->get('service_ids');
         $user->address()->create($address);
+
+        $service_ids = $request->get('service_ids');
         if(count($service_ids) >0 ) {
             $user->services()->attach($service_ids);
         }
@@ -172,6 +174,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $shipper = $this->model::create($request->all());
+        $shipper->notify(new ShipperConfirmationNotification($shipper));
         $user->shippers()->attach($shipper->id);
         return response()->json(
             ['message' => 'succesfully added the user shipper'],
@@ -186,4 +189,31 @@ class UserController extends Controller
             Response::HTTP_OK
         );
     }
+
+    public function shipperValidation(Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401, 'This link is not valid.');
+        }
+    }
+
+    public function getUser($id,$role_id)
+    {
+        $user = User::where('id',$id)
+        ->where('role_id',$role_id)->first();
+        return response()->json(
+            ['user' => $user],
+            Response::HTTP_OK
+        );
+    }
+
+
+//    public function getForwarder($id)
+//    {
+//        $forwarder = User::find($id);
+//        return response()->json(
+//            ['forwarder' => $forwarder],
+//            Response::HTTP_OK
+//        );
+//    }
 }
