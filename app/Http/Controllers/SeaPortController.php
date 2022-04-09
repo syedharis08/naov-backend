@@ -38,13 +38,12 @@ class SeaPortController extends Controller
     public function store(Request $request)
     {
 
-        try{
-            $this->model::create($request->all());
-            return response()->json(['message' => 'Successfully added the seaport'], Response::HTTP_OK);
-        } catch (Exception $exception) {//
+        try {
+            $seaPort = $this->model::create($request->all());
+            return response()->json(['message' => 'Successfully added the seaport', 'result' => $seaPort], Response::HTTP_OK);
+        } catch (Exception $exception) { //
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 
     /**
@@ -57,8 +56,10 @@ class SeaPortController extends Controller
     {
         $seaport = $this->model::find($id);
         if ($seaport) {
-            return response()->json(['seaport' => $seaport],
-                Response::HTTP_OK);
+            return response()->json(
+                ['seaport' => $seaport],
+                Response::HTTP_OK
+            );
         } else {
             return response()->json(['error' => "OOPS! Something went wrong"], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -104,4 +105,3 @@ class SeaPortController extends Controller
         }
     }
 }
-
