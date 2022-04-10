@@ -27,10 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::middleware('api')->group(function(){
 
     Route::post('sign-up',[UserController::class,'signup']);
     Route::post('login',[UserController::class,'login']);
+ Route::middleware('api')->group(function(){
+
     Route::get('get-user',[UserController::class,'getLoggedInUser']);
     Route::post('add-user-service',[UserController ::class,'addUserServices']);
     Route::get('get-services',[UserController ::class,'addGetServices']);
@@ -47,6 +48,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('get-cities/{id}',[AddressController::class,'getCities']);
 
     Route::post('inquiry-create',[InquiryController::class,'create']);
+    Route::get('forwarder/get-inquires',[InquiryController::class,'getInquires']);
 
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);
@@ -55,4 +57,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
 
-// });
+ });

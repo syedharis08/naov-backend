@@ -34,5 +34,10 @@ class Inquiry extends Model
         return $this->hasManyThrough(InquiryForwarderContainerRate::class,InquiryForwarderRate::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
 
 }

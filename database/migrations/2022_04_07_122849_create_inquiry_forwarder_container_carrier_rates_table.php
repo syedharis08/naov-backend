@@ -16,6 +16,7 @@ class CreateInquiryForwarderContainerCarrierRatesTable extends Migration
         Schema::create('inquiry_forwarder_container_carrier_rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('inquiry_forwarder_container_rate_id');
+            $table->foreignId('carrier_id');
             $table->string('exw_charge')->nullable();
             $table->string('rate')->nullable();
             $table->timestamps();

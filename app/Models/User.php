@@ -94,4 +94,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Inquiry::class);
     }
+
+    public function inquiryForwarderRate()
+    {
+        return $this->hasMany(InquiryForwarderRate::class,'forwarder_id');
+    }
+
+
 }

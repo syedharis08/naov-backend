@@ -11,6 +11,8 @@ class InquiryForwarderRate extends Model
     protected $fillable = [
         'inquiry_id',
         'forwarder_id',
+        'loading_port_id',
+        'destination_port_id',
         'carrier_id',
         'validity_rate',
         'free_days',
@@ -28,4 +30,9 @@ class InquiryForwarderRate extends Model
     {
         return $this->hasMany(InquiryForwarderContainerRate::class);
     }
+    public function inquiry()
+    {
+        return $this->belongsTo(Inquiry::class);
+    }
 }
+

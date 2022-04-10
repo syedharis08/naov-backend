@@ -156,6 +156,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $forwarder = $this->model::create($request->all());
+        $forwarder->notify(new ShipperConfirmationNotification($forwarder));
         $user->forwarders()->attach($forwarder->id);
         return response()->json(
             ['message' => 'succesfully added the user forwarders'],

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InquiryForwarderRateResource;
+use App\Http\Resources\InquiryResource;
 use App\Models\Inquiry;
+use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,6 +25,7 @@ class InquiryController extends Controller
         $services = $request->get('serviceFields');
         $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
+
         foreach ($services['forwarder_ids'] as $forwarder_id) {
             $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->create([
                 'forwarder_id' => $forwarder_id
@@ -32,4 +36,15 @@ class InquiryController extends Controller
         }
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
     }
+
+    public function getInquires()
+    {
+        $user = request()->user();
+        return response()->json(['inquires'=>InquiryForwarderRateResource::collection($user->inquiryForwarderRate)], Response::HTTP_OK);
+    }
+
+    public function inquiryAddRate(Request $request,$id){
+        $inquiryForwarder = InquiryForwarderRate::find($id);
+    }
+
 }
