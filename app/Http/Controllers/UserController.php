@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Notifications\ShipperConfirmationNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -156,7 +157,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         $forwarder = $this->model::create($request->all());
-        $forwarder->notify(new ShipperConfirmationNotification($forwarder));
+        Notification::route('mail', $forwarder->company_email)
+            ->notify(new ShipperConfirmationNotification($forwarder));
+        $address = $request->get('address');
+        $forwarder->address()->create($address);
         $user->forwarders()->attach($forwarder->id);
         return response()->json(
             ['message' => 'succesfully added the user forwarders'],
@@ -176,7 +180,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         $shipper = $this->model::create($request->all());
-        $shipper->notify(new ShipperConfirmationNotification($shipper));
+        Notification::route('mail', $shipper->company_email)
+            ->notify(new ShipperConfirmationNotification($shipper));
+        $address = $request->get('address');
+        $shipper->address()->create($address);
         $user->shippers()->attach($shipper->id);
         return response()->json(
             ['message' => 'succesfully added the user shipper'],

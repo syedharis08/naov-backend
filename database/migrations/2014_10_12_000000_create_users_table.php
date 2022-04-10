@@ -19,9 +19,9 @@ class CreateUsersTable extends Migration
             $table->foreignId('role_id');
             $table->string('company_name');
             $table->string('company_email');
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->boolean('is_logged_in')->default(0);
