@@ -237,9 +237,11 @@ class UserController extends Controller
                 $user->address()->create($address);
             }
         }
-        $service_ids = $request->get('service_ids');
-        if (count($service_ids) > 0) {
-            $user->services()->attach($service_ids);
+        if($request->has('service_ids')) {
+            $service_ids = $request->get('service_ids');
+            if (count($service_ids) > 0) {
+                $user->services()->attach($service_ids);
+            }
         }
 
         $respone['user'] = $user;
