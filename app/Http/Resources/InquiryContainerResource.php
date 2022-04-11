@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InquiryForwarderContainerCarrierRateResource extends JsonResource
+class InquiryContainerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,11 @@ class InquiryForwarderContainerCarrierRateResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'inquiry_container_id' => $this->id,
+            'container_id' => $this->container_id,
+            'container' => $this->container->name ?? 'null',
+            'quantity' => $this->quantity,
+        ];
     }
 }

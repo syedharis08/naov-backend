@@ -14,5 +14,10 @@ class InquiryContainer extends Model
         'quantity',
     ];
 
+    public function container()
+    {
+        return $this->belongsTo(Container::class);
+    }
+
 //    public function
 }

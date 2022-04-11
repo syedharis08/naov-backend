@@ -19,6 +19,7 @@ class CreateInquiriesTable extends Migration
             $table->foreignId('service_id');
             $table->foreignId('forwarder_id')->nullable();
             $table->string('volume')->nullable();
+            $table->string('commodity')->nullable();
             $table->string('weight')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_dangerous')->default(0);

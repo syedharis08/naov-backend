@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\InquiryForwarderRateResource;
-use App\Http\Resources\InquiryResource;
+use App\Http\Resources\InquiryForwarderResource;
 use App\Models\Inquiry;
 use App\Models\InquiryForwarder;
-use App\Models\InquiryForwarderExtraCharge;
-use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,7 +39,7 @@ class InquiryController extends Controller
     public function getInquires()
     {
         $user = request()->user();
-        return response()->json(['inquires'=>$user->inquiryForwarderRate], Response::HTTP_OK);
+        return response()->json(['inquires'=> InquiryForwarderResource::collection($user->inquiryForwarder)], Response::HTTP_OK);
     }
 
     public function inquiryAddRate(Request $request,$id){

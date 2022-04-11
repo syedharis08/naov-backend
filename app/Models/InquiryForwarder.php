@@ -20,4 +20,8 @@ class InquiryForwarder extends Model
     {
         return $this->hasMany(InquiryForwarderRate::class);
     }
+
+    public function inquiry(){
+        return $this->belongsTo(Inquiry::class);
+    }
 }
