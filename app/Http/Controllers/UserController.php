@@ -15,10 +15,12 @@ use Exception;
 class UserController extends Controller
 {
     private $model;
+
     public function __construct()
     {
         $this->model = User::class;
     }
+
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -34,7 +36,7 @@ class UserController extends Controller
         $user->address()->create($address);
 
         $service_ids = $request->get('service_ids');
-        if(count($service_ids) >0 ) {
+        if (count($service_ids) > 0) {
             $user->services()->attach($service_ids);
         }
         $respone['user'] = $user;
@@ -42,6 +44,7 @@ class UserController extends Controller
         $respone['message'] = "successfully user added";
         return response()->json($respone, Response::HTTP_OK);
     }
+
     //    user Login
     public function login(Request $request)
     {
@@ -84,10 +87,6 @@ class UserController extends Controller
     }
 
 
-
-
-
-
     //    Update Vendor Profile
     public function updateProfile(Request $request)
     {
@@ -124,7 +123,6 @@ class UserController extends Controller
     }
 
 
-
     //    To get the logged in user
     public function getLoggedInUser()
     {
@@ -153,7 +151,7 @@ class UserController extends Controller
         );
     }
 
-     public function addForwarders(Request $request)
+    public function addForwarders(Request $request)
     {
         $user = request()->user();
         $forwarder = $this->model::create($request->all());
@@ -167,6 +165,7 @@ class UserController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function getForwarders()
     {
         $user = request()->user();
@@ -176,7 +175,7 @@ class UserController extends Controller
         );
     }
 
-     public function addShipper(Request $request)
+    public function addShipper(Request $request)
     {
         $user = request()->user();
         $shipper = $this->model::create($request->all());
@@ -190,6 +189,7 @@ class UserController extends Controller
             Response::HTTP_OK
         );
     }
+
     public function getShippers()
     {
         $user = request()->user();
@@ -206,39 +206,42 @@ class UserController extends Controller
         }
     }
 
-    public function getUser($id,$role_id)
+    public function getUser($id, $role_id)
     {
-        $user = User::where('id',$id)
-        ->where('role_id',$role_id)->first();
+        $user = User::where('id', $id)
+            ->where('role_id', $role_id)->first();
         return response()->json(
             ['user' => $user],
             Response::HTTP_OK
         );
     }
 
-    public function preSignup($id,Request $request)
+    public function preSignup($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,id',
-        'password' => 'required|string|min:6',
-     ]);
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,id',
+            'password' => 'required|string|min:6',
+        ]);
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
         $user = $this->model::find($id);
         $user->update($request->all());
         $userAddress = $user->address()->first();
-        $address = $request->get('address');
-        if($userAddress && $request->has('address')) {
-            $userAddress->update($address);
-        }else{
-            $user->address()->create($address);
+        if ($request->has('address')) {
+            $address = $request->get('address');
+            if ($userAddress) {
+                $userAddress->update($address);
+            } else {
+                $user->address()->create($address);
+            }
         }
         $service_ids = $request->get('service_ids');
-        if(count($service_ids) >0 ) {
+        if (count($service_ids) > 0) {
             $user->services()->attach($service_ids);
         }
+
         $respone['user'] = $user;
         $respone['token'] = $user->createToken('Naov')->accessToken;
         $respone['message'] = "successfully user added";
