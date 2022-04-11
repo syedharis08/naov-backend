@@ -230,8 +230,8 @@ class UserController extends Controller
         $user->update($request->all());
         $userAddress = $user->address()->first();
         $address = $request->get('address');
-        if($userAddress) {
-        $userAddress->update($address);
+        if($userAddress && $request->has('address')) {
+            $userAddress->update($address);
         }else{
             $user->address()->create($address);
         }

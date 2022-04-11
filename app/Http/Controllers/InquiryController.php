@@ -42,7 +42,7 @@ class InquiryController extends Controller
     public function getInquires()
     {
         $user = request()->user();
-        return response()->json(['inquires'=>InquiryForwarderRateResource::collection($user->inquiryForwarderRate)], Response::HTTP_OK);
+        return response()->json(['inquires'=>$user->inquiryForwarderRate], Response::HTTP_OK);
     }
 
     public function inquiryAddRate(Request $request,$id){
