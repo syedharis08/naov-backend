@@ -159,8 +159,8 @@ class UserController extends Controller
         $forwarder = $this->model::create($request->all());
         Notification::route('mail', $forwarder->company_email)
             ->notify(new ShipperConfirmationNotification($forwarder));
-        $address = $request->get('address');
-        $forwarder->address()->create($address);
+//        $address = $request->get('address');
+//        $forwarder->address()->create($address);
         $user->forwarders()->attach($forwarder->id);
         return response()->json(
             ['message' => 'succesfully added the user forwarders'],
@@ -229,9 +229,11 @@ class UserController extends Controller
         $user = $this->model::find($id);
         $user->update($request->all());
         $userAddress = $user->address()->first();
-        if($userAddress) {
         $address = $request->get('address');
+        if($userAddress) {
         $userAddress->update($address);
+        }else{
+            $user->address()->create($address);
         }
         $service_ids = $request->get('service_ids');
         if(count($service_ids) >0 ) {
@@ -243,7 +245,6 @@ class UserController extends Controller
         return response()->json($respone, Response::HTTP_OK);
 
     }
-
 
 //    public function getForwarder($id)
 //    {

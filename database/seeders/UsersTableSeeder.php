@@ -135,17 +135,17 @@ class UsersTableSeeder extends Seeder
             array (
                 'id' => 8,
                 'role_id' => 2,
-                'company_name' => 'Naov Forwarder 5',
+                'company_name' => 'Naov',
                 'company_email' => 'forwarder5@naov.com',
-                'name' => NULL,
-                'phone' => NULL,
-                'email' => NULL,
+                'name' => 'forwarder',
+                'phone' => '14124545',
+                'email' => 'forwarder5@naov.com',
                 'email_verified_at' => NULL,
-                'password' => NULL,
+                'password' => '$2y$10$TY02CbqQLpxUUi1BpBEjAO8fvWmiwe0WX1LTd3aJ73L3NDGQIMJ0e',
                 'is_logged_in' => 0,
                 'remember_token' => NULL,
                 'created_at' => '2022-04-10 14:34:32',
-                'updated_at' => '2022-04-10 14:34:32',
+                'updated_at' => '2022-04-11 05:06:09',
             ),
             8 => 
             array (
