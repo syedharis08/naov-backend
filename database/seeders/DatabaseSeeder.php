@@ -73,7 +73,9 @@ class DatabaseSeeder extends Seeder
 
         foreach ($shipment_lines as $shipment_line) {
             Carrier::create(['name' => $shipment_line]);
-        }
+            $this->call(UsersTableSeeder::class);
+        $this->call(ForwarderUsersTableSeeder::class);
+    }
 
         $sea_ports = [
             'Shanghai, China',

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryResource;
 use App\Models\Inquiry;
+use App\Models\InquiryForwarder;
+use App\Models\InquiryForwarderExtraCharge;
 use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +28,13 @@ class InquiryController extends Controller
         $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
 
-        foreach ($services['forwarder_ids'] as $forwarder_id) {
-            $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->create([
-                'forwarder_id' => $forwarder_id
+        foreach ($user->forwarders as $forwarder) {
+            $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
+                'forwarder_id' => $forwarder->id
             ]);
-            foreach ($containers as $container) {
-                $inquiryForwarderRates->inquiryForwarderContainerRate()->create($container);
-            }
+        }
+        foreach ($containers as $container) {
+            $inquiry->inquiryContainers()->create($container);
         }
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
     }
@@ -44,7 +46,20 @@ class InquiryController extends Controller
     }
 
     public function inquiryAddRate(Request $request,$id){
-        $inquiryForwarder = InquiryForwarderRate::find($id);
+        $inquiryForwarder = InquiryForwarder::find($id);
+        $inquiryRates = $request->get('inquireRates');
+        foreach ($inquiryRates as $inquiryRate){
+            $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()
+                ->create($inquiryRate);
+            $extraRates = $inquiryRate['extraRates'];
+            foreach ($extraRates as $extraCharge) {
+                $inquiryForwarderRate->extraCharges()->create($extraCharge);
+            }
+            foreach ($inquiryRate['containerRates'] as $containerRate)
+            {
+                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+            }
+        }
     }
 
 }

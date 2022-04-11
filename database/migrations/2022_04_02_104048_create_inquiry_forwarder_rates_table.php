@@ -15,18 +15,17 @@ class CreateInquiryForwarderRatesTable extends Migration
     {
         Schema::create('inquiry_forwarder_rates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('inquiry_id');
-            $table->foreignId('forwarder_id');
+            $table->foreignId('inquiry_forwarder_id')->nullable();
             $table->foreignId('loading_port_id')->nullable();
             $table->foreignId('destination_port_id')->nullable();
-            $table->string('validity_rate')->nullable();
+            $table->foreignId('carrier_id')->nullable();
+            $table->string('validity_date')->nullable();
             $table->string('free_days')->nullable();
             $table->string('closing_date')->nullable();
             $table->string('vessel_departure')->nullable();
             $table->string('ship_transit_time')->nullable();
-            $table->string('vessel_arrival')->nullable();
+            $table->string('confirm_spaces')->nullable();
             $table->string('rate')->nullable();
-            $table->string('via_ports')->nullable();
             $table->boolean('is_direct_route')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();

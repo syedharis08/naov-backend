@@ -28,27 +28,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-    Route::post('sign-up',[UserController::class,'signup']);
-    Route::post('login',[UserController::class,'login']);
- Route::middleware('api')->group(function(){
+Route::post('sign-up', [UserController::class, 'signup']);
+Route::post('login', [UserController::class, 'login']);
+Route::post('pre-signup/{user}', [UserController::class, 'preSignup']);
+Route::middleware('api')->group(function () {
 
-    Route::get('get-user',[UserController::class,'getLoggedInUser']);
-    Route::post('add-user-service',[UserController ::class,'addUserServices']);
-    Route::get('get-services',[UserController ::class,'addGetServices']);
-    Route::get('get-forwarders',[UserController ::class,'getForwarders']);
-    Route::get('get-forwarder/{user}',[UserController ::class,'getForwarder']);
-    Route::post('add-forwarders',[UserController ::class,'addForwarders']);
-    Route::get('get-shippers',[UserController ::class,'getShippers']);
-    Route::post('add-shipper',[UserController ::class,'addShipper']);
-    Route::get('get-user/{user}/{role_id}',[UserController::class , 'getUser']);
+    Route::get('get-user', [UserController::class, 'getLoggedInUser']);
+    Route::post('add-user-service', [UserController ::class, 'addUserServices']);
+    Route::get('get-services', [UserController ::class, 'addGetServices']);
+    Route::get('get-forwarders', [UserController ::class, 'getForwarders']);
+    Route::get('get-forwarder/{user}', [UserController ::class, 'getForwarder']);
+    Route::post('add-forwarders', [UserController ::class, 'addForwarders']);
+    Route::get('get-shippers', [UserController ::class, 'getShippers']);
+    Route::post('add-shipper', [UserController ::class, 'addShipper']);
+    Route::get('get-user/{user}/{role_id}', [UserController::class, 'getUser']);
 //    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
 
-    Route::get('get-countries',[AddressController::class,'getCountries']);
-    Route::get('get-states/{id}',[AddressController::class,'getStates']);
-    Route::get('get-cities/{id}',[AddressController::class,'getCities']);
+    Route::get('get-countries', [AddressController::class, 'getCountries']);
+    Route::get('get-states/{id}', [AddressController::class, 'getStates']);
+    Route::get('get-cities/{id}', [AddressController::class, 'getCities']);
 
-    Route::post('inquiry-create',[InquiryController::class,'create']);
-    Route::get('forwarder/get-inquires',[InquiryController::class,'getInquires']);
+    Route::post('inquiry-create', [InquiryController::class, 'create']);
+    Route::get('forwarder/get-inquires', [InquiryController::class, 'getInquires']);
+    Route::post('forwarder/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
 
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);
@@ -57,4 +59,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
 
- });
+});

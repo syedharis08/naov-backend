@@ -10,8 +10,9 @@ class InquiryForwarderContainerRate extends Model
     use HasFactory;
     protected $fillable = [
         'inquiry_forwarder_rate_id',
-        'container_id',
-        'quantity',
+        'inquiry_container_id',
+        'exw_charge',
+        'rate',
     ];
 
     public function container()

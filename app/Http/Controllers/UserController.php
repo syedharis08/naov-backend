@@ -216,6 +216,34 @@ class UserController extends Controller
         );
     }
 
+    public function preSignup($id,Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,id',
+        'password' => 'required|string|min:6',
+     ]);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
+        }
+        $user = $this->model::find($id);
+        $user->update($request->all());
+        $userAddress = $user->address()->first();
+        if($userAddress) {
+        $address = $request->get('address');
+        $userAddress->update($address);
+        }
+        $service_ids = $request->get('service_ids');
+        if(count($service_ids) >0 ) {
+            $user->services()->attach($service_ids);
+        }
+        $respone['user'] = $user;
+        $respone['token'] = $user->createToken('Naov')->accessToken;
+        $respone['message'] = "successfully user added";
+        return response()->json($respone, Response::HTTP_OK);
+
+    }
+
 
 //    public function getForwarder($id)
 //    {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInquiryForwardersTable extends Migration
+class CreateInquiryContainersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateInquiryForwardersTable extends Migration
      */
     public function up()
     {
-        Schema::create('inquiry_forwarders', function (Blueprint $table) {
+        Schema::create('inquiry_containers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('inquiry_id');
-            $table->foreignId('forwarder_id');
-            $table->integer('status')->default(0);
+            $table->foreignId('container_id');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateInquiryForwardersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inquiry_forwarders');
+        Schema::dropIfExists('inquiry_containers');
     }
 }

@@ -19,16 +19,20 @@ class InquiryForwarderRate extends Model
         'closing_date',
         'vessel_departure',
         'ship_transit_time',
-        'vessel_arrival',
+        'confirm_spaces',
         'rate',
-        'via_ports',
         'is_direct_route',
         'status',
     ];
 
-    public function inquiryForwarderContainerRate()
+    public function inquiryForwarderContainerRates()
     {
         return $this->hasMany(InquiryForwarderContainerRate::class);
+    }
+
+    public function extraCharges()
+    {
+        return $this->hasMany(InquiryForwarderExtraCharge::class);
     }
     public function inquiry()
     {

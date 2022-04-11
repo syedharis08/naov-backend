@@ -24,10 +24,17 @@ class Inquiry extends Model
         return $this->hasOne(SeaFreight::class);
     }
 
-    public function inquiryForwarderRates()
+    public function inquiryForwarder()
+    {
+        return $this->hasMany(InquiryForwarder::class);
+    }
+
+
+    public function inquiryForwarderRate()
     {
         return $this->hasMany(InquiryForwarderRate::class);
     }
+
 
     public function inquireForwarderContainerRates()
     {
@@ -37,6 +44,11 @@ class Inquiry extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function inquiryContainers()
+    {
+        return $this->hasMany(InquiryContainer::class);
     }
 
 
