@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
 use App\Models\Inquiry;
 use App\Models\InquiryForwarder;
@@ -48,6 +49,15 @@ class InquiryController extends Controller
         foreach ($inquiryRates as $inquiryRate){
             $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()
                 ->create($inquiryRate);
+            if(!$inquiryRate['is_direct_route'])
+            {
+                foreach ($inquiryRate['via_ports'] as $via_port)
+                {
+                    $inquiryForwarderRate->viaPorts()->create([
+                       'port_id' => $via_port
+                    ]);
+                }
+            }
             $extraRates = $inquiryRate['extraRates'];
             foreach ($extraRates as $extraCharge) {
                 $inquiryForwarderRate->extraCharges()->create($extraCharge);
@@ -57,6 +67,16 @@ class InquiryController extends Controller
                 $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
             }
         }
+        return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
+    }
+
+
+    public function getInquiryRate($id)
+    {
+        $user = request()->user();
+        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id',$id)->First();
+        return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+            Response::HTTP_OK);
     }
 
 }

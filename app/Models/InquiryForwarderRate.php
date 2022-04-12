@@ -9,6 +9,7 @@ class InquiryForwarderRate extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'inquiry_forwarder_id',
         'inquiry_id',
         'forwarder_id',
         'loading_port_id',
@@ -33,6 +34,11 @@ class InquiryForwarderRate extends Model
     public function extraCharges()
     {
         return $this->hasMany(InquiryForwarderExtraCharge::class);
+    }
+
+    public function viaPorts()
+    {
+        return $this->hasMany(InquiryForwarderViaPort::class);
     }
     public function inquiry()
     {

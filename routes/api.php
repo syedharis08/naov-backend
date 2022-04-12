@@ -51,6 +51,7 @@ Route::middleware('api')->group(function () {
     Route::post('inquiry-create', [InquiryController::class, 'create']);
     Route::get('forwarder/get-inquires', [InquiryController::class, 'getInquires']);
     Route::post('forwarder/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
+    Route::get('forwarder/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
 
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);
