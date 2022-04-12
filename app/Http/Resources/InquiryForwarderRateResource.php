@@ -17,6 +17,11 @@ class InquiryForwarderRateResource extends JsonResource
     public function toArray($request)
     {
         $data =  [
+            'user_id' => $this->inquiryForwarder->inquiry->user->id,
+            'user_name' => $this->inquiryForwarder->inquiry->user->name,
+            'company_name' => $this->inquiryForwarder->inquiry->user->company_name,
+            'company_email' => $this->inquiryForwarder->inquiry->user->company_email,
+            'user_email' => $this->inquiryForwarder->inquiry->user->email,
             'id' => $this->id,
             'carrier_name' => $this->carrier_id,
             'carrier_id' => $this->carrier->name ?? Null,

@@ -24,4 +24,6 @@ class InquiryForwarder extends Model
     public function inquiry(){
         return $this->belongsTo(Inquiry::class);
     }
+
+
 }
