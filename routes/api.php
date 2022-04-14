@@ -43,6 +43,8 @@ Route::middleware('api')->group(function () {
     Route::post('add-shipper', [UserController ::class, 'addShipper']);
     Route::get('get-user/{user}/{role_id}', [UserController::class, 'getUser']);
 //    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
+    Route::post('add-extended-forwarder',[InquiryController::class, 'addExtendedForwarders']);
+
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);
     Route::get('get-states/{id}', [AddressController::class, 'getStates']);
@@ -52,6 +54,7 @@ Route::middleware('api')->group(function () {
     Route::get('forwarder/get-inquires', [InquiryController::class, 'getInquires']);
     Route::post('forwarder/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
     Route::get('forwarder/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
+
 
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);

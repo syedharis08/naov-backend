@@ -13,6 +13,8 @@ class InquiryForwarder extends Model
         'inquiry_id',
         'forwarder_id',
         'status',
+        'inquiry_forwarder_id',
+        'ref_forwarder_status'
     ];
 
 
@@ -23,6 +25,11 @@ class InquiryForwarder extends Model
 
     public function inquiry(){
         return $this->belongsTo(Inquiry::class);
+    }
+
+    public function inquiryForwarders()
+    {
+        return $this->hasMany(InquiryForwarder::class,'inquiry_forwarder_id');
     }
 
 

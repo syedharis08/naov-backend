@@ -17,6 +17,8 @@ class CreateInquiryForwardersTable extends Migration
             $table->id();
             $table->foreignId('inquiry_id');
             $table->foreignId('forwarder_id');
+            $table->foreignId('inquiry_forwarder_id')->nullable();
+            $table->integer('ref_forwarder_status')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();
         });

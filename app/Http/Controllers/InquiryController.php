@@ -79,4 +79,23 @@ class InquiryController extends Controller
             Response::HTTP_OK);
     }
 
+    public function addExtendedForwarders(Request $request)
+    {
+        $forwarders = $request->get('forwarder_ids');
+        foreach ($forwarders as $forwarder) {
+            InquiryForwarder::create([
+                'inquiry_id' => $request->get('inquiry_id'),
+                'status' => $request->get('status'),
+                'forwarder_id' => $forwarder,
+                'inquiry_forwarder_id' => $request->get('inquiry_forwarder_id'),
+                'ref_forwarder_status' => $request->get('ref_forwarder_status'),
+            ]);
+        }
+        $inquiryForwarder = InquiryForwarder::find($request->get('inquiry_forwarder_id'));
+        $inquiryForwarder->status = 1;
+        $inquiryForwarder->save();
+        return response()->json(['message' => 'Successfully forwarded Inquiries'], Response::HTTP_OK);
+
+    }
+
 }
