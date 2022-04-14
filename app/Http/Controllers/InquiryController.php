@@ -85,10 +85,10 @@ class InquiryController extends Controller
         foreach ($forwarders as $forwarder) {
             InquiryForwarder::create([
                 'inquiry_id' => $request->get('inquiry_id'),
-                'status' => $request->get('status'),
+                'status' => 0,
                 'forwarder_id' => $forwarder,
                 'inquiry_forwarder_id' => $request->get('inquiry_forwarder_id'),
-                'ref_forwarder_status' => $request->get('ref_forwarder_status'),
+                'ref_forwarder_status' => 2,
             ]);
         }
         $inquiryForwarder = InquiryForwarder::find($request->get('inquiry_forwarder_id'));
