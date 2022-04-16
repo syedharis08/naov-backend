@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class InquiryForwarder extends Model
 {
     use HasFactory;
-
     protected  $fillable = [
         'inquiry_id',
         'forwarder_id',
@@ -16,7 +15,6 @@ class InquiryForwarder extends Model
         'inquiry_forwarder_id',
         'ref_forwarder_status'
     ];
-
 
     public function inquiryForwarderRate()
     {
@@ -31,6 +29,5 @@ class InquiryForwarder extends Model
     {
         return $this->hasMany(InquiryForwarder::class,'inquiry_forwarder_id');
     }
-
 
 }

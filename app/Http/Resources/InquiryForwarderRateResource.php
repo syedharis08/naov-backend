@@ -36,10 +36,16 @@ class InquiryForwarderRateResource extends JsonResource
             "containerRates" =>  InquiryForwarderContainerRateResource::collection($this->inquiryForwarderContainerRates),
             "extraCharges" => InquiryForwarderExtraChargeResource::collection($this->extraCharges),
             "via_ports" => "",
+            "extendedForwardedRates" => '',
             ];
         if(!$this->is_direact_route)
         {
             $data['via_ports'] = InquiryForwarderViaPortResource::collection($this->viaPorts);
+        }
+        if($this->inquiryForwarder->ref_forwarder_status == 1)
+        {
+            $data['extendedForwardedRates'] = InquiryExtendedForwarderRateResource::collection($this->inquiryForwarders);
+
         }
         return $data;
     }
