@@ -14,8 +14,9 @@ class InquiryExtendedForwarderRateResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            InquiryForwarderRateResource::collection($this->inquiryForwarderRate)
-        ];
+        return parent::toArray($request);
+//        return [
+//            InquiryForwarderRateResource::collection($this->inquiryForwarderRate);
+//        ];
     }
 }
