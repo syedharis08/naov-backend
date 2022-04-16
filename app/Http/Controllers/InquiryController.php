@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InquiryExtendedForwarderRateResource;
 use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
 use App\Models\Inquiry;
@@ -92,10 +93,18 @@ class InquiryController extends Controller
             ]);
         }
         $inquiryForwarder = InquiryForwarder::find($request->get('inquiry_forwarder_id'));
+        $inquiryForwarder->ref_forwarder_status = 1;
         $inquiryForwarder->status = 1;
         $inquiryForwarder->save();
         return response()->json(['message' => 'Successfully forwarded Inquiries'], Response::HTTP_OK);
+    }
 
+    public function getExtraRate($id)
+    {
+        $inquiryForwarder = InquiryForwarder::where('id',$id)->first();
+        return response()->json(['extendedRates' =>
+            InquiryExtendedForwarderRateResource::collection($inquiryForwarder->inquiryExtendedForwarders)],
+            Response::HTTP_OK);
     }
 
 }

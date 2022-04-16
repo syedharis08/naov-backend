@@ -46,7 +46,7 @@ class InquiryForwarderRate extends Model
     }
     public function inquiryForwarder()
     {
-        return $this->belongsTo(InquiryForwarder::class);
+        return $this->belongsTo(InquiryForwarder::class,'inquiry_forwarder_id');
     }
 }
 

@@ -54,6 +54,7 @@ Route::middleware('api')->group(function () {
     Route::get('forwarder/get-inquires', [InquiryController::class, 'getInquires']);
     Route::post('forwarder/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
     Route::get('forwarder/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
+    Route::get('forwarder/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
 
 
     Route::apiResource('service', ServiceController::class);

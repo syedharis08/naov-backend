@@ -25,7 +25,7 @@ class InquiryForwarder extends Model
         return $this->belongsTo(Inquiry::class);
     }
 
-    public function inquiryForwarders()
+    public function inquiryExtendedForwarders()
     {
         return $this->hasMany(InquiryForwarder::class,'inquiry_forwarder_id');
     }
