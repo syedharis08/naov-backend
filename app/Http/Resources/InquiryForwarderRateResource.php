@@ -22,7 +22,7 @@ class InquiryForwarderRateResource extends JsonResource
             'company_name' => $this->inquiryForwarder->inquiry->user->company_name,
             'company_email' => $this->inquiryForwarder->inquiry->user->company_email,
             'user_email' => $this->inquiryForwarder->inquiry->user->email,
-            'inquiry_id' => $this->inquiry->id,
+            'inquiry_id' => $this->inquiryForwarder->inquiry->id,
             'inquiry_forwarder_rate_id' => $this->id,
             'inquiry_forwarder_id' => $this->inquiryForwarder_id,
             'carrier_name' => $this->carrier_id,
