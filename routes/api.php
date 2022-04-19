@@ -44,6 +44,7 @@ Route::middleware('api')->group(function () {
     Route::get('get-user/{user}/{role_id}', [UserController::class, 'getUser']);
 //    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
     Route::post('add-extended-forwarder',[InquiryController::class, 'addExtendedForwarders']);
+    Route::get('consignee/get-inquires',[InquiryController::class,'getConsigneeInquires']);
 
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\InquiryExtendedForwarderRateResource;
 use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
+use App\Http\Resources\Consignee\InquiryForwarderResource as ConsigneeInquiryResource;
 use App\Models\Inquiry;
 use App\Models\InquiryForwarder;
 use Illuminate\Http\Request;
@@ -105,6 +106,12 @@ class InquiryController extends Controller
         return response()->json(['extendedRates' =>
             InquiryExtendedForwarderRateResource::collection($inquiryForwarder->inquiryExtendedForwarders)],
             Response::HTTP_OK);
+    }
+
+    public function getConsigneeInquires()
+    {
+        $user = request()->user();
+        return response()->json(['inquires'=> ConsigneeInquiryResource::collection($user->inquiries)], Response::HTTP_OK);
     }
 
 }
