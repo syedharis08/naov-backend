@@ -8,6 +8,7 @@ use App\Http\Resources\InquiryForwarderResource;
 use App\Http\Resources\Consignee\InquiryForwarderResource as ConsigneeInquiryResource;
 use App\Models\Inquiry;
 use App\Models\InquiryForwarder;
+use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -120,6 +121,22 @@ class InquiryController extends Controller
         return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiry->inquiryForwarderRates)], Response::HTTP_OK);
     }
 
+
+    public function consigneeInquiryAcceptRate($inquiryId,$inquiryForwarderRateId,Request $request)
+    {
+        $inquiry = Inquiry::find($inquiryId);
+        $inquiryForwarderRate = InquiryForwarderRate::find($inquiryForwarderRateId);
+        $inquiry->forwarder_id = $inquiryForwarderRate->forwarder_id;
+        $inquiry->save();
+        $inquiryForwarderRate->inquiryForwrder()->update([
+           'status' => 1
+        ]);
+        if($request->has('shipper_id'))
+        $inquiry->seaFreight()->update([
+            'shipper_id' => $request->shipper_id
+        ]);
+        return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
+    }
 
 
 }

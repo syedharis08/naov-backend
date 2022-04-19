@@ -46,6 +46,8 @@ Route::middleware('api')->group(function () {
     Route::post('add-extended-forwarder',[InquiryController::class, 'addExtendedForwarders']);
     Route::get('consignee/get-inquires',[InquiryController::class,'getConsigneeInquires']);
     Route::get('consignee/get-inquiry-rate/{id}',[InquiryController::class,'getConsigneeInquiryRate']);
+    Route::post('consignee/acceptance/{inquiryId}/{inquiryRateId}',
+        [InquiryController::class,'consigneeInquiryAcceptRate']);
 
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);
