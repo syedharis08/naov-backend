@@ -32,7 +32,7 @@ class Inquiry extends Model
 
     public function inquiryForwarderRates()
     {
-        return $this->hasManyThrough(InquiryForwarder::class,InquiryForwarderRate::class);
+        return $this->hasManyThrough(InquiryForwarderRate::class, InquiryForwarder::class);
     }
 
     public function inquiryForwarderRate()
