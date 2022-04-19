@@ -16,6 +16,7 @@ class InquiryForwarderResource extends JsonResource
     {
         return [
             'inquiry_forwarder_id' => $this->id,
+            'extended_forwarder' => $this->ref_forwarder_status,
             'user' => $this->inquiry->user,
             'inquiry_id' => $this->inquiry_id,
             'volume' => $this->inquiry->volume,
