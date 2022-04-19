@@ -114,4 +114,12 @@ class InquiryController extends Controller
         return response()->json(['inquires'=> ConsigneeInquiryResource::collection($user->inquiries)], Response::HTTP_OK);
     }
 
+    public function getConsigneeInquiryRate($id)
+    {
+        $inquiry = Inquiry::find($id);
+        return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiry->inquiryForwarderRate)], Response::HTTP_OK);
+    }
+
+
+
 }
