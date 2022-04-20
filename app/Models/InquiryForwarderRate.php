@@ -15,7 +15,7 @@ class InquiryForwarderRate extends Model
         'loading_port_id',
         'destination_port_id',
         'carrier_id',
-        'validity_rate',
+        'validity_date',
         'free_days',
         'closing_date',
         'vessel_departure',
