@@ -49,7 +49,7 @@ Route::middleware('api')->group(function () {
     Route::post('consignee/acceptance/{inquiryId}/{inquiryRateId}',
         [InquiryController::class,'consigneeInquiryAcceptRate']);
 
-    Route::post('inquiry-extended-rate-accept/{inquiry-forwarder-rate}',
+    Route::post('inquiry-extended-rate-accept/{id}',
         [InquiryController::class,'extendedForwarderRateAcceptance']);
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);
