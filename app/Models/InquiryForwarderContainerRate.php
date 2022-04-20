@@ -26,6 +26,6 @@ class InquiryForwarderContainerRate extends Model
     }
 
     public function inquiryContainer(){
-        $this->belongsTo(InquiryContainer::class);
+       return  $this->belongsTo(InquiryContainer::class);
     }
 }
