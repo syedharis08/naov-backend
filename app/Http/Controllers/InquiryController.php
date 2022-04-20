@@ -7,6 +7,7 @@ use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
 use App\Http\Resources\Consignee\InquiryForwarderResource as ConsigneeInquiryResource;
 use App\Models\Inquiry;
+use App\Models\InquiryDocument;
 use App\Models\InquiryForwarder;
 use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
@@ -43,7 +44,8 @@ class InquiryController extends Controller
     public function getInquires()
     {
         $user = request()->user();
-        return response()->json(['inquires'=> InquiryForwarderResource::collection($user->inquiryForwarder)], Response::HTTP_OK);
+        $inquiryForwarders = $user->inquiryForwarder()->where('status',0)->get();
+        return response()->json(['inquires'=> InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
 
     public function inquiryAddRate(Request $request,$id){
@@ -118,18 +120,19 @@ class InquiryController extends Controller
     public function getConsigneeInquiryRate($id)
     {
         $inquiry = Inquiry::find($id);
-        return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiry->inquiryForwarderRates)], Response::HTTP_OK);
+        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('status',0)->get();
+        return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
     }
-
-
-
 
     public function consigneeInquiryAcceptRate($inquiryId,$inquiryForwarderRateId,Request $request)
     {
         $inquiry = Inquiry::find($inquiryId);
         $inquiryForwarderRate = InquiryForwarderRate::find($inquiryForwarderRateId);
         $inquiry->forwarder_id = $inquiryForwarderRate->forwarder_id;
+        $inquiry->status = 1;
         $inquiry->save();
+        $inquiryForwarderRate->status = 1;
+        $inquiryForwarderRate->save();
         $inquiryForwarderRate->inquiryForwrder()->update([
            'status' => 2
         ]);
@@ -146,6 +149,35 @@ class InquiryController extends Controller
         $inquiryForwarder->rate_status = 1;
         $inquiryForwarder->save();
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
+     }
+
+
+     public function addDocument(Request $request)
+     {
+         $user = request()->user();
+         $inquiry = Inquiry::find($request->get('inquiry_id'));
+         $request['document_path'] = request('document')->store($this->model::UPLOAD_DIRECTORY);
+            $request['user_id'] = $user->id;
+            $inquiry->inquiryDocuments()->create($request->all());
+         return response()->json(['message' => 'Successfully Added Document'], Response::HTTP_OK);
+     }
+
+     public function getDocuments($id)
+     {
+         $inquiry = Inquiry::find($id);
+         $documents = $inquiry->inquiryDocuments;
+         return response()->json(['documents' => $documents], Response::HTTP_OK);
+     }
+
+     public function inquiryChangeStatus(Request $request)
+     {
+         $inquiry = Inquiry::find($request->get('inquiry_id'));
+         $inquiry->status = $request->get('status');
+         $inquiry->save();
+         $inquiryForwarder = InquiryForwarder::find($request->get('inquiry_forwarder_id'));
+         $inquiryForwarder->status = $request->get('status');
+         $inquiryForwarder->save();
+         return response()->json(['message' => 'Successfully Status updated'], Response::HTTP_OK);
      }
 
 }

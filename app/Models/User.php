@@ -106,4 +106,9 @@ class User extends Authenticatable
         return $this->hasMany(InquiryForwarder::class,'forwarder_id');
     }
 
+    public function document()
+    {
+        return $this->hasMany(InquiryDocument::class);
+    }
+
 }

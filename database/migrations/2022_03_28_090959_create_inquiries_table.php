@@ -23,6 +23,7 @@ class CreateInquiriesTable extends Migration
             $table->string('weight')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_dangerous')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Inquiry extends Model
 {
     use HasFactory;
+    const UPLOAD_DIRECTORY = 'inquiries/Documents';
 
     protected $fillable = [
         'user_id',
@@ -62,5 +63,9 @@ class Inquiry extends Model
         return $this->hasOne(InquiryForwarderRate::class)->where('status','>',0);
     }
 
+    public function inquiryDocuments()
+    {
+        return $this->hasMany(InquiryDocument::class);
+    }
 
 }
