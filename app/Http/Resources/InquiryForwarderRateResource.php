@@ -27,7 +27,7 @@ class InquiryForwarderRateResource extends JsonResource
             'inquiry_forwarder_id' => $this->inquiryForwarder->id,
             'carrier_name' => $this->carrier->name ?? Null,
             'carrier_id' => $this->carrier_id,
-            'validity_date' => $this->date,
+            'validity_date' => $this->validity_date,
             "free_days" => $this->free_days,
             "closing_date" => $this->closing_date,
             "vessel_departure" => $this->vessel_departure ,
