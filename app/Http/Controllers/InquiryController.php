@@ -98,7 +98,7 @@ class InquiryController extends Controller
         }
         $inquiryForwarder = InquiryForwarder::find($request->get('inquiry_forwarder_id'));
         $inquiryForwarder->ref_forwarder_status = 1;
-        $inquiryForwarder->status = 1;
+        $inquiryForwarder->status = 0;
         $inquiryForwarder->save();
         return response()->json(['message' => 'Successfully forwarded Inquiries'], Response::HTTP_OK);
     }

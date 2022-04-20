@@ -63,7 +63,7 @@ Route::middleware('api')->group(function () {
     Route::get('forwarder/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
     Route::post('inquiry/add-document',[InquiryController::class,'addDocument']);
     Route::get('inquiry/document/{id}',[InquiryController::class,'getDocuments']);
-    Route::post('inquiry/change-status',[InquiryController::class,'changeStatusInquiry']);
+    Route::post('inquiry/change-status',[InquiryController::class,'inquiryChangeStatus']);
 
     Route::apiResource('service', ServiceController::class);
     Route::apiResource('sea-port', SeaPortController::class);
