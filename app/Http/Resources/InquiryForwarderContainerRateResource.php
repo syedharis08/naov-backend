@@ -22,6 +22,7 @@ class InquiryForwarderContainerRateResource extends JsonResource
             "inquiry_container_id" => $this->inquiry_container_id,
             "exw_charge" => $this->exw_charge,
             "rate" => $this->rate,
+            "container" => $this->container
         ];
     }
 }
