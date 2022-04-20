@@ -24,4 +24,8 @@ class InquiryForwarderContainerRate extends Model
     {
         return $this->hasMany(InquiryForwarderContainerCarrierRate::class);
     }
+
+    public function inquiryContainer(){
+        $this->belongsTo(InquiryContainer::class);
+    }
 }
