@@ -122,6 +122,8 @@ class InquiryController extends Controller
     }
 
 
+
+
     public function consigneeInquiryAcceptRate($inquiryId,$inquiryForwarderRateId,Request $request)
     {
         $inquiry = Inquiry::find($inquiryId);
@@ -129,7 +131,7 @@ class InquiryController extends Controller
         $inquiry->forwarder_id = $inquiryForwarderRate->forwarder_id;
         $inquiry->save();
         $inquiryForwarderRate->inquiryForwrder()->update([
-           'status' => 1
+           'status' => 2
         ]);
         if($request->has('shipper_id'))
         $inquiry->seaFreight()->update([
@@ -138,5 +140,12 @@ class InquiryController extends Controller
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
     }
 
+    public function extendedForwarderRateAcceptance($id)
+    {
+        $inquiryForwarder = InquiryForwarder::find($id);
+        $inquiryForwarder->rate_status = 1;
+        $inquiryForwarder->save();
+        return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
+     }
 
 }

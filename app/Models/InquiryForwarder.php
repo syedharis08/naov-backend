@@ -12,9 +12,12 @@ class InquiryForwarder extends Model
         'inquiry_id',
         'forwarder_id',
         'status',
+        'rate_status',
         'inquiry_forwarder_id',
         'ref_forwarder_status'
     ];
+
+
 
     public function inquiryForwarderRate()
     {
