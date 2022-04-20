@@ -120,7 +120,7 @@ class InquiryController extends Controller
     public function getConsigneeInquiryRate($id)
     {
         $inquiry = Inquiry::find($id);
-        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('status',0)->get();
+        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status',0)->get();
         return response()->json(['inquiryRates'=> InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
     }
 
