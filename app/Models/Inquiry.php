@@ -70,4 +70,9 @@ class Inquiry extends Model
         return $this->hasMany(InquiryDocument::class);
     }
 
+    public function shipper()
+    {
+        return $this->belongsTo(User::class,'shipper_id');
+    }
+
 }
