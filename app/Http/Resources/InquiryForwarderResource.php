@@ -35,5 +35,12 @@ class InquiryForwarderResource extends JsonResource
             'containers' => InquiryContainerResource::collection($this->inquiry->inquiryContainers)
         ];
 
+
+        if($this->shipper_id){
+            $data['shipper_address'] = $this->inquiry->shipper->address;
+        }
+
+        return $data;
+
     }
 }
