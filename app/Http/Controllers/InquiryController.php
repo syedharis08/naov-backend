@@ -134,7 +134,7 @@ class InquiryController extends Controller
         $inquiry->save();
         $inquiryForwarderRate->status = 1;
         $inquiryForwarderRate->save();
-        $inquiryForwarderRate->inquiryForwrder()->update([
+        $inquiryForwarderRate->inquiryForwarder()->update([
            'status' => 2
         ]);
         if($request->has('shipper_id'))
