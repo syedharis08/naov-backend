@@ -138,7 +138,7 @@ class InquiryController extends Controller
            'status' => 2
         ]);
         if($request->has('shipper_id'))
-        $inquiry->seaFreight()->update([
+        $inquiry->update([
             'shipper_id' => $request->shipper_id
         ]);
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
