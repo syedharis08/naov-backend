@@ -16,6 +16,7 @@ class InquiryForwarderResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'service_id' => $this->service_id,
             'inquiry_id' => $this->id,
             'volume' => $this->volume,
             'weight' => $this->weight,
