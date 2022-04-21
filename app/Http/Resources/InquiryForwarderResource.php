@@ -14,7 +14,7 @@ class InquiryForwarderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data =  [
             'inquiry_forwarder_id' => $this->id,
             'service_id' => $this->service_id,
             'extended_forwarder' => $this->ref_forwarder_status,
@@ -34,5 +34,6 @@ class InquiryForwarderResource extends JsonResource
             'status' => $this->inquiry->status,
             'containers' => InquiryContainerResource::collection($this->inquiry->inquiryContainers)
         ];
+
     }
 }

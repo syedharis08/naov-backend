@@ -15,7 +15,7 @@ class InquiryForwarderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'service_id' => $this->service_id,
             'inquiry_id' => $this->id,
             'volume' => $this->volume,
@@ -31,6 +31,12 @@ class InquiryForwarderResource extends JsonResource
             'status' => $this->status,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers)
         ];
+
+        if($this->shipper_id){
+                $data['shipper_id'] = $this->shipper_id;
+                $data['shipper_address'] = $this->shipper->address;
+         }
+        return $data;
     }
 }
 //
