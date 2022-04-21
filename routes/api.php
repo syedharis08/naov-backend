@@ -53,7 +53,7 @@ Route::middleware('api')->group(function () {
         [InquiryController::class,'extendedForwarderRateAcceptance']);
 
 
-    Route::get('inquiries/get-accepted',[InquiryController::class,'getAcceptedInquiries']);
+    Route::get('get-accepted-inquiries',[InquiryController::class,'getAcceptedInquiries']);
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);
     Route::get('get-states/{id}', [AddressController::class, 'getStates']);
