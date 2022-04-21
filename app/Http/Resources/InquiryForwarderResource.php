@@ -29,6 +29,7 @@ class InquiryForwarderResource extends JsonResource
             'loading_port' => $this->inquiry->seaFreight->loadingPort->name ?? Null,
             'destination_port' => $this->inquiry->seaFreight->destinationPort->name ?? Null,
             'commodity' => $this->inquiry->commodity ?? null,
+            'shipper_id' =>$this->inquiry->shipper_id ?? null,
             'containers' => InquiryContainerResource::collection($this->inquiry->inquiryContainers)
         ];
     }
