@@ -20,6 +20,7 @@ class Inquiry extends Model
         'weight',
         'notes',
         'is_dangerous',
+        'status'
     ];
 
     public function seaFreight()
