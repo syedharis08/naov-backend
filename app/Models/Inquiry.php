@@ -14,6 +14,7 @@ class Inquiry extends Model
         'user_id',
         'service_id',
         'forwarder_id',
+        'shipper_id',
         'volume',
         'commodity',
         'weight',

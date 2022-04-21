@@ -111,4 +111,8 @@ class User extends Authenticatable
         return $this->hasMany(InquiryDocument::class);
     }
 
+    public function seaFreights()
+    {
+        return $this->hasMany(SeaFreight::class,'shipper_id');
+    }
 }

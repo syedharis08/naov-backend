@@ -11,7 +11,6 @@ class SeaFreight extends Model
 
     protected $fillable = [
         'inquiry_id',
-        'shipper_id',
         'loading_port_id',
         'destination_port_id',
         'sea_freight_type',

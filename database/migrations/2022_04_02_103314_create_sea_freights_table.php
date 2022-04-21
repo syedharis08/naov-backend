@@ -17,7 +17,6 @@ class CreateSeaFreightsTable extends Migration
             $table->id();
             $table->foreignId('inquiry_id');
             $table->foreignId('container_id')->nullable();
-            $table->foreignId('shipper_id')->nullable();
             $table->foreignId('loading_port_id')->nullable();
             $table->foreignId('destination_port_id')->nullable();
             $table->integer('sea_freight_type')->nullable();
