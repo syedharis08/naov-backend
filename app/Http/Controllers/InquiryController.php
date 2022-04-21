@@ -6,7 +6,6 @@ use App\Http\Resources\InquiryExtendedForwarderRateResource;
 use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
 use App\Http\Resources\Consignee\InquiryForwarderResource as ConsigneeInquiryResource;
-use App\Http\Resources\ShipperInquiryResource;
 use App\Models\Inquiry;
 use App\Models\InquiryDocument;
 use App\Models\InquiryForwarder;
@@ -138,7 +137,7 @@ class InquiryController extends Controller
            'status' => 2
         ]);
         if($request->has('shipper_id'))
-        $inquiry->update([
+        $inquiry->seaFreight()->update([
             'shipper_id' => $request->shipper_id
         ]);
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
@@ -180,12 +179,5 @@ class InquiryController extends Controller
          $inquiryForwarder->save();
          return response()->json(['message' => 'Successfully Status updated'], Response::HTTP_OK);
      }
-
-
-//    public function getShipperInquiries()
-//    {
-//        $user = request()->user();
-//        return response()->json(['inquires'=> ShipperInquiryResource::collection($user->seaFreights)], Response::HTTP_OK);
-//    }
 
 }
