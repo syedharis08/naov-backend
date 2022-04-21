@@ -53,6 +53,7 @@ Route::middleware('api')->group(function () {
         [InquiryController::class,'extendedForwarderRateAcceptance']);
 
 
+
     Route::get('get-accepted-inquiries',[InquiryController::class,'getAcceptedInquiries']);
 
     Route::get('get-countries', [AddressController::class, 'getCountries']);
@@ -61,6 +62,7 @@ Route::middleware('api')->group(function () {
 
     Route::post('inquiry-create', [InquiryController::class, 'create']);
     Route::get('forwarder/get-inquires', [InquiryController::class, 'getInquires']);
+    Route::get('forwarder/get-accepted-inquires', [InquiryController::class, 'getForwarderAcceptedInquires']);
     Route::post('forwarder/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
     Route::get('forwarder/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
     Route::get('forwarder/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
