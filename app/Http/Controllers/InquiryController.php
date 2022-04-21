@@ -114,6 +114,7 @@ class InquiryController extends Controller
     public function getConsigneeInquires()
     {
         $user = request()->user();
+//        $inquiryForwarders = $user->inquiries()->inquiryForwarder()->where('status',0)->get();
         return response()->json(['inquires'=> ConsigneeInquiryResource::collection($user->inquiries)], Response::HTTP_OK);
     }
 
@@ -180,4 +181,11 @@ class InquiryController extends Controller
          return response()->json(['message' => 'Successfully Status updated'], Response::HTTP_OK);
      }
 
+
+     public function getAcceptedInquiries ()
+     {
+         $user = request()->user();
+         $inquiryForwarders = $user->inquiries->inquiryForwarder()->where('status','!=',0)->get();
+         return response()->json(['inquires'=> InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
+     }
 }
