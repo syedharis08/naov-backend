@@ -175,7 +175,13 @@ class InquiryController extends Controller
          return response()->json(['documents' => $documents], Response::HTTP_OK);
      }
 
-     public function inquiryChangeStatus(Request $request)
+    public function getDocument($id)
+    {
+        $document = InquiryDocument::find($id);
+        return response()->json(['document' => $document], Response::HTTP_OK);
+    }
+
+    public function inquiryChangeStatus(Request $request)
      {
          $inquiry = Inquiry::find($request->get('inquiry_id'));
          $inquiry->status = $request->get('status');
@@ -201,6 +207,17 @@ class InquiryController extends Controller
         $inquiryForwarders = $user->inquiryForwarder()->where('status','!=',0)->get();
         return response()->json(['inquiries'=> InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
+
+    public function updateDocument($id,Request $request)
+    {
+        $document = InquiryDocument::find($id);
+        if(request('document')) {
+            $request['document_path'] = request('document')->store($this->model::UPLOAD_DIRECTORY);
+        }
+        $document->update($request->all());
+        return response()->json(['message' => 'Successfully Updated the Document'], Response::HTTP_OK);
+    }
+
 
 }
 

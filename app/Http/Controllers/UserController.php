@@ -155,10 +155,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         $forwarder = $this->model::create($request->all());
+        $forwarder['url'] = 'localhost:3000/signup/service-provider/'.$forwarder->id;
         Notification::route('mail', $forwarder->company_email)
             ->notify(new ShipperConfirmationNotification($forwarder));
-//        $address = $request->get('address');
-//        $forwarder->address()->create($address);
+
         $user->forwarders()->attach($forwarder->id);
         return response()->json(
             ['message' => 'succesfully added the user forwarders'],
@@ -179,6 +179,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $shipper = $this->model::create($request->all());
+        $shipper['url'] = 'localhost:3000/signup/importer-exporter/'.$shipper->id;
         Notification::route('mail', $shipper->company_email)
             ->notify(new ShipperConfirmationNotification($shipper));
         $address = $request->get('address');

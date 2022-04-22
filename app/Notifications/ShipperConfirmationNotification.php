@@ -43,12 +43,12 @@ class ShipperConfirmationNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = 'localhost:3000/signup/importer-exporter/'.$this->user->id;
+
         return (new MailMessage)
                     ->subject('Invitation to the Noav')
                     ->line('Welcom to the Noav!')
                     ->line('Complete your registration now')
-                    ->action('Register Now',$url)
+                    ->action('Register Now',$this->user->url)
                     ->line('Thank you for using our application!');
     }
 

@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class InquiryDocument extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-      'inquiry_id',
-      'user_id',
-      'document_path',
-      'document_type',
+        'inquiry_id',
+        'user_id',
+        'document_path',
+        'document_type',
+        'document_name'
     ];
 
     public function getDocumentPathAttribute($value)
     {
-        return asset('storage/'.$value);
+        return asset('storage/' . $value);
     }
 }

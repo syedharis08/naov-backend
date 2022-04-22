@@ -19,6 +19,7 @@ class CreateInquiryDocumentsTable extends Migration
             $table->foreignId('user_id');
             $table->string('document_path');
             $table->integer('document_type');
+            $table->string('document_name')->nullable();
             $table->timestamps();
         });
     }
