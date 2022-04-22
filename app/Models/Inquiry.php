@@ -75,4 +75,9 @@ class Inquiry extends Model
         return $this->belongsTo(User::class,'shipper_id');
     }
 
+    public function forwarder()
+    {
+        return $this->belongsTo(User::class,'forwarder_id');
+    }
+
 }

@@ -23,6 +23,11 @@ class InquiryForwarderRateResource extends JsonResource
             'company_email' => $this->inquiryForwarder->inquiry->user->company_email,
             'user_email' => $this->inquiryForwarder->inquiry->user->email,
             'inquiry_id' => $this->inquiryForwarder->inquiry->id,
+            'forwarder_id' => $this->inquiryForwarder->inquiry->forwarder_id ?? null,
+            'forwarder' => $this->inquiryForwarder->inquiry->forwarder ?? null,
+            'shippier_id'=> $this->inquiryForwarder->inquiry->shipper_id ?? 'null',
+            'shipper' => $this->inquiryForwarder->inquiry->shipper ?? 'null',
+            'user' => $this->inquiryForwarder->inquiry->user,
             'inquiry_forwarder_rate_id' => $this->id,
             'inquiry_forwarder_id' => $this->inquiryForwarder->id,
             'carrier_name' => $this->carrier->name ?? Null,
@@ -38,6 +43,7 @@ class InquiryForwarderRateResource extends JsonResource
             "containerRates" =>  InquiryForwarderContainerRateResource::collection($this->inquiryForwarderContainerRates),
             "extraCharges" => InquiryForwarderExtraChargeResource::collection($this->extraCharges),
             "via_ports" => "",
+
             ];
         if(!$this->is_direact_route)
         {
