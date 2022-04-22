@@ -14,4 +14,9 @@ class InquiryDocument extends Model
       'document_path',
       'document_type',
     ];
+
+    public function getDocumentPathAttribute($value)
+    {
+        return asset('storage/'.$value);
+    }
 }
