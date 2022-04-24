@@ -32,8 +32,8 @@ class InquiryForwarderRateResource extends JsonResource
             'inquiry_forwarder_id' => $this->inquiryForwarder->id,
             'loading_port_id' => $this->loading_port_id ?? null,
             'destination_port_id' => $this->destination_port_id ?? null,
-            'loading_port' => $this->loading_port->name ?? 'null',
-            'destination_port' => $this->destination_port->name ?? 'null',
+            'loading_port' => $this->loadingPort->name ?? 'null',
+            'destination_port' => $this->destinationPort->name ?? 'null',
             'carrier_name' => $this->carrier->name ?? 'null',
             'carrier_id' => $this->carrier_id,
             'validity_date' => $this->validity_date,
@@ -49,7 +49,7 @@ class InquiryForwarderRateResource extends JsonResource
             "via_ports" => "",
 
         ];
-        if (!$this->is_direact_route) {
+        if (!$this->is_direct_route) {
             $data['via_ports'] = InquiryForwarderViaPortResource::collection($this->viaPorts);
         }
         return $data;
