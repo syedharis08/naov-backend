@@ -236,7 +236,7 @@ class InquiryController extends Controller
                 }
             }
 
-            dd(['inquiry_forwarder_rate' => $inquiryForwarderRate]);
+            // dd(['inquiry_forwarder_rate' => $inquiryForwarderRate]);
 
             return response()->json(
                 ['inquiryRate' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
