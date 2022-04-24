@@ -215,7 +215,7 @@ class InquiryController extends Controller
     public function getForwarderAcceptedInquiryRates($id)
     {
         $user = request()->user();
-        $inquiryForwarder = $user->inquiryForwarder()->where('status', '!=', 0)->where('inquiry_id', $id)->first();
+        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', '=', $id)->first();
         return response()->json(
             ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
             Response::HTTP_OK
