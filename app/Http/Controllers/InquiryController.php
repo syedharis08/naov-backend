@@ -214,12 +214,23 @@ class InquiryController extends Controller
 
     public function getForwarderAcceptedInquiryRates($id)
     {
-        $user = request()->user();
-        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', '=', $id)->first();
-        return response()->json(
-            ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
-            Response::HTTP_OK
-        );
+        if ($id) {
+            // $user = request()->user();
+            // $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', '=', $id)->where('status', '!=', 0)->first();
+            // return response()->json(
+            //     ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+            //     Response::HTTP_OK
+            // );
+
+            $user = request()->user();
+            $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->first();
+            return response()->json(
+                ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+                Response::HTTP_OK
+            );
+        } else {
+            return response()->json(['message' => 'Bad Request'], 400);
+        }
     }
 
     public function updateDocument($id, Request $request)
