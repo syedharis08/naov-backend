@@ -223,7 +223,7 @@ class InquiryController extends Controller
             // );
 
             $user = request()->user();
-            $inquiryForwarder = $user->inquiryForwarder()->where('status', '!=', 0)->first();
+            $inquiryForwarder = $user->inquiryForwarder()->where('status', '!=', 0)->get();
 
             dd(['inquiry_forwarder' => $inquiryForwarder]);
 
