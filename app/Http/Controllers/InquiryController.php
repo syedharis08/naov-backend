@@ -228,7 +228,7 @@ class InquiryController extends Controller
             $inquiry = $user->inquiries()->where('status', '!=', 0)->where('id', $id)->first();
             $inquiryForwarders = $inquiry->inquiryForwarder;
             $inquiryForwarderRate = $inquiryForwarders[0]->inquiryForwarderRate;
-
+            dd(['user' => $inquiryForwarders]);
 
             return response()->json(
                 ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
