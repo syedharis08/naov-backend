@@ -229,7 +229,7 @@ class InquiryController extends Controller
             $inquiryForwarders = $inquiry->inquiryForwarder;
             $inquiryForwarderRate = $inquiryForwarders[0]->inquiryForwarderRate()->first();
 
-            // dd(['inquiry_forwarder_rate', $inquiryForwarderRate]);
+            dd(['inquiry_forwarder_rate', $inquiryForwarderRate]);
 
             return response()->json(
                 ['inquiryRate' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
