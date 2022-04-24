@@ -20,7 +20,8 @@ class InquiryForwarderContainerRateResource extends JsonResource
         return [
             "id" => $this->id,
             "inquiry_container_id" => $this->inquiry_container_id,
-            "exw_charge" => $this->exw_charge,
+            "loading_exw_charge" => $this->loading_exw_charge,
+            "destination_exw_charge" => $this->destination_exw_charge,
             "rate" => $this->rate,
             "container" => $this->inquiryContainer->container,
             "quantity" => $this->inquiryContainer->quantity
