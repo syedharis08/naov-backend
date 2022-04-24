@@ -141,9 +141,11 @@ class InquiryController extends Controller
         ]);
         $inquiryForwarder = $inquiryForwarderRate->inquiryForwarder;
         $extendInquiryForwarder = $inquiryForwarder->inquiryExtendedForwarders()->where('rate_status', 1)->first();
-        $extendInquiryForwarder->update([
-            'status' => 2
-        ]);
+        if ($extendInquiryForwarder) {
+            $extendInquiryForwarder->update([
+                'status' => 2
+            ]);
+        }
         if ($request->has('shipper_id'))
             $inquiry->update([
                 'shipper_id' => $request->shipper_id
@@ -224,10 +226,9 @@ class InquiryController extends Controller
 
             $user = request()->user();
             $inquiry = $user->inquiries()->where('status', '!=', 0)->where('id', $id)->first();
-            $inquiryForwarders = $inquiry->inquiryForwarder->where('status', '==', 2);
-            $inquiryForwarderRate = $inquiryForwarders[0]->inquiryForwarderRate;
+            $inquiryForwarders = $inquiry->inquiryForwarder;
+            $inquiryForwarderRate = $inquiryForwarders[0]->inquiryForwarderRate->where('status', '==', 2);
 
-            // dd(['inquiry_forwarder_rate', $inquiryForwarderRate]);
 
             return response()->json(
                 ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
