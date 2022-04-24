@@ -36,6 +36,16 @@ class InquiryForwarderRate extends Model
         return $this->hasMany(InquiryForwarderExtraCharge::class);
     }
 
+    public function loadingPort()
+    {
+        return $this->belongsTo(SeaPort::class);
+    }
+
+    public function destinationPort()
+    {
+        return $this->belongsTo(SeaPort::class);
+    }
+
     public function viaPorts()
     {
         return $this->hasMany(InquiryForwarderViaPort::class);
@@ -46,7 +56,7 @@ class InquiryForwarderRate extends Model
     }
     public function inquiryForwarder()
     {
-        return $this->belongsTo(InquiryForwarder::class,'inquiry_forwarder_id');
+        return $this->belongsTo(InquiryForwarder::class, 'inquiry_forwarder_id');
     }
 
     public function carrier()
@@ -54,5 +64,3 @@ class InquiryForwarderRate extends Model
         return $this->belongsTo(Carrier::class);
     }
 }
-
-
