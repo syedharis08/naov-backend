@@ -141,9 +141,11 @@ class InquiryController extends Controller
         ]);
         $inquiryForwarder = $inquiryForwarderRate->inquiryForwarder;
         $extendInquiryForwarder = $inquiryForwarder->inquiryExtendedForwarders()->where('rate_status', 1)->first();
-        $extendInquiryForwarder->update([
-            'status' => 2
-        ]);
+        if ($extendInquiryForwarder) {
+            $extendInquiryForwarder->update([
+                'status' => 2
+            ]);
+        }
         if ($request->has('shipper_id'))
             $inquiry->update([
                 'shipper_id' => $request->shipper_id
