@@ -21,16 +21,21 @@ class InquiryForwarder extends Model
 
     public function inquiryForwarderRate()
     {
-        return $this->hasMany(InquiryForwarderRate::class,'inquiry_forwarder_id');
+        return $this->hasMany(InquiryForwarderRate::class, 'inquiry_forwarder_id');
     }
 
-    public function inquiry(){
+    public function inquiry()
+    {
         return $this->belongsTo(Inquiry::class);
     }
 
     public function inquiryExtendedForwarders()
     {
-        return $this->hasMany(InquiryForwarder::class,'inquiry_forwarder_id');
+        return $this->hasMany(InquiryForwarder::class, 'inquiry_forwarder_id');
     }
 
+    public function forwarder()
+    {
+        return $this->belongsTo(User::class, 'forwarder_id');
+    }
 }
