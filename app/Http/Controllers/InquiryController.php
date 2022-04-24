@@ -224,7 +224,7 @@ class InquiryController extends Controller
 
             $user = request()->user();
             $inquiry = $user->inquiries()->where('status', '!=', 0)->where('id', $id)->first();
-            $inquiryForwarders = $inquiry->inquiryForwarder;
+            $inquiryForwarders = $inquiry->inquiryForwarder->where('status', '==', 2);
             $inquiryForwarderRate = $inquiryForwarders[0]->inquiryForwarderRate;
 
             // dd(['inquiry_forwarder_rate', $inquiryForwarderRate]);
