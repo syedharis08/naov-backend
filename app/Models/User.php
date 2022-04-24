@@ -55,7 +55,7 @@ class User extends Authenticatable
     ];
 
 
-     public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
@@ -67,27 +67,27 @@ class User extends Authenticatable
 
     public function forwarders()
     {
-        return $this->belongsToMany(User::class,'forwarder_users','user_id','forwarder_id');
+        return $this->belongsToMany(User::class, 'forwarder_users', 'user_id', 'forwarder_id');
     }
 
     public function forwaderusers()
     {
-        return $this->belongsToMany(User::class,'forwarder_users','forwarder_id','user_id');
+        return $this->belongsToMany(User::class, 'forwarder_users', 'forwarder_id', 'user_id');
     }
 
-     public function shippers()
+    public function shippers()
     {
-        return $this->belongsToMany(User::class,'shipper_users','user_id','shipper_id');
+        return $this->belongsToMany(User::class, 'shipper_users', 'user_id', 'shipper_id');
     }
 
     public function shipperusers()
     {
-        return $this->belongsToMany(User::class,'shipper_users','shipper_id','user_id');
+        return $this->belongsToMany(User::class, 'shipper_users', 'shipper_id', 'user_id');
     }
 
     public function address()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasOne(Address::class);
     }
 
     public function inquiries()
@@ -97,13 +97,13 @@ class User extends Authenticatable
 
     public function inquiryForwarderRate()
     {
-        return $this->hasMany(InquiryForwarderRate::class,'forwarder_id');
+        return $this->hasMany(InquiryForwarderRate::class, 'forwarder_id');
     }
 
 
     public function inquiryForwarder()
     {
-        return $this->hasMany(InquiryForwarder::class,'forwarder_id');
+        return $this->hasMany(InquiryForwarder::class, 'forwarder_id');
     }
 
     public function document()
@@ -113,6 +113,6 @@ class User extends Authenticatable
 
     public function shipperInquiries()
     {
-        return $this->hasMany(Inquiry::class,'shipper_id');
+        return $this->hasMany(Inquiry::class, 'shipper_id');
     }
 }
