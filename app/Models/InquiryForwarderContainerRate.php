@@ -11,7 +11,8 @@ class InquiryForwarderContainerRate extends Model
     protected $fillable = [
         'inquiry_forwarder_rate_id',
         'inquiry_container_id',
-        'exw_charge',
+        'loading_exw_charge',
+        'destination_exw_charge',
         'rate',
     ];
 
@@ -25,7 +26,8 @@ class InquiryForwarderContainerRate extends Model
         return $this->hasMany(InquiryForwarderContainerCarrierRate::class);
     }
 
-    public function inquiryContainer(){
-       return  $this->belongsTo(InquiryContainer::class);
+    public function inquiryContainer()
+    {
+        return  $this->belongsTo(InquiryContainer::class);
     }
 }

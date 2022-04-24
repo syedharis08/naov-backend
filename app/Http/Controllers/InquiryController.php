@@ -48,6 +48,13 @@ class InquiryController extends Controller
         return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
 
+    public function getConsigneeInquires()
+    {
+        $user = request()->user();
+        $inquiries = $user->inquiries()->where('status', 0)->get();
+        return response()->json(['inquires' => ConsigneeInquiryResource::collection($inquiries)], Response::HTTP_OK);
+    }
+
     public function inquiryAddRate(Request $request, $id)
     {
         $inquiryForwarder = InquiryForwarder::find($id);
@@ -111,13 +118,6 @@ class InquiryController extends Controller
             InquiryExtendedForwarderRateResource::collection($inquiryForwarder->inquiryExtendedForwarders)],
             Response::HTTP_OK
         );
-    }
-
-    public function getConsigneeInquires()
-    {
-        $user = request()->user();
-        $inquiries = $user->inquiries()->where('status', 0)->get();
-        return response()->json(['inquires' => ConsigneeInquiryResource::collection($inquiries)], Response::HTTP_OK);
     }
 
     public function getConsigneeInquiryRate($id)
