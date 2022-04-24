@@ -40,9 +40,9 @@ class InquiryForwarderResource extends JsonResource
         if ($this->shipper_id) {
             $data['shipper_id'] = $this->shipper_id;
             $shipperAddress = $this->shipper->address;
-            $shipperAddress->country;
-            $shipperAddress->state;
-            $shipperAddress->city;
+            $shipperAddress->country();
+            $shipperAddress->state();
+            $shipperAddress->city();
             $data['shipper_address'] = $shipperAddress;
         }
         return $data;
