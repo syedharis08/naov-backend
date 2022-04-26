@@ -17,12 +17,12 @@ class InquiryForwarderResource extends JsonResource
     {
         $data = [
             'forwarder_id' => $this->forwarder_id ?? null,
+            'inquiry_forwarder_id' => $this->user->inquiryForwarder->id,
             'forwarder' => $this->forwarder ?? null,
             'shipper' => $this->shipper ?? 'null',
             'user' => $this->user,
             'service_id' => $this->service_id,
             'inquiry_id' => $this->id,
-            'inquiry_forwarder_id' => $this->inquiryForwarder->id,
             'volume' => $this->volume,
             'weight' => $this->weight,
             'date' => $this->seaFreight->date,
