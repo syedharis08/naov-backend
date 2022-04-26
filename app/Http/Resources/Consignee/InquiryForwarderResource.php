@@ -17,7 +17,6 @@ class InquiryForwarderResource extends JsonResource
     {
         $data = [
             'forwarder_id' => $this->forwarder_id ?? null,
-            'inquiry_forwarder_id' => $this,
             'forwarder' => $this->forwarder ?? null,
             'shipper' => $this->shipper ?? 'null',
             'user' => $this->user,
