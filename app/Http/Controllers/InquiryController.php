@@ -141,7 +141,7 @@ class InquiryController extends Controller
         ]);
         $inquiryForwarder = $inquiryForwarderRate->inquiryForwarder;
 
-        dd($inquiryForwarder)
+        dd(['inquiry_forwarder_rate' => $inquiryForwarder]);
 
         $extendInquiryForwarder = $inquiryForwarder->inquiryExtendedForwarders()->where('rate_status', 1)->first();
         if ($extendInquiryForwarder) {
