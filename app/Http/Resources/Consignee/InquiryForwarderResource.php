@@ -22,6 +22,7 @@ class InquiryForwarderResource extends JsonResource
             'user' => $this->user,
             'service_id' => $this->service_id,
             'inquiry_id' => $this->id,
+            'inquiry_forwarder_id' => $this->inquiry_forwarder_id,
             'volume' => $this->volume,
             'weight' => $this->weight,
             'date' => $this->seaFreight->date,
