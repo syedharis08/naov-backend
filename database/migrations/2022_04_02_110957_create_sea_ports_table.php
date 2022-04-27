@@ -28,6 +28,6 @@ class CreateSeaPortsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ports');
+        Schema::dropIfExists('sea_ports');
     }
 }

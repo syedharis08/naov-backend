@@ -24,7 +24,8 @@ class InquiryForwarderContainerRateResource extends JsonResource
             "destination_exw_charge" => $this->destination_exw_charge,
             "rate" => $this->rate,
             "container" => $this->inquiryContainer->container,
-            "quantity" => $this->inquiryContainer->quantity
+            "quantity" => $this->inquiryContainer->quantity,
+            "extraCharges" => $this->inquiryForwarderContainerRateExtraCharges,
         ];
     }
 }

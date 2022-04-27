@@ -74,7 +74,10 @@ class InquiryController extends Controller
                 $inquiryForwarderRate->extraCharges()->create($extraCharge);
             }
             foreach ($inquiryRate['containerRates'] as $containerRate) {
-                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+                $inquiryContainerRates = $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+                foreach ($containerRate['extraCharges'] as $containerRateExtraCharge) {
+                    $inquiryContainerRates->inquiryForwarderContainerRateExtraCharges()->create($containerRateExtraCharge);
+                }
             }
         }
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);

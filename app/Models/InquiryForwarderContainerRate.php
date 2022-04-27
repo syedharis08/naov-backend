@@ -26,6 +26,11 @@ class InquiryForwarderContainerRate extends Model
         return $this->hasMany(InquiryForwarderContainerCarrierRate::class);
     }
 
+    public function inquiryForwarderContainerRateExtraCharges()
+    {
+        return $this->hasMany(InquiryForwarderContainerRateExtraCharge::class);
+    }
+
     public function inquiryContainer()
     {
         return  $this->belongsTo(InquiryContainer::class);
