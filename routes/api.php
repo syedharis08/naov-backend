@@ -46,6 +46,7 @@ Route::middleware('api')->group(function () {
     Route::post('add-extended-forwarder', [InquiryController::class, 'addExtendedForwarders']);
     Route::get('consignee/get-inquires', [InquiryController::class, 'getConsigneeInquires']);
     Route::get('consignee/get-inquiry-rate/{id}', [InquiryController::class, 'getConsigneeInquiryRate']);
+    Route::get('consignee/get-inquiry-accepted-rate/{id}', [InquiryController::class, 'getAcceptedRateConsignee']);
     Route::post(
         'consignee/acceptance/{inquiryId}/{inquiryRateId}',
         [InquiryController::class, 'consigneeInquiryAcceptRate']
@@ -69,10 +70,10 @@ Route::middleware('api')->group(function () {
     Route::prefix('forwarder')->group(function () {
         Route::get('/get-inquires', [InquiryController::class, 'getInquires']);
         Route::get('/get-accepted-inquires', [InquiryController::class, 'getForwarderAcceptedInquires']);
-        Route::get('/get-accepted-inquiry-rate/{id}', [InquiryController::class, 'getForwarderAcceptedInquiryRates']);
         Route::post('/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
         Route::get('/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
         Route::get('/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
+        Route::get('/get-inquiry-accepted-rate/{id}', [InquiryController::class, 'getAcceptedRateForwarder']);
     });
 
     Route::post('inquiry/add-document', [InquiryController::class, 'addDocument']);

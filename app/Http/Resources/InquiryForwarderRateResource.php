@@ -42,6 +42,7 @@ class InquiryForwarderRateResource extends JsonResource
             "closing_date" => $this->closing_date,
             "vessel_departure" => $this->vessel_departure,
             "ship_transit_time"  => $this->ship_transit_time,
+            "etd"  => $this->etd,
             "confirm_spaces" => $this->confirm_spaces,
             "rate" => $this->rate,
             "is_direct_route" => $this->is_direct_route,

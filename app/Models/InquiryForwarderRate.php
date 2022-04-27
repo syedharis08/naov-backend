@@ -20,6 +20,7 @@ class InquiryForwarderRate extends Model
         'closing_date',
         'vessel_departure',
         'ship_transit_time',
+        'etd',
         'confirm_spaces',
         'rate',
         'is_direct_route',
