@@ -154,7 +154,7 @@ class UserController extends Controller
     public function addForwarders(Request $request)
     {
         $user = request()->user();
-        $forwarder = $this->model::where('company_email', $request->email)->first();
+        $forwarder = $this->model::where('company_email', $request->company_email)->first();
         dd(['forwarder' => $forwarder]);
         if (!$forwarder) {
             $forwarder = $this->model::create($request->all());
@@ -181,7 +181,7 @@ class UserController extends Controller
     public function addShipper(Request $request)
     {
         $user = request()->user();
-        $shipper = $this->model::where('company_email', $request->email)->first();
+        $shipper = $this->model::where('company_email', $request->company_email)->first();
         if (!$shipper) {
             $shipper = $this->model::create($request->all());
             $shipper['url'] = 'localhost:3000/signup/importer-exporter/' . $shipper->id;
