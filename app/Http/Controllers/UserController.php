@@ -155,6 +155,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $forwarder = $this->model::where('company_email', $request->email)->first();
+        dd(['forwarder' => $forwarder]);
         if (!$forwarder) {
             $forwarder = $this->model::create($request->all());
             $forwarder['url'] = 'localhost:3000/signup/service-provider/' . $forwarder->id;
