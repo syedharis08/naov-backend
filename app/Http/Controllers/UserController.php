@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'company_email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
         if ($validator->fails()) {
@@ -39,17 +39,17 @@ class UserController extends Controller
         if (count($service_ids) > 0) {
             $user->services()->attach($service_ids);
         }
-        $respone['user'] = $user;
-        $respone['token'] = $user->createToken('Naov')->accessToken;
-        $respone['message'] = "successfully user added";
-        return response()->json($respone, Response::HTTP_OK);
+        $response['user'] = $user;
+        $response['token'] = $user->createToken('Naov')->accessToken;
+        $response['message'] = "successfully user added";
+        return response()->json($response, Response::HTTP_OK);
     }
 
     //    user Login
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
+            'company_email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
         ]);
 
@@ -57,7 +57,7 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->model::where('email', $request->email)->first();
+        $user = $this->model::where('company_email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Naov')->accessToken;
@@ -154,11 +154,13 @@ class UserController extends Controller
     public function addForwarders(Request $request)
     {
         $user = request()->user();
-        $forwarder = $this->model::create($request->all());
-        $forwarder['url'] = 'localhost:3000/signup/service-provider/'.$forwarder->id;
-        Notification::route('mail', $forwarder->company_email)
-            ->notify(new ShipperConfirmationNotification($forwarder));
-
+        $forwarder = $this->model::where('company_email', $request->email)->first();
+        if (!$forwarder) {
+            $forwarder = $this->model::create($request->all());
+            $forwarder['url'] = 'localhost:3000/signup/service-provider/' . $forwarder->id;
+            Notification::route('mail', $forwarder->company_email)
+                ->notify(new ShipperConfirmationNotification($forwarder));
+        }
         $user->forwarders()->attach($forwarder->id);
         return response()->json(
             ['message' => 'succesfully added the user forwarders'],
@@ -178,15 +180,19 @@ class UserController extends Controller
     public function addShipper(Request $request)
     {
         $user = request()->user();
-        $shipper = $this->model::create($request->all());
-        $shipper['url'] = 'localhost:3000/signup/importer-exporter/'.$shipper->id;
-        Notification::route('mail', $shipper->company_email)
-            ->notify(new ShipperConfirmationNotification($shipper));
-        $address = $request->get('address');
-        $shipper->address()->create($address);
+        $shipper = $this->model::where('company_email', $request->email)->first();
+        if (!$shipper) {
+            $shipper = $this->model::create($request->all());
+            $shipper['url'] = 'localhost:3000/signup/importer-exporter/' . $shipper->id;
+            Notification::route('mail', $shipper->company_email)
+                ->notify(new ShipperConfirmationNotification($shipper));
+            $address = $request->get('address');
+            $shipper->address()->create($address);
+        }
+
         $user->shippers()->attach($shipper->id);
         return response()->json(
-            ['message' => 'succesfully added the user shipper'],
+            ['message' => 'Succesfully added the user shipper'],
             Response::HTTP_OK
         );
     }
@@ -238,7 +244,7 @@ class UserController extends Controller
                 $user->address()->create($address);
             }
         }
-        if($request->has('service_ids')) {
+        if ($request->has('service_ids')) {
             $service_ids = $request->get('service_ids');
             if (count($service_ids) > 0) {
                 $user->services()->attach($service_ids);
@@ -249,15 +255,14 @@ class UserController extends Controller
         $respone['token'] = $user->createToken('Naov')->accessToken;
         $respone['message'] = "successfully user added";
         return response()->json($respone, Response::HTTP_OK);
-
     }
 
-//    public function getForwarder($id)
-//    {
-//        $forwarder = User::find($id);
-//        return response()->json(
-//            ['forwarder' => $forwarder],
-//            Response::HTTP_OK
-//        );
-//    }
+    //    public function getForwarder($id)
+    //    {
+    //        $forwarder = User::find($id);
+    //        return response()->json(
+    //            ['forwarder' => $forwarder],
+    //            Response::HTTP_OK
+    //        );
+    //    }
 }
