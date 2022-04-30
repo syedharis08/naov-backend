@@ -222,36 +222,7 @@ class InquiryController extends Controller
 
     public function getAcceptedRateConsignee($id)
     {
-        if ($id) {
-            // $user = request()->user();
-            // $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', '=', $id)->where('status', '!=', 0)->first();
-            // return response()->json(
-            //     ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
-            //     Response::HTTP_OK
-            // );
-
-            //     $user = request()->user();
-            //     $inquiry = $user->inquiries()->where('status', '!=', 0)->where('id', $id)->first();
-            //     $inquiryForwarders = $inquiry->inquiryForwarder;
-
-            //     $inquiryForwarderRate = null;
-
-            //     foreach ($inquiryForwarders as $inquiryForwarder) {
-            //         if ($inquiryForwarder->status == 2) {
-            //             $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->where('status', 1)->first();
-            //         }
-            //     }
-
-            //     // dd(['inquiry_forwarder_rate' => $inquiryForwarderRate]);
-
-            //     return response()->json(
-            //         ['inquiryRate' => InquiryForwarderRateResource::collection([$inquiryForwarderRate])],
-            //         Response::HTTP_OK
-            //     );
-            // } else {
-            //     return response()->json(['message' => 'Bad Request'], 400);
-            // }
-            {
+        if ($id) { {
                 $inquiry = Inquiry::find($id);
                 $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 2)->get();
                 return response()->json(['inquiryRate' => InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
@@ -260,15 +231,29 @@ class InquiryController extends Controller
     }
 
     public function getAcceptedRateForwarder($id)
-    { {
-            $user = request()->user();
-            $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
-            return response()->json(
-                ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
-                Response::HTTP_OK
-            );
-        }
+    {
+        $user = request()->user();
+        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
+        return response()->json(
+            ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+            Response::HTTP_OK
+        );
     }
+
+
+    public function inquiryVesselDeparted($id)
+    {
+        $user = request()->user();
+        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
+        $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->where('status', '=', 1)->first();
+        $inquiryForwarderRate->vessel_departure = date("Y-m-d H:i:s");
+        $inquiryForwarderRate->save();
+        return response()->json(
+            ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+            Response::HTTP_OK
+        );
+    }
+
 
 
     public function updateDocument($id, Request $request)

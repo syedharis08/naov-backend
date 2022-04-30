@@ -57,7 +57,7 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->model::where('company_email', $request->email)->first();
+        $user = $this->model::where('company_email', $request->company_email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Naov')->accessToken;

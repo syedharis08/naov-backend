@@ -32,7 +32,6 @@ Route::post('sign-up', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('pre-signup/{user}', [UserController::class, 'preSignup']);
 Route::middleware('api')->group(function () {
-
     Route::get('get-user', [UserController::class, 'getLoggedInUser']);
     Route::post('add-user-service', [UserController::class, 'addUserServices']);
     Route::get('get-services', [UserController::class, 'addGetServices']);
@@ -74,6 +73,7 @@ Route::middleware('api')->group(function () {
         Route::get('/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
         Route::get('/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
         Route::get('/get-inquiry-accepted-rate/{id}', [InquiryController::class, 'getAcceptedRateForwarder']);
+        Route::get('/vessel-departed/{id}', [InquiryController::class, 'inquiryVesselDeparted']);
     });
 
     Route::post('inquiry/add-document', [InquiryController::class, 'addDocument']);
