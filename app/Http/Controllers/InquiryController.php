@@ -249,7 +249,7 @@ class InquiryController extends Controller
         $inquiryForwarderRate->vessel_departure = date("Y-m-d H:i:s");
         $inquiryForwarderRate->save();
         return response()->json(
-            ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarder->inquiryForwarderRate)],
+            ['message' => 'Vessel Departed'],
             Response::HTTP_OK
         );
     }
