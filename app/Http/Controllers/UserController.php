@@ -157,7 +157,7 @@ class UserController extends Controller
         $forwarder = $this->model::where('company_email', $request->company_email)->first();
         if (!$forwarder) {
             $forwarder = $this->model::create($request->all());
-            $forwarder['url'] = 'localhost:3000/signup/service-provider/' . $forwarder->id;
+            $forwarder['url'] = 'naovinc.com/signup/service-provider/' . $forwarder->id;
             Notification::route('mail', $forwarder->company_email)
                 ->notify(new ShipperConfirmationNotification($forwarder));
         }
@@ -183,7 +183,7 @@ class UserController extends Controller
         $shipper = $this->model::where('company_email', $request->company_email)->first();
         if (!$shipper) {
             $shipper = $this->model::create($request->all());
-            $shipper['url'] = 'localhost:3000/signup/importer-exporter/' . $shipper->id;
+            $shipper['url'] = 'naovinc.com/signup/importer-exporter/' . $shipper->id;
             Notification::route('mail', $shipper->company_email)
                 ->notify(new ShipperConfirmationNotification($shipper));
             $address = $request->get('address');
