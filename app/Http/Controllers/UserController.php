@@ -227,8 +227,8 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,id',
             'password' => 'required|string|min:6',
+            'company_email' => 'required|string|email|max:255',
         ]);
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
