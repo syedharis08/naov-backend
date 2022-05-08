@@ -265,6 +265,7 @@ class InquiryController extends Controller
             })->first();
 
         $collection = collect($inquiryForwarder->inquiry_forwarder_rate);
+        return $collection;
         return $inquiryForwarderRateFilter = $collection->filter(function($item){
             return $item->status == 1;
         });
