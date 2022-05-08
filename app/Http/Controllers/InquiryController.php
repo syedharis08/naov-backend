@@ -265,8 +265,8 @@ class InquiryController extends Controller
 
         return response()->json(
             ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
-                'extendedRates' => $inquiryExtendedForwarderRate
-//                [InquiryExtendedForwarderRateResource::make($inquiryExtendedForwarderRate)]
+//                'extendedRates' => $inquiryExtendedForwarderRate
+             'extendedRates' =>   [InquiryExtendedForwarderRateResource::make($inquiryExtendedForwarderRate)]
             ],
             Response::HTTP_OK
         );
