@@ -17,8 +17,6 @@ class InquiryForwarder extends Model
         'ref_forwarder_status'
     ];
 
-
-
     public function inquiryForwarderRate()
     {
         return $this->hasMany(InquiryForwarderRate::class, 'inquiry_forwarder_id');
