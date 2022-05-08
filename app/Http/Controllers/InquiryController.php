@@ -235,7 +235,7 @@ class InquiryController extends Controller
     {
         $inquiry = Inquiry::find($id);
         if ($inquiry) {
-            $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('status',1)
+            $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarder_rates.status',1)
                 ->get();
             return response()->json(['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
         }
