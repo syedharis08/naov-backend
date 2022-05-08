@@ -272,12 +272,12 @@ class InquiryController extends Controller
             }
         }
 
-        return $inquiryForwarderRate;
             if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
-                $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
-                if ($inquiryForwarderRate[1]->inquiryForwarder->forwarder_id == $user->id) {
+                $inquiryForwarderRate = collect($inquiryForwarderRate)->first();
+                $inquiryExtendedForwarderRate = collect($inquiryForwarderRate)->extendedForwarderRate;
+                if ($inquiryForwarderRate->inquiryForwarder->forwarder_id == $user->id) {
                     return response()->json(
-                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate[1])],
+                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
                             'extendedRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)]
                         ],
                         Response::HTTP_OK
