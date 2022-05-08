@@ -272,7 +272,7 @@ class InquiryController extends Controller
             }
         }
 
-
+        return $inquiryForwarderRate;
             if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
                 $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
                 if ($inquiryForwarderRate[1]->inquiryForwarder->forwarder_id == $user->id) {
