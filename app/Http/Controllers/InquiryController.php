@@ -46,7 +46,7 @@ class InquiryController extends Controller
         $user = request()->user();
         $inquiryForwarders = $user->inquiryForwarder()->where('status', 0)
             ->whereHas('inquiry', function ($query) {
-                return $query->where('inquires.status','!=',0);
+                return $query->where('inquiries.status','!=',0);
             })
             ->with('inquiry')
             ->get();
