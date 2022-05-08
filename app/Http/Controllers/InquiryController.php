@@ -262,7 +262,7 @@ class InquiryController extends Controller
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)
             ->with('inquiryForwarderRate')->whereHas('inquiryForwarderRate', function ($query) {
                 return $query->where('inquiry_forwarder_rates.status','=','1')->whereNotNull('inquiry_extended_forwarder_rate_id');
-            })->toSql();
+            })->get();
 //        $inquiryForwarder
 
 //        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)
