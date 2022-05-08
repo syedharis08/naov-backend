@@ -44,7 +44,12 @@ class InquiryController extends Controller
     public function getInquires()
     {
         $user = request()->user();
-        $inquiryForwarders = $user->inquiryForwarder()->where('status', 0)->get();
+        $inquiryForwarders = $user->inquiryForwarder()->where('status', 0)
+            ->whereHas('inquires', function ($query) {
+                return $query->where('inquires.status','!=',0);
+            })
+            ->with('inquiry')
+            ->get();
         return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
 
