@@ -60,6 +60,7 @@ Route::middleware('api')->group(function () {
 
     Route::get('get-accepted-inquiries', [InquiryController::class, 'getAcceptedInquiries']);
 
+
     Route::get('get-countries', [AddressController::class, 'getCountries']);
     Route::get('get-states/{id}', [AddressController::class, 'getStates']);
     Route::get('get-cities/{id}', [AddressController::class, 'getCities']);
@@ -69,10 +70,12 @@ Route::middleware('api')->group(function () {
     Route::prefix('forwarder')->group(function () {
         Route::get('/get-inquires', [InquiryController::class, 'getInquires']);
         Route::get('/get-accepted-inquires', [InquiryController::class, 'getForwarderAcceptedInquires']);
+//        Route::get('/get-accepted-inquires', [InquiryController::class, 'getForwarderAcceptedInquires']);
         Route::post('/add-rate/{id}', [InquiryController::class, 'inquiryAddRate']);
         Route::get('/get-rate/{id}', [InquiryController::class, 'getInquiryRate']);
         Route::get('/extra-rate/{id}', [InquiryController::class, 'getExtraRate']);
         Route::get('/get-inquiry-accepted-rate/{id}', [InquiryController::class, 'getAcceptedRateForwarder']);
+        Route::get('/get-inquiry-accepted-and-extended-rate/{id}', [InquiryController::class, 'getInquiryAcceptedForwarderRate']);
         Route::get('/vessel-departed/{id}', [InquiryController::class, 'inquiryVesselDeparted']);
     });
 
