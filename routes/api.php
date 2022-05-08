@@ -52,7 +52,7 @@ Route::middleware('api')->group(function () {
     );
 
     Route::post(
-        'inquiry-extended-rate-accept/{id}',
+        'inquiry-extended-rate-accept/{id}/{rate_id}',
         [InquiryController::class, 'extendedForwarderRateAcceptance']
     );
 
