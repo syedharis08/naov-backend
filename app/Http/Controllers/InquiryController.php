@@ -264,8 +264,8 @@ class InquiryController extends Controller
                 return $query->where('inquiry_forwarder_rates.status','=','1')->whereNotNull('inquiry_extended_forwarder_rate_id');
             })->first();
 
-        $collection = collect($inquiryForwarder->inquiry_forwarder_rate);
-        return $collection;
+        $collection = collect($inquiryForwarder->inquiryForwarderRate);
+//        return $collection;
         return $inquiryForwarderRateFilter = $collection->filter(function($item){
             return $item->status == 1;
         });
