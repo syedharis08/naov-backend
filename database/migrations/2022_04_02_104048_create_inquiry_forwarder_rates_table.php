@@ -18,6 +18,7 @@ class CreateInquiryForwarderRatesTable extends Migration
             $table->foreignId('inquiry_forwarder_id')->nullable();
             $table->foreignId('loading_port_id')->nullable();
             $table->foreignId('destination_port_id')->nullable();
+            $table->foreignId('inquiry_extended_forwarder_rate_id')->nullable();
             $table->foreignId('carrier_id')->nullable();
             $table->string('validity_date')->nullable();
             $table->string('etd')->nullable();

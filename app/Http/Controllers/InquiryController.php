@@ -170,7 +170,7 @@ class InquiryController extends Controller
         $inquiryForwarder->rate_status = 1;
         $inquiryForwarder->save();
         $inquiryForwarderRate =  InquiryForwarderRate::find($rate_id);
-        $inquiryForwarderRate->status = 2;
+        $inquiryForwarderRate->status = 1;
         $inquiryForwarderRate->save();
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
     }
@@ -261,15 +261,11 @@ class InquiryController extends Controller
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
         $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->where('status','1')->first();
-        $inquiryExtendedForwarderRate = $inquiryForwarder->inquiryExtendedForwarders()->where('rate_status',1)
-            ->whereHas('inquiryForwarderRate',function ($query){
-                return $query->where('inquiry_forwarder_rates.status',2);
-            })
-            ->get();
+        $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
 
         return response()->json(
             ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
-                'extendedRates' => InquiryExtendedForwarderRateResource::collection($inquiryExtendedForwarderRate)
+                'extendedRates' => [InquiryExtendedForwarderRateResource::make($inquiryExtendedForwarderRate)]
             ],
             Response::HTTP_OK
         );

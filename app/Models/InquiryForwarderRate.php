@@ -10,6 +10,7 @@ class InquiryForwarderRate extends Model
     use HasFactory;
     protected $fillable = [
         'inquiry_forwarder_id',
+        'inquiry_extended_forwarder_rate_id',
         'inquiry_id',
         'forwarder_id',
         'loading_port_id',
@@ -63,5 +64,10 @@ class InquiryForwarderRate extends Model
     public function carrier()
     {
         return $this->belongsTo(Carrier::class);
+    }
+
+    public function extendedForwarderRate ()
+    {
+        return $this->belongsTo(InquiryForwarderRate::class,'inquiry_extended_forwarder_rate_id');
     }
 }
