@@ -169,9 +169,9 @@ class InquiryController extends Controller
         $inquiryForwarder = InquiryForwarder::find($id);
         $inquiryForwarder->rate_status = 1;
         $inquiryForwarder->save();
-        $inquiryForwarderRate = InquiryForwarderRate::find($rate_id);
-        $inquiryForwarderRate->status = 1;
-        $inquiryForwarderRate->save();
+//        $inquiryForwarderRate = InquiryForwarderRate::find($rate_id);
+//        $inquiryForwarderRate->status = 1;
+//        $inquiryForwarderRate->save();
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
     }
 
@@ -259,38 +259,51 @@ class InquiryController extends Controller
     public function getInquiryAcceptedForwarderRate($id)
     {
         $user = request()->user();
-        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)
-            ->with('inquiryForwarderRate')->whereHas('inquiryForwarderRate', function ($query) {
-                return $query->where('inquiry_forwarder_rates.status','=','1')->whereNotNull('inquiry_extended_forwarder_rate_id');
-            })->first();
+        $inquiryForwarders = InquiryForwarder::whereHas('inquiryForwarderRate', function ($query) {
+                return $query->where('inquiry_extended_forwarder_rate_id','!=',null);
+            })->with('inquiryForwarderRate')->get();
 
-        $collection = collect($inquiryForwarder->inquiryForwarderRate);
-//        return $collection;
-        return $inquiryForwarderRateFilter = $collection->filter(function($item){
-            return $item->status == 1;
-        });
-//        $inquiryForwarder
+//        return $inquiryForwarders;
+        if ($inquiryForwarders) {
+            foreach ($inquiryForwarders as $inquiryForwarder) {
+                $inquiryForwarderRate = collect($inquiryForwarder->inquiryForwarderRate)->filter(function ($item) {
+                    return $item->status == 1 && !is_null($item->inquiry_extended_forwarder_rate_id) ;
+                });
+            }
+        }
 
-//        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)
-//            ->where('status', '=', 2)->first();
-//        $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()
-//            ->where('status', '1')->first();
-//        $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
-//        if ($inquiryExtendedForwarderRate) {
-//            return response()->json(
-//                ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
-//                    'extendedRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)]
-//                ],
-//                Response::HTTP_OK
-//            );
-//        }
-//        return response()->json(
-//            ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],],
-//            Response::HTTP_OK
-//        );
+
+            if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
+                $inquiryExtendedForwarderRate = $inquiryForwarderRate[1]->extendedForwarderRate;
+                if ($inquiryForwarderRate[1]->inquiryForwarder->forwarder_id == $user->id) {
+                    return response()->json(
+                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate[1])],
+                            'extendedRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)]
+                        ],
+                        Response::HTTP_OK
+                    );
+                } else {
+                    return response()->json(
+                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)],
+                        ],
+                        Response::HTTP_OK
+                    );
+                }
+            }
+
+        $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
+        if ($inquiryForwarder) {
+            $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->where('status', '1')->first();
+
+            return response()->json(
+                ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)]],
+                Response::HTTP_OK
+            );
+        }
+
         return response()->json(
-            ['inquiryRates' => $inquiryForwarder],
-            Response::HTTP_OK
+            ['error' => 'Not Found'],
+            Response::HTTP_NOT_FOUND
         );
     }
 
