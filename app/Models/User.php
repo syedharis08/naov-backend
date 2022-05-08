@@ -30,6 +30,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'is_logged_in',
+        'is_terms_and_conditions',
         'remember_token',
         'created_at',
         'updated_at'

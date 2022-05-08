@@ -27,10 +27,12 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'company_email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'is_terms_and_conditions' => 'required'
         ]);
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
+        $request['is_terms_and_conditions'] = $request->has('is_terms_and_conditions');
         $user = $this->model::create($request->toArray());
         $address = $request->get('address');
         $user->address()->create($address);
