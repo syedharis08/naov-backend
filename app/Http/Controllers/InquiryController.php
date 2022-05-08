@@ -274,7 +274,7 @@ class InquiryController extends Controller
 
             if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
                 $inquiryForwarderRate = collect($inquiryForwarderRate)->first();
-                $inquiryExtendedForwarderRate = collect($inquiryForwarderRate)->extendedForwarderRate;
+                $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
                 if ($inquiryForwarderRate->inquiryForwarder->forwarder_id == $user->id) {
                     return response()->json(
                         ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
