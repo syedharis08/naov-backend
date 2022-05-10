@@ -150,13 +150,13 @@ class InquiryController extends Controller
         $inquiryForwarderRate->inquiryForwarder()->update([
             'status' => 2
         ]);
-//        $inquiryForwarder = $inquiryForwarderRate->inquiryForwarder;
-//        $extendInquiryForwarder = $inquiryForwarder->inquiryExtendedForwarders()->where('rate_status', 1)->first();
-//        if ($extendInquiryForwarder) {
-//            $extendInquiryForwarder->update([
-//                'status' => 2
-//            ]);
-//        }
+        if ($inquiryForwarderRate->inquiry_extended_forwarder_rate_id) {
+            $inquiryExtendedForwarderRate = InquiryForwarderRate::where('id', $inquiryForwarderRate->inquiry_extended_forwarder_rate_id)->first();
+            $extendInquiryForwarder = $inquiryExtendedForwarderRate->inquiryForwarder;
+            $extendInquiryForwarder->update([
+                'status' => 2
+            ]);
+        }
         if ($request->has('shipper_id'))
             $inquiry->update([
                 'shipper_id' => $request->shipper_id
@@ -260,36 +260,35 @@ class InquiryController extends Controller
     {
         $user = request()->user();
         $inquiryForwarders = InquiryForwarder::whereHas('inquiryForwarderRate', function ($query) {
-                return $query->where('inquiry_extended_forwarder_rate_id','!=',null);
-            })->with('inquiryForwarderRate')->get();
+            return $query->where('inquiry_extended_forwarder_rate_id', '!=', null);
+        })->with('inquiryForwarderRate')->get();
 
-//        return $inquiryForwarders;
         if ($inquiryForwarders) {
             foreach ($inquiryForwarders as $inquiryForwarder) {
                 $inquiryForwarderRate = collect($inquiryForwarder->inquiryForwarderRate)->filter(function ($item) {
-                    return $item->status == 1 && !is_null($item->inquiry_extended_forwarder_rate_id) ;
+                    return $item->status == 1 && !is_null($item->inquiry_extended_forwarder_rate_id);
                 });
             }
         }
 
-            if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
-                $inquiryForwarderRate = collect($inquiryForwarderRate)->first();
-                $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
-                if ($inquiryForwarderRate->inquiryForwarder->forwarder_id == $user->id) {
-                    return response()->json(
-                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
-                            'extendedRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)]
-                        ],
-                        Response::HTTP_OK
-                    );
-                } else {
-                    return response()->json(
-                        ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)],
-                        ],
-                        Response::HTTP_OK
-                    );
-                }
+        if (isset($inquiryForwarderRate) && count($inquiryForwarderRate) > 0) {
+            $inquiryForwarderRate = collect($inquiryForwarderRate)->first();
+            $inquiryExtendedForwarderRate = $inquiryForwarderRate->extendedForwarderRate;
+            if ($inquiryForwarderRate->inquiryForwarder->forwarder_id == $user->id) {
+                return response()->json(
+                    ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryForwarderRate)],
+                        'extendedRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)]
+                    ],
+                    Response::HTTP_OK
+                );
+            } else {
+                return response()->json(
+                    ['inquiryRates' => [InquiryForwarderRateResource::make($inquiryExtendedForwarderRate)],
+                    ],
+                    Response::HTTP_OK
+                );
             }
+        }
 
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
         if ($inquiryForwarder) {
