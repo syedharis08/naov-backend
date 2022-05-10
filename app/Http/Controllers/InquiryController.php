@@ -152,6 +152,8 @@ class InquiryController extends Controller
         ]);
         if ($inquiryForwarderRate->inquiry_extended_forwarder_rate_id) {
             $inquiryExtendedForwarderRate = InquiryForwarderRate::where('id', $inquiryForwarderRate->inquiry_extended_forwarder_rate_id)->first();
+            $inquiryExtendedForwarderRate->status = 1;
+            $inquiryExtendedForwarderRate->save();
             $extendInquiryForwarder = $inquiryExtendedForwarderRate->inquiryForwarder;
             $extendInquiryForwarder->update([
                 'status' => 2
