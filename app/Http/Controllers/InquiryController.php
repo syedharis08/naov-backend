@@ -261,7 +261,7 @@ class InquiryController extends Controller
     public function getInquiryAcceptedForwarderRate($id)
     {
         $user = request()->user();
-        $inquiryForwarders = InquiryForwarder::whereHas('inquiryForwarderRate', function ($query) {
+        $inquiryForwarders = InquiryForwarder::where('inquiry_id', $id)->whereHas('inquiryForwarderRate', function ($query) {
             return $query->where('inquiry_extended_forwarder_rate_id', '!=', null);
         })->with('inquiryForwarderRate')->get();
 
