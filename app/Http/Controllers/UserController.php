@@ -225,7 +225,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['shippers' => $user->shippers],
+            ['shippers' => $user->shippers->latest()->get()],
             Response::HTTP_OK
         );
     }
