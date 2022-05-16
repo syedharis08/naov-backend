@@ -176,7 +176,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['forwarders' => $user->forwarders],
+            ['forwarders' => $user->forwarders()->latest()->get()],
             Response::HTTP_OK
         );
     }
