@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function forwarders()
     {
-        return $this->belongsToMany(User::class, 'forwarder_users', 'user_id', 'forwarder_id');
+        return $this->belongsToMany(User::class, 'forwarder_users', 'forwarder_id','user_id' );
     }
 
     public function forwaderusers()
@@ -78,7 +78,7 @@ class User extends Authenticatable
 
     public function shippers()
     {
-        return $this->belongsToMany(User::class, 'shipper_users', 'user_id', 'shipper_id');
+        return $this->belongsToMany(User::class, 'shipper_users', 'shipper_id','user_id', );
     }
 
     public function shipperusers()
