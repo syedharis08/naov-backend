@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('sign-up', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('pre-signup/{user}', [UserController::class, 'preSignup']);
-Route::middleware('api')->group(function () {
+Route::middleware('users')->group(function () {
     Route::get('get-user', [UserController::class, 'getLoggedInUser']);
     Route::post('add-user-service', [UserController::class, 'addUserServices']);
     Route::get('get-services', [UserController::class, 'addGetServices']);

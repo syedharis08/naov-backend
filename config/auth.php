@@ -37,7 +37,7 @@ return [
 
     'guards' => [
         'users' => [
-             'driver' => 'passport',
+            'driver' => 'passport',
             'provider' => 'users',
             'hash' => false,
         ]
