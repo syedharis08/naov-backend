@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ForwarderUser;
+use App\Models\ShipperUser;
 use App\Models\User;
 use App\Notifications\ShipperConfirmationNotification;
 use Illuminate\Http\Request;
@@ -183,7 +184,17 @@ class UserController extends Controller
     public function removeForwarder($forwarder_id)
     {
         $user = request()->user();
-        ForwarderUser::where('user_id',$user->id)->where('forwarder_id')->delete();
+        ForwarderUser::where('user_id',$user->id)->where('forwarder_id',$forwarder_id)->delete();
+        return response()->json(
+            ['message' => 'successfully removed the forwarder' ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function removeShipper($shipper_id)
+    {
+        $user = request()->user();
+        ShipperUser::where('user_id',$user->id)->where('shipper_id',$shipper_id)->delete();
         return response()->json(
             ['message' => 'successfully removed the forwarder' ],
             Response::HTTP_OK
