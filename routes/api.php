@@ -41,7 +41,7 @@ Route::middleware('api')->group(function () {
     Route::post('add-forwarders', [UserController::class, 'addForwarders']);
     Route::get('get-shippers', [UserController::class, 'getShippers']);
     Route::post('add-shipper', [UserController::class, 'addShipper']);
-    Route::delete('remove-shipper/{shipper_id}', [UserController::class, 'removeForwarder']);
+    Route::delete('remove-shipper/{shipper_id}', [UserController::class, 'removeShipper']);
     Route::get('get-user/{user}/{role_id}', [UserController::class, 'getUser']);
     //    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
     Route::post('add-extended-forwarder', [InquiryController::class, 'addExtendedForwarders']);
