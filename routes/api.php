@@ -36,6 +36,7 @@ Route::middleware('api')->group(function () {
     Route::post('add-user-service', [UserController::class, 'addUserServices']);
     Route::get('get-services', [UserController::class, 'addGetServices']);
     Route::get('get-forwarders', [UserController::class, 'getForwarders']);
+    Route::delete('remove-forwarder/{forwarder_id}', [UserController::class, 'removeForwarder']);
     Route::get('get-forwarder/{user}', [UserController::class, 'getForwarder']);
     Route::post('add-forwarders', [UserController::class, 'addForwarders']);
     Route::get('get-shippers', [UserController::class, 'getShippers']);
