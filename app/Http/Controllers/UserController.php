@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvitationMail;
 use App\Models\ForwarderUser;
 use App\Models\ShipperUser;
 use App\Models\User;
 use App\Notifications\ShipperConfirmationNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
@@ -161,13 +163,17 @@ class UserController extends Controller
         $forwarder = $this->model::where('company_email', $request->company_email)->first();
         if (!$forwarder) {
             $forwarder = $this->model::create($request->all());
-            $forwarder['url'] = 'naovinc.com/signup/service-provider/' . $forwarder->id;
-            Notification::route('mail', $forwarder->company_email)
-                ->notify(new ShipperConfirmationNotification($forwarder));
+            $forwarder['url'] = 'https://naovinc.com/signup/service-provider/' . $forwarder->id;
+            $forwarder['button'] = "Sign Up";
+        }else {
+            $forwarder['url'] = 'https://naovinc.com/accept/service-provider/' . $forwarder->id;
+            $forwarder['button'] = "Accept Invite";
         }
         $user->forwarders()->attach($forwarder->id);
+        $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
+        $response['message'] = "succesfully added the user forwarders";
         return response()->json(
-            ['message' => 'succesfully added the user forwarders'],
+            $response,
             Response::HTTP_OK
         );
     }
