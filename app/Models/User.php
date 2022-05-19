@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function forwaderusers()
     {
-        return $this->belongsToMany(User::class, 'forwarder_users', 'forwarder_id', 'user_id');
+        return $this->belongsToMany(User::class, 'forwarder_users', 'user_id','forwarder_id', );
     }
 
     public function shippers()
@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function shipperusers()
     {
-        return $this->belongsToMany(User::class, 'shipper_users', 'shipper_id', 'user_id');
+        return $this->belongsToMany(User::class, 'shipper_users', 'user_id', 'shipper_id');
     }
 
     public function address()
