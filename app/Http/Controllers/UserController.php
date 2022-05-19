@@ -182,7 +182,9 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['forwarders' => $user->forwarders()->latest()->get()],
+            ['forwarders' => $user->forwarders()->latest()->get(),
+                'supplier_forwarder' => $user->forwaderusers()->latest()->get(),
+                ],
             Response::HTTP_OK
         );
     }
@@ -231,7 +233,9 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['shippers' => $user->shippers()->latest()->get()],
+            ['shippers' => $user->shippers()->latest()->get(),
+                'supplier_shipper' => $user->shipperusers()->latest()->get()
+            ],
             Response::HTTP_OK
         );
     }
