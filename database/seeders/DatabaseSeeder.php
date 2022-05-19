@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             Carrier::create(['name' => $shipment_line]);
         }
         // $this->call(UsersTableSeeder::class);
-        $this->call(ForwarderUsersTableSeeder::class);
+//        $this->call(ForwarderUsersTableSeeder::class);
         // $this->call(AddressesTableSeeder::class);
         $this->call(ContainersTableSeeder::class);
         // $this->call(ShipperUsersTableSeeder::class);
