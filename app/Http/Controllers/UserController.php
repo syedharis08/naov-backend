@@ -173,7 +173,7 @@ class UserController extends Controller
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
         $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
-        $response['message'] = "succesfully added the user forwarders";
+        $response['message'] = "Successfully added the user Forwarder";
         return response()->json(
             $response,
             Response::HTTP_OK
@@ -219,7 +219,7 @@ class UserController extends Controller
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
         return response()->json(
-            ['message' => 'successfully removed the forwarder'],
+            ['message' => 'successfully removed the supplier'],
             Response::HTTP_OK
         );
     }
@@ -237,24 +237,24 @@ class UserController extends Controller
     }
 
 
+
+
     public function addShipper(Request $request)
     {
         $user = request()->user();
         $shipper = $this->model::where('company_email', $request->company_email)->first();
-        dd($shipper);
         if (!$shipper) {
             $shipper = $this->model::create($request->all());
-            $shipper['url'] = 'naovinc.com/signup/importer-exporter/' . $shipper->id;
+            $shipper['url'] = 'https://naovinc.com/signup/importer-exporter/' . $shipper->id;
             $address = $request->get('address');
             $shipper->address()->create($address);
-            $shipper['url'] = 'https://naovinc.com/signup/service-provider/' . $forwarder->id;
             $shipper['button'] = "Sign Up";
         } else {
             $shipper['button'] = "Accept Invite";
         }
         $shipper['invitation_user'] = $user->name;
         $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
-        $response['message'] = "succesfully added the user forwarders";
+        $response['message'] = "Successfully added the user supplier";
         return response()->json(
             $response,
             Response::HTTP_OK
@@ -267,7 +267,7 @@ class UserController extends Controller
         return response()->json(
             [
                 'shippers' => $user->shippers()->latest()->get(),
-                'supplier_shipper' => $user->forwaderusers()->latest()->get(),
+                'supplier_shipper' => $user->shipperusers()->latest()->get(),
             ],
             Response::HTTP_OK
         );
