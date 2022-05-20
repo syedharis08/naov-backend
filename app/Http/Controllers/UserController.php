@@ -173,7 +173,7 @@ class UserController extends Controller
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
         $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
-        $response['message'] = "Successfully added the user Forwarder";
+        $response['message'] = "succesfully added the user forwarders";
         return response()->json(
             $response,
             Response::HTTP_OK
@@ -219,7 +219,7 @@ class UserController extends Controller
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
         return response()->json(
-            ['message' => 'successfully removed the supplier'],
+            ['message' => 'successfully removed the forwarder'],
             Response::HTTP_OK
         );
     }
@@ -237,8 +237,6 @@ class UserController extends Controller
     }
 
 
-
-
     public function addShipper(Request $request)
     {
         $user = request()->user();
@@ -254,7 +252,7 @@ class UserController extends Controller
         }
         $shipper['invitation_user'] = $user->name;
         $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
-        $response['message'] = "Successfully added the user supplier";
+        $response['message'] = "Successfully added the user suppliers";
         return response()->json(
             $response,
             Response::HTTP_OK
@@ -267,7 +265,7 @@ class UserController extends Controller
         return response()->json(
             [
                 'shippers' => $user->shippers()->latest()->get(),
-                'supplier_shipper' => $user->shipperusers()->latest()->get(),
+                'supplier_shipper' => $user->forwaderusers()->latest()->get(),
             ],
             Response::HTTP_OK
         );
