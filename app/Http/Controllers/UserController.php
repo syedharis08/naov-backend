@@ -184,7 +184,8 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['forwarders' => $user->forwarders()->latest()->get(),
+            [
+                'forwarders' => $user->forwarders()->latest()->get(),
                 'supplier_forwarder' => $user->shipperusers()->latest()->get()
             ],
             Response::HTTP_OK
@@ -251,7 +252,7 @@ class UserController extends Controller
             $shipper['button'] = "Accept Invite";
         }
         $shipper['invitation_user'] = $user->name;
-        $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
+        $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
         $response['message'] = "succesfully added the user forwarders";
         return response()->json(
             $response,
@@ -263,7 +264,8 @@ class UserController extends Controller
     {
         $user = request()->user();
         return response()->json(
-            ['shippers' => $user->shippers()->latest()->get(),
+            [
+                'shippers' => $user->shippers()->latest()->get(),
                 'supplier_shipper' => $user->forwaderusers()->latest()->get(),
             ],
             Response::HTTP_OK
@@ -334,10 +336,8 @@ class UserController extends Controller
     public function deleteInquiry($inquiry_id)
     {
         $inquiry = Inquiry::find($inquiry_id);
-        foreach ($inquiry->inquiryForwarder() as $inquiryForwarder)
-        {
-            foreach($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate)
-            {
+        foreach ($inquiry->inquiryForwarder() as $inquiryForwarder) {
+            foreach ($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate) {
                 $inquiryForwarderRate->extraCharges()->delete();
             }
             $inquiryForwarder->inquiryForwarderRate()->delete();
