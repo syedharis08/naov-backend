@@ -37,13 +37,15 @@ Route::middleware('api')->group(function () {
     Route::get('get-services', [UserController::class, 'addGetServices']);
     Route::get('get-forwarders', [UserController::class, 'getForwarders']);
     Route::delete('remove-forwarder/{forwarder_id}', [UserController::class, 'removeForwarder']);
+    Route::post('accept-forwarder/{forwarder_id}', [UserController::class, 'acceptForwarder']);
     Route::get('get-forwarder/{user}', [UserController::class, 'getForwarder']);
     Route::post('add-forwarders', [UserController::class, 'addForwarders']);
     Route::get('get-shippers', [UserController::class, 'getShippers']);
     Route::post('add-shipper', [UserController::class, 'addShipper']);
     Route::delete('remove-shipper/{shipper_id}', [UserController::class, 'removeShipper']);
+    Route::delete('delete/inquiry/{inquiry_id}', [UserController::class, 'deleteInquiry']);
+    Route::post('accept-shipper/{shipper_id}', [UserController::class, 'acceptShipper']);
     Route::get('get-user/{user}/{role_id}', [UserController::class, 'getUser']);
-    //    Route::get('/shipper-validation/{user}',[UserController::class,'us'])
     Route::post('add-extended-forwarder', [InquiryController::class, 'addExtendedForwarders']);
     Route::get('consignee/get-inquires', [InquiryController::class, 'getConsigneeInquires']);
     Route::get('consignee/get-inquiry-rate/{id}', [InquiryController::class, 'getConsigneeInquiryRate']);

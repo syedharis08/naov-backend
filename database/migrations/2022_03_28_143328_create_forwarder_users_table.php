@@ -17,6 +17,7 @@ class CreateForwarderUsersTable extends Migration
            $table->id();
             $table->foreignId('user_id');
             $table->foreignId('forwarder_id');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

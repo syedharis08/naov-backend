@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\InvitationMail;
 use App\Models\ForwarderUser;
+use App\Models\Inquiry;
+use App\Models\InquiryForwarderExtraCharge;
 use App\Models\ShipperUser;
 use App\Models\User;
 use App\Notifications\ShipperConfirmationNotification;
@@ -165,10 +167,10 @@ class UserController extends Controller
             $forwarder = $this->model::create($request->all());
             $forwarder['url'] = 'https://naovinc.com/signup/service-provider/' . $forwarder->id;
             $forwarder['button'] = "Sign Up";
-        }else {
-            $forwarder['url'] = 'https://naovinc.com/accept/service-provider/' . $forwarder->id;
+        } else {
             $forwarder['button'] = "Accept Invite";
         }
+        $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
         $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
         $response['message'] = "succesfully added the user forwarders";
@@ -183,8 +185,8 @@ class UserController extends Controller
         $user = request()->user();
         return response()->json(
             ['forwarders' => $user->forwarders()->latest()->get(),
-                'supplier_forwarder' =>  $user->shipperusers()->latest()->get()
-                ],
+                'supplier_forwarder' => $user->shipperusers()->latest()->get()
+            ],
             Response::HTTP_OK
         );
     }
@@ -192,9 +194,21 @@ class UserController extends Controller
     public function removeForwarder($forwarder_id)
     {
         $user = request()->user();
-        ForwarderUser::where('user_id',$user->id)->where('forwarder_id',$forwarder_id)->delete();
+        ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->delete();
         return response()->json(
-            ['message' => 'successfully removed the forwarder' ],
+            ['message' => 'successfully removed the forwarder'],
+            Response::HTTP_OK
+        );
+    }
+
+    public function acceptForwarder($forwarder_id)
+    {
+        $user = request()->user();
+        $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
+        $forwarderUser->status = 1;
+        $forwarderUser->save();
+        return response()->json(
+            ['message' => 'invitation accepted'],
             Response::HTTP_OK
         );
     }
@@ -202,12 +216,25 @@ class UserController extends Controller
     public function removeShipper($shipper_id)
     {
         $user = request()->user();
-        ShipperUser::where('user_id',$user->id)->where('shipper_id',$shipper_id)->delete();
+        ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
         return response()->json(
-            ['message' => 'successfully removed the forwarder' ],
+            ['message' => 'successfully removed the forwarder'],
             Response::HTTP_OK
         );
     }
+
+    public function acceptShipper($shipper_id)
+    {
+        $user = request()->user();
+        $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
+        $shipperUser->status = 1;
+        $shipperUser->save();
+        return response()->json(
+            ['message' => 'invitation accepted'],
+            Response::HTTP_OK
+        );
+    }
+
 
     public function addShipper(Request $request)
     {
@@ -216,15 +243,18 @@ class UserController extends Controller
         if (!$shipper) {
             $shipper = $this->model::create($request->all());
             $shipper['url'] = 'naovinc.com/signup/importer-exporter/' . $shipper->id;
-            Notification::route('mail', $shipper->company_email)
-                ->notify(new ShipperConfirmationNotification($shipper));
             $address = $request->get('address');
             $shipper->address()->create($address);
+            $shipper['url'] = 'https://naovinc.com/signup/service-provider/' . $forwarder->id;
+            $shipper['button'] = "Sign Up";
+        } else {
+            $shipper['button'] = "Accept Invite";
         }
-
-        $user->shippers()->attach($shipper->id);
+        $shipper['invitation_user'] = $user->name;
+        $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
+        $response['message'] = "succesfully added the user forwarders";
         return response()->json(
-            ['message' => 'Succesfully added the user shipper'],
+            $response,
             Response::HTTP_OK
         );
     }
@@ -234,7 +264,7 @@ class UserController extends Controller
         $user = request()->user();
         return response()->json(
             ['shippers' => $user->shippers()->latest()->get(),
-                'supplier_shipper' =>$user->forwaderusers()->latest()->get(),
+                'supplier_shipper' => $user->forwaderusers()->latest()->get(),
             ],
             Response::HTTP_OK
         );
@@ -299,4 +329,28 @@ class UserController extends Controller
     //            Response::HTTP_OK
     //        );
     //    }
+
+
+    public function deleteInquiry($inquiry_id)
+    {
+        $inquiry = Inquiry::find($inquiry_id);
+        foreach ($inquiry->inquiryForwarder() as $inquiryForwarder)
+        {
+            foreach($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate)
+            {
+                $inquiryForwarderRate->extraCharges()->delete();
+            }
+            $inquiryForwarder->inquiryForwarderRate()->delete();
+            $inquiryForwarder->inquiryExtendedForwarders()->delete();
+            $inquiryForwarder->delete();
+        }
+        $inquiry->inquiryForwarderRate()->delete();
+        $inquiry->inquireForwarderContainerRates()->delete();
+        $inquiry->inquiryDocuments()->delete();
+        $inquiry->delete();
+        return response()->json(
+            ['message' => 'successfully deleted the inquiry'],
+            Response::HTTP_OK
+        );
+    }
 }
