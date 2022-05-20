@@ -241,7 +241,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $shipper = $this->model::where('company_email', $request->company_email)->first();
-        dd(["shipper", $shipper]);
+        dd($shipper);
         if (!$shipper) {
             $shipper = $this->model::create($request->all());
             $shipper['url'] = 'naovinc.com/signup/importer-exporter/' . $shipper->id;
