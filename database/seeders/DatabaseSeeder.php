@@ -74,11 +74,11 @@ class DatabaseSeeder extends Seeder
         foreach ($shipment_lines as $shipment_line) {
             Carrier::create(['name' => $shipment_line]);
         }
-        $this->call(UsersTableSeeder::class);
-        $this->call(ForwarderUsersTableSeeder::class);
-        $this->call(AddressesTableSeeder::class);
+        // $this->call(UsersTableSeeder::class);
+        // $this->call(ForwarderUsersTableSeeder::class);
+        // $this->call(AddressesTableSeeder::class);
+        // $this->call(ShipperUsersTableSeeder::class);
         $this->call(ContainersTableSeeder::class);
-        $this->call(ShipperUsersTableSeeder::class);
 
 
         $sea_ports = [
