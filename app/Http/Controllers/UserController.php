@@ -210,6 +210,13 @@ class UserController extends Controller
     {
         $user = request()->user();
         ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->delete();
+        if($user->role_id == 3)
+        {
+            ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->delete();
+
+        }else {
+            ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->delete();
+        }
         return response()->json(
             ['message' => 'successfully removed the forwarder'],
             Response::HTTP_OK
@@ -242,6 +249,13 @@ class UserController extends Controller
     {
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
+        if($user->role_id == 3)
+        {
+             ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->delete();
+
+        }else {
+            ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->delete();
+        }
         return response()->json(
             ['message' => 'successfully removed the forwarder'],
             Response::HTTP_OK
@@ -254,9 +268,9 @@ class UserController extends Controller
         $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
         $shipperUser->status = 2;
         $shipperUser->save();
-        if($user->role_id == 3)
+        $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
+        if($userShipper)
         {
-            $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
             $userShipper->status = 2;
             $userShipper->save();
         }else {
