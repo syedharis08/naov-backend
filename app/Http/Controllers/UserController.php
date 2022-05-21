@@ -247,6 +247,7 @@ class UserController extends Controller
                 'forwarder_id' => $user->id
             ]);
         }
+
         return response()->json(
             ['message' => 'invitation accepted'],
             Response::HTTP_OK
@@ -286,6 +287,14 @@ class UserController extends Controller
             $userShipper = ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->first();
             $userShipper->status = 2;
             $userShipper->save();
+        }
+
+        $inquiryUser = $this->model::find($shipper_id);
+        foreach ($inquiryUser->inquiries()->where('status',0)->get() as $inquiry)
+        {
+            $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
+                'forwarder_id' => $user->id
+            ]);
         }
         return response()->json(
             ['message' => 'invitation accepted'],
