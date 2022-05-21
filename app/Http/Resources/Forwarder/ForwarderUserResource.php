@@ -21,7 +21,6 @@ class ForwarderUserResource extends JsonResource
             'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
-            'password' => $this->password,
             'is_logged_in' => $this->is_logged_in,
             'is_terms_and_conditions' => $this->is_terms_conditions,
             'status' => $this->pivot->status
