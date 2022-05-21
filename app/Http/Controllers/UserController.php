@@ -241,7 +241,7 @@ class UserController extends Controller
             $userShipper->save();
         }
         $inquiryUser = $this->model::find($forwarder_id);
-        foreach ($inquiryUser->inquiries()->where('status',0) as $inquiry)
+        foreach ($inquiryUser->inquiries()->where('status',0)->get() as $inquiry)
         {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
                 'forwarder_id' => $user->id
