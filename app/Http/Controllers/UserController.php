@@ -173,6 +173,12 @@ class UserController extends Controller
         }
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
+        foreach ($user->inquiries()->where('status',0) as $inquiry)
+        {
+             $inquiry->inquiryForwarder()->create([
+                'forwarder_id' => $forwarder->id
+            ]);
+        }
         if ($user->role_id == 3) {
             ShipperUser::create([
                 'user_id' => $forwarder->id,
