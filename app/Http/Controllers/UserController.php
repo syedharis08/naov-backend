@@ -210,9 +210,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->delete();
-        if($user->role_id == 3)
+        $forwarderUser = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
+        if($forwarderUser)
         {
-            ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->delete();
+            $forwarderUser->delete();
 
         }else {
             ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->delete();
@@ -248,9 +249,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
-        if($user->role_id == 3)
+        $forwarderUser = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
+        if($forwarderUser)
         {
-             ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->delete();
+           $forwarderUser->delete();
 
         }else {
             ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->delete();
