@@ -222,9 +222,16 @@ class UserController extends Controller
         $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
         $forwarderUser->status = 2;
         $forwarderUser->save();
-        $userForwarder = ForwarderUser::where('user_id', $forwarder_id)->where('forwarder_id',$user->id )->first();
-        $userForwarder->status = 2;
-        $userForwarder->save();
+        if($user->role_id == 3)
+        {
+            $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
+            $userShipper->status = 2;
+            $userShipper->save();
+        }else {
+            $userShipper = ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->first();
+            $userShipper->status = 2;
+            $userShipper->save();
+        }
         return response()->json(
             ['message' => 'invitation accepted'],
             Response::HTTP_OK
@@ -247,9 +254,16 @@ class UserController extends Controller
         $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
         $shipperUser->status = 2;
         $shipperUser->save();
-        $userShipper = ShipperUser::where('user_id',  $shipper_id)->where('shipper_id',$user->id)->first();
-        $userShipper->status = 2;
-        $userShipper->save();
+        if($user->role_id == 3)
+        {
+            $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
+            $userShipper->status = 2;
+            $userShipper->save();
+        }else {
+            $userShipper = ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->first();
+            $userShipper->status = 2;
+            $userShipper->save();
+        }
         return response()->json(
             ['message' => 'invitation accepted'],
             Response::HTTP_OK
