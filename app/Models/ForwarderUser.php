@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ForwarderUser extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id','forwarder_id','status'
+    ];
 
 }
