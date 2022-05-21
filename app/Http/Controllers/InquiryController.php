@@ -13,7 +13,7 @@ use App\Models\InquiryForwarderRate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class InquiryController extends Controller
+class   InquiryController extends Controller
 {
     private $model;
 
@@ -331,5 +331,60 @@ class InquiryController extends Controller
         }
         $document->update($request->all());
         return response()->json(['message' => 'Successfully Updated the Document'], Response::HTTP_OK);
+    }
+
+
+    public function rateDelete($rate_id)
+    {
+        $inquiryForwarderRate = InquiryForwarderRate::find($rate_id);
+        $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
+        foreach ($extendedForwarderRates as $extendedForwarderRate)
+        {
+            $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
+            $extendedForwarderRate->extraCharges()->delete();
+            $extendedForwarderRate->viaPorts()->delete();
+        }
+        $inquiryForwarderRate->inquiryForwarderContainerRates()->delete();
+        $inquiryForwarderRate->extraCharges()->delete();
+        $inquiryForwarderRate->viaPorts()->delete();
+        return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
+    }
+
+    public function rateInquiryDelete($inquiryForwarderId)
+    {
+        $inquiryForwarder = InquiryForwarder::find($inquiryForwarderId);
+        foreach ($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate)
+        {
+            $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
+            foreach ($extendedForwarderRates as $extendedForwarderRate)
+            {
+                $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
+                $extendedForwarderRate->extraCharges()->delete();
+                $extendedForwarderRate->viaPorts()->delete();
+            }
+            $inquiryForwarderRate->inquiryForwarderContainerRates()->delete();
+            $inquiryForwarderRate->extraCharges()->delete();
+            $inquiryForwarderRate->viaPorts()->delete();
+        }
+        foreach ($inquiryForwarder->inquiryExtendedForwarders as $inquiryForwarderExtendedRate)
+        {
+            foreach ($inquiryForwarderExtendedRate->inquiryForwarderRate as $inquiryForwarderRate)
+            {
+                $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
+                foreach ($extendedForwarderRates as $extendedForwarderRate)
+                {
+                    $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
+                    $extendedForwarderRate->extraCharges()->delete();
+                    $extendedForwarderRate->viaPorts()->delete();
+                }
+                $inquiryForwarderExtendedRate->inquiryForwarderContainerRates()->delete();
+                $inquiryForwarderExtendedRate->extraCharges()->delete();
+                $inquiryForwarderExtendedRate->viaPorts()->delete();
+            }
+        }
+
+        $inquiryForwarder->delete();
+        return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
+
     }
 }
