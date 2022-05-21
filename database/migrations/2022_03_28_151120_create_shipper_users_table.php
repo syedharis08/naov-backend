@@ -17,7 +17,7 @@ class CreateShipperUsersTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('shipper_id');
-            $table->boolean('status')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
