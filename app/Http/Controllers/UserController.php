@@ -174,9 +174,15 @@ class UserController extends Controller
         $user->forwarders()->attach($forwarder->id);
         if($user->role_id == 3)
         {
-            $forwarder->shippers()->attach($user->id);
+            $forwarder->shippers()->create([
+              'user_id' =>  $user->id,
+               'status' => '1',
+            ]);
         }else if($user->role_id == 2 ){
-            $forwarder->forwarders()->attach($user->id);
+            $forwarder->forwarders()->create([
+                'user_id' =>  $user->id,
+                'status' => '1',
+            ]);
         }
         $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
         $response['message'] = "succesfully added the user forwarders";
@@ -212,7 +218,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
-        $forwarderUser->status = 1;
+        $forwarderUser->status = 2;
         $forwarderUser->save();
         return response()->json(
             ['message' => 'invitation accepted'],
@@ -234,7 +240,7 @@ class UserController extends Controller
     {
         $user = request()->user();
         $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
-        $shipperUser->status = 1;
+        $shipperUser->status = 2;
         $shipperUser->save();
         return response()->json(
             ['message' => 'invitation accepted'],
@@ -260,9 +266,15 @@ class UserController extends Controller
         $user->shippers()->attach($shipper->id);
         if($user->role_id == 3)
         {
-            $shipper->shippers()->attach($user->id);
+            $shipper->shippers()->create([
+                'user_id' =>  $user->id,
+                'status' => '1',
+            ]);
         }else if($user->role_id == 2 ){
-            $shipper->forwarders()->attach($user->id);
+            $shipper->forwarders()->create([
+                'user_id' =>  $user->id,
+                'status' => '1',
+            ]);
         }
         $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
         $response['message'] = "Successfully added the user suppliers";
