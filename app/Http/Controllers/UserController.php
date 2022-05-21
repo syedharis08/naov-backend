@@ -172,6 +172,12 @@ class UserController extends Controller
         }
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
+        if($user->role_id == 3)
+        {
+            $forwarder->shippers()->attach($user->id);
+        }else if($user->role_id == 2 ){
+            $forwarder->forwarders()->attach($user->id);
+        }
         $response['mail'] = Mail::to($forwarder->company_email)->send(new InvitationMail($forwarder));
         $response['message'] = "succesfully added the user forwarders";
         return response()->json(
