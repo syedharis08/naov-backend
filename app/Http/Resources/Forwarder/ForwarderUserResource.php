@@ -15,6 +15,7 @@ class ForwarderUserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'role_id' => $this->role_id,
             'company_name' => $this->company_name  ,
             'company_email' => $this->company_email,
