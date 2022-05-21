@@ -173,12 +173,7 @@ class UserController extends Controller
         }
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
-        foreach ($user->inquiries()->where('status',0) as $inquiry)
-        {
-             $inquiry->inquiryForwarder()->create([
-                'forwarder_id' => $forwarder->id
-            ]);
-        }
+
         if ($user->role_id == 3) {
             ShipperUser::create([
                 'user_id' => $forwarder->id,
@@ -244,6 +239,13 @@ class UserController extends Controller
             $userShipper = ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->first();
             $userShipper->status = 2;
             $userShipper->save();
+        }
+        $inquiryUser = $this->model::find($forwarder_id);
+        foreach ($inquiryUser->inquiries()->where('status',0) as $inquiry)
+        {
+            $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
+                'forwarder_id' => $user->id
+            ]);
         }
         return response()->json(
             ['message' => 'invitation accepted'],
