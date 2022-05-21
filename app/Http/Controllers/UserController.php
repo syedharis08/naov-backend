@@ -251,6 +251,13 @@ class UserController extends Controller
             $shipper['button'] = "Accept Invite";
         }
         $shipper['invitation_user'] = $user->name;
+        $user->shippers()->attach($shipper->id);
+        if($user->role_id == 3)
+        {
+            $shipper->shippers()->attach($user->id);
+        }else if($user->role_id == 2 ){
+            $shipper->forwarders()->attach($user->id);
+        }
         $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
         $response['message'] = "Successfully added the user suppliers";
         return response()->json(
