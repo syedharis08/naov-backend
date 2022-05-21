@@ -229,9 +229,8 @@ class UserController extends Controller
         $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
         $forwarderUser->status = 2;
         $forwarderUser->save();
-        if($user->role_id == 3)
-        {
-            $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
+        $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
+        if($userShipper){
             $userShipper->status = 2;
             $userShipper->save();
         }else {
