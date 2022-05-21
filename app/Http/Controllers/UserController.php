@@ -248,7 +248,7 @@ class UserController extends Controller
         $shipperUser->status = 2;
         $shipperUser->save();
         $userShipper = ShipperUser::where('user_id',  $shipper_id)->where('shipper_id',$user->id)->first();
-        $userShipper->status = 2;g
+        $userShipper->status = 2;
         $userShipper->save();
         return response()->json(
             ['message' => 'invitation accepted'],
