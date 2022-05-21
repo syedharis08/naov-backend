@@ -174,13 +174,15 @@ class UserController extends Controller
         $user->forwarders()->attach($forwarder->id);
         if($user->role_id == 3)
         {
-            $forwarder->shippers()->create([
-              'user_id' =>  $user->id,
-               'status' => '1',
+            ShipperUser::create([
+                'user_id' =>  $user->id,
+                'shipper_id'=> $forwarder->id,
+                'status' => '1',
             ]);
         }else if($user->role_id == 2 ){
-            $forwarder->forwarders()->create([
+            ForwarderUser::create([
                 'user_id' =>  $user->id,
+                'forwarder_id'=> $forwarder->id,
                 'status' => '1',
             ]);
         }
@@ -266,13 +268,15 @@ class UserController extends Controller
         $user->shippers()->attach($shipper->id);
         if($user->role_id == 3)
         {
-            $shipper->shippers()->create([
+            ShipperUser::create([
                 'user_id' =>  $user->id,
+                'shipper_id'=> $shipper->id,
                 'status' => '1',
             ]);
         }else if($user->role_id == 2 ){
-            $shipper->forwarders()->create([
+            ForwarderUser::create([
                 'user_id' =>  $user->id,
+                'forwarder_id'=> $shipper->id,
                 'status' => '1',
             ]);
         }
