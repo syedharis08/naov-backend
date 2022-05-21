@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Forwarder\ForwarderUserResource;
 use App\Mail\InvitationMail;
 use App\Models\ForwarderUser;
 use App\Models\Inquiry;
@@ -196,10 +197,10 @@ class UserController extends Controller
     public function getForwarders()
     {
         $user = request()->user();
+        $forwarders = $user->forwarders()->latest()->get();
         return response()->json(
             [
-                'forwarders' => $user->forwarders()->latest()->get(),
-                'supplier_forwarder' => $user->shipperusers()->latest()->get()
+                'forwarders' => ForwarderUserResource::collection($forwarders),
             ],
             Response::HTTP_OK
         );
@@ -289,10 +290,10 @@ class UserController extends Controller
     public function getShippers()
     {
         $user = request()->user();
+        $shippers = $user->shippers()->latest()->get();
         return response()->json(
             [
-                'shippers' => $user->shippers()->latest()->get(),
-                'supplier_shipper' => $user->forwaderusers()->latest()->get(),
+                'shippers' => ForwarderUserResource::collection($shippers)
             ],
             Response::HTTP_OK
         );
