@@ -172,17 +172,16 @@ class UserController extends Controller
         }
         $forwarder['invitation_user'] = $user->name;
         $user->forwarders()->attach($forwarder->id);
-        if($user->role_id == 3)
-        {
+        if ($user->role_id == 3) {
             ShipperUser::create([
-                'user_id' =>  $user->id,
-                'shipper_id'=> $forwarder->id,
+                'user_id' => $forwarder->id,
+                'shipper_id' => $user->id,
                 'status' => '1',
             ]);
-        }else if($user->role_id == 2 ){
+        } else if ($user->role_id == 2) {
             ForwarderUser::create([
-                'user_id' =>  $user->id,
-                'forwarder_id'=> $forwarder->id,
+                'user_id' => $forwarder->id,
+                'forwarder_id' => $user->id,
                 'status' => '1',
             ]);
         }
@@ -266,17 +265,16 @@ class UserController extends Controller
         }
         $shipper['invitation_user'] = $user->name;
         $user->shippers()->attach($shipper->id);
-        if($user->role_id == 3)
-        {
+        if ($user->role_id == 3) {
             ShipperUser::create([
-                'user_id' =>  $user->id,
-                'shipper_id'=> $shipper->id,
+                'user_id' => $shipper->id,
+                'shipper_id' => $user->id,
                 'status' => '1',
             ]);
-        }else if($user->role_id == 2 ){
+        } else if ($user->role_id == 2) {
             ForwarderUser::create([
-                'user_id' =>  $user->id,
-                'forwarder_id'=> $shipper->id,
+                'user_id' => $shipper->id,
+                'forwarder_id' => $user->id,
                 'status' => '1',
             ]);
         }
