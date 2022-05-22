@@ -44,6 +44,11 @@ class Inquiry extends Model
         return $this->hasMany(InquiryForwarderRate::class);
     }
 
+    public function inquiryRates()
+    {
+        return $this->hasMany(InquiryForwarderRate::class);
+    }
+
 
     public function inquireForwarderContainerRates()
     {

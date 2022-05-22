@@ -40,7 +40,7 @@ class InquiryForwarderResource extends JsonResource
         if($this->user->forwarders)
         {
             if($this->inquiryForwarder){
-                if($this->inquiryForwarderRate)
+                if($this->inquiryRates)
                 {
                     $data['message'] = "Rates are available";
                 }else{
