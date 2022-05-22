@@ -22,6 +22,7 @@ class CreateInquiryForwarderRatesTable extends Migration
             $table->foreignId('carrier_id')->nullable();
             $table->string('validity_date')->nullable();
             $table->string('etd')->nullable();
+            $table->string('forwarder_rate_notes')->nullable();
             $table->string('free_days')->nullable();
             $table->string('closing_date')->nullable();
             $table->string('vessel_departure')->nullable();
