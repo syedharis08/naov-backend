@@ -82,7 +82,7 @@ Route::middleware('api')->group(function () {
         Route::get('/get-inquiry-accepted-and-extended-rate/{id}', [InquiryController::class, 'getInquiryAcceptedForwarderRate']);
         Route::get('/vessel-departed/{id}', [InquiryController::class, 'inquiryVesselDeparted']);
         Route::delete('/rate-delete/{rate_id}',[InquiryController::class,'rateDelete']);
-        Route::delete('/inquiry/{rate_id}',[InquiryController::class,'rateInquiryDelete']);
+        Route::delete('/inquiry-delete/{inquiry_forwarder_id}',[InquiryController::class,'rateInquiryDelete']);
     });
 
     Route::post('inquiry/add-document', [InquiryController::class, 'addDocument']);

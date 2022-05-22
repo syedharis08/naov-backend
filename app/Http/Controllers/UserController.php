@@ -418,12 +418,11 @@ class UserController extends Controller
         foreach ($inquiry->inquiryForwarder() as $inquiryForwarder) {
             foreach ($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate) {
                 $inquiryForwarderRate->extraCharges()->delete();
+                $inquiryForwarderRate->inquiryForwarderContainerRates()->delete();
             }
             $inquiryForwarder->inquiryForwarderRate()->delete();
-            $inquiryForwarder->inquiryExtendedForwarders()->delete();
             $inquiryForwarder->delete();
         }
-        $inquiry->inquireForwarderContainerRates()->delete();
         $inquiry->inquiryDocuments()->delete();
         $inquiry->delete();
         return response()->json(
