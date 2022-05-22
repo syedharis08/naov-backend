@@ -423,7 +423,6 @@ class UserController extends Controller
             $inquiryForwarder->inquiryExtendedForwarders()->delete();
             $inquiryForwarder->delete();
         }
-        $inquiry->inquiryForwarderRate()->delete();
         $inquiry->inquireForwarderContainerRates()->delete();
         $inquiry->inquiryDocuments()->delete();
         $inquiry->delete();
