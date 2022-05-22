@@ -15,6 +15,7 @@ class InquiryForwarderResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $data = [
             'forwarder_id' => $this->forwarder_id ?? null,
             'forwarder' => $this->forwarder ?? null,
@@ -33,8 +34,26 @@ class InquiryForwarderResource extends JsonResource
             'destination_port' => $this->seaFreight->destinationPort->name ?? Null,
             'commodity' => $this->commodity ?? null,
             'status' => $this->status,
-            'containers' => InquiryContainerResource::collection($this->inquiryContainers)
+            'containers' => InquiryContainerResource::collection($this->inquiryContainers),
+            'message' => ''
         ];
+        if($this->user->forwarders)
+        {
+            if($this->inquiryForwarder){
+                if($this->inquiryForwarderRate)
+                {
+                    $data['message'] = "Rates are available";
+                }else{
+                    $data['message'] = "Forwarder Approved - waiting for rate";
+                }
+            }else{
+                $data['message'] = "Awaiting forwarder approval";
+            }
+
+        }else{
+            $data['message'] = "Add forwarder in clients' tab to get your first rate";
+        }
+
 
         if ($this->user->id) {
             $userAddress = $this->user->address;
