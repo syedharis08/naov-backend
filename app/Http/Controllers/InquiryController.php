@@ -347,6 +347,7 @@ class   InquiryController extends Controller
         $inquiryForwarderRate->inquiryForwarderContainerRates()->delete();
         $inquiryForwarderRate->extraCharges()->delete();
         $inquiryForwarderRate->viaPorts()->delete();
+        $inquiryForwarderRate->delete();
         return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
     }
 
