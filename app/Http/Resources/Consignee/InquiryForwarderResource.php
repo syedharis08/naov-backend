@@ -46,7 +46,12 @@ class InquiryForwarderResource extends JsonResource
                 {
                     $data['message'] = "Rates are available";
                 }else{
-                    $data['message'] = "Forwarder Approved - waiting for rate";
+                    $firstInquiry = $this->user->inquiries()->first();
+                    if($firstInquiry->id == $this->id)
+                        $data['message'] = "Forwarder Approved - waiting for rate";
+                    else
+                        $data['message'] = "Waiting for rate";
+
                 }
             }else{
                 $data['message'] = "Awaiting forwarder approval";
