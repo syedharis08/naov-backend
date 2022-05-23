@@ -61,9 +61,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('get-accepted-inquiries', [InquiryController::class, 'getAcceptedInquiries']);
 
 
-    Route::get('get-countries', [AddressController::class, 'getCountries']);
-    Route::get('get-states/{id}', [AddressController::class, 'getStates']);
-    Route::get('get-cities/{id}', [AddressController::class, 'getCities']);
+
 
     Route::post('inquiry-create', [InquiryController::class, 'create']);
 
@@ -95,3 +93,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('role', RoleController::class);
     Route::apiResource('permission', PermissionController::class);
 });
+
+Route::get('get-countries', [AddressController::class, 'getCountries']);
+Route::get('get-states/{id}', [AddressController::class, 'getStates']);
+Route::get('get-cities/{id}', [AddressController::class, 'getCities']);
