@@ -37,8 +37,7 @@ class InquiryForwarderResource extends JsonResource
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => ''
         ];
-        if(!is_null($this->user->forwarders))
-        {
+        if($this->user->forwarders)        {
             if(!is_null($this->inquiryForwarder)){
                 if(!is_null($this->inquiryForwarderRates))
                 {
