@@ -22,6 +22,7 @@ class InquiryForwarderRate extends Model
         'vessel_departure',
         'ship_transit_time',
         'etd',
+        'forwarder_rate_notes',
         'confirm_spaces',
         'rate',
         'is_direct_route',
@@ -66,8 +67,8 @@ class InquiryForwarderRate extends Model
         return $this->belongsTo(Carrier::class);
     }
 
-    public function extendedForwarderRate ()
+    public function extendedForwarderRate()
     {
-        return $this->belongsTo(InquiryForwarderRate::class,'inquiry_extended_forwarder_rate_id');
+        return $this->belongsTo(InquiryForwarderRate::class, 'inquiry_extended_forwarder_rate_id');
     }
 }
