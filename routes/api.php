@@ -82,18 +82,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('inquiry/add-document', [InquiryController::class, 'addDocument']);
     Route::get('inquiry/document/{id}', [InquiryController::class, 'getDocuments']);
     Route::post('inquiry/change-status', [InquiryController::class, 'inquiryChangeStatus']);
-
     Route::get('/document/{id}', [InquiryController::class, 'getDocument']);
     Route::post('/update-document/{id}', [InquiryController::class, 'updateDocument']);
-
-    Route::apiResource('service', ServiceController::class);
-    Route::apiResource('sea-port', SeaPortController::class);
-    Route::apiResource('container', ContainerController::class);
     Route::apiResource('carrier', CarrierController::class);
-    Route::apiResource('role', RoleController::class);
-    Route::apiResource('permission', PermissionController::class);
+
 });
 
 Route::get('get-countries', [AddressController::class, 'getCountries']);
 Route::get('get-states/{id}', [AddressController::class, 'getStates']);
 Route::get('get-cities/{id}', [AddressController::class, 'getCities']);
+Route::apiResource('sea-port', SeaPortController::class);
+Route::apiResource('container', ContainerController::class);
+Route::apiResource('role', RoleController::class);
+Route::apiResource('service', ServiceController::class);
+Route::apiResource('permission', PermissionController::class);
