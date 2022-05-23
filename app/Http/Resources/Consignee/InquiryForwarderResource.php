@@ -35,7 +35,10 @@ class InquiryForwarderResource extends JsonResource
             'commodity' => $this->commodity ?? null,
             'status' => $this->status,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
-            'message' => ''
+            'message' => '',
+            'forwarders'=> $this->user->forwarders,
+            'inquiryForwarder' => $this->inquiryForwarder,
+            'inquiryForwarderRate' => $this->inquiryForwarderRates
         ];
         if($this->user->forwarders)        {
             if(!is_null($this->inquiryForwarder)){
