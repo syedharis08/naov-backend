@@ -37,10 +37,10 @@ class InquiryForwarderResource extends JsonResource
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => ''
         ];
-        if($this->user->forwarders)
+        if(!is_null($this->user->forwarders))
         {
-            if($this->inquiryForwarder){
-                if($this->inquiryForwarderRates)
+            if(!is_null($this->inquiryForwarder)){
+                if(!is_null($this->inquiryForwarderRates))
                 {
                     $data['message'] = "Rates are available";
                 }else{
@@ -57,18 +57,18 @@ class InquiryForwarderResource extends JsonResource
 
         if ($this->user->id) {
             $userAddress = $this->user->address;
-            $userAddress->country;
-            $userAddress->state;
-            $userAddress->city;
+//            $userAddress->country;
+//            $userAddress->state;
+//            $userAddress->city;
             $data['user_address'] = $userAddress;
         }
 
         if ($this->shipper_id) {
             $data['shipper_id'] = $this->shipper_id;
             $shipperAddress = $this->shipper->address;
-            $shipperAddress->country;
-            $shipperAddress->state;
-            $shipperAddress->city;
+//            $shipperAddress->country;
+//            $shipperAddress->state;
+//            $shipperAddress->city;
             $data['shipper_address'] = $shipperAddress;
         }
         return $data;
