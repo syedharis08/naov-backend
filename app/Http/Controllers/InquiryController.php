@@ -55,7 +55,11 @@ class   InquiryController extends Controller
             ->with('inquiry')
             ->latest()->get();
         if(count($inquiryForwarders) < 1 ) {
-            $message = count($user->shippers) > 0 ? "Inquiries from suppliers will appear here" : "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
+            $shipper = $user->shippers->
+                filter(function($query){
+                    return $query->pivot->status != 0;
+                });
+            $message = count($shipper) > 0 ? "Inquiries from suppliers will appear here" : "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
             return response()->json(['buttonMessage' =>  $message ], Response::HTTP_OK);
         }
         return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
