@@ -440,7 +440,7 @@ class UserController extends Controller
         {
             return response()->json(
                 ['message' => 'This email is already taken'],
-                Response::HTTP_OK
+                Response::HTTP_CONFLICT
             );
         }else{
             return response()->json(
