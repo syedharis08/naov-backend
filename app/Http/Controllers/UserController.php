@@ -243,7 +243,7 @@ class UserController extends Controller
         {
             foreach ($user->inquiries()->where('status', 0)->get() as $inquiry) {
                 $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
-                    'forwarder_id' => $user->id
+                    'forwarder_id' => $forwarder_id
                 ]);
             }
         }

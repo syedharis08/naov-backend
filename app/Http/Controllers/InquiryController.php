@@ -56,7 +56,7 @@ class   InquiryController extends Controller
             })
             ->with('inquiry')
             ->latest()->get();
-        if (count($inquiryForwarders) == 0 ) {
+        if (count($inquiryForwarders) < 1) {
             $shipper = $user->shippers->
             filter(function ($query) {
                 return $query->pivot->status == 2;
