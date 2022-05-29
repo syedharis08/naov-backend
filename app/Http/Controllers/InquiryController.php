@@ -42,7 +42,7 @@ class   InquiryController extends Controller
         foreach ($containers as $container) {
             $inquiry->inquiryContainers()->create($container);
         }
-        $lastUserInquiry = $user->inquiries()->last();
+//        $lastUserInquiry = $user->inquiries()->last();
 //        $inquiry->company_inquiry_id = "NA"-
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
     }
