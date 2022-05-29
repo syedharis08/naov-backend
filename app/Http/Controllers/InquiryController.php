@@ -29,14 +29,14 @@ class   InquiryController extends Controller
         $services = $request->get('serviceFields');
         $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
-        if($user->forwarders) {
-            $filterForwarders = $user->forwarders->filter(function($query){
+        if ($user->forwarders) {
+            $filterForwarders = $user->forwarders->filter(function ($query) {
                 return $query->pivot->status != 0;
             });
             foreach ($filterForwarders as $forwarder) {
-            $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
-                'forwarder_id' => $forwarder->id
-            ]);
+                $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
+                    'forwarder_id' => $forwarder->id
+                ]);
             }
         }
         foreach ($containers as $container) {
@@ -54,13 +54,17 @@ class   InquiryController extends Controller
             })
             ->with('inquiry')
             ->latest()->get();
-        if(count($inquiryForwarders) < 1 ) {
+        if (count($inquiryForwarders) < 1) {
             $shipper = $user->shippers->
-                filter(function($query){
-                    return $query->pivot->status != 0;
-                });
-            $message = count($shipper) > 0 ? "Inquiries from suppliers will appear here" : "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
-            return response()->json(['buttonMessage' =>  $message ], Response::HTTP_OK);
+            filter(function ($query) {
+                return $query->pivot->status != 0;
+            });
+            if (count($shipper) > 0) {
+                $message = "Inquiries from suppliers will appear here";
+            } else {
+                $message = "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
+            }
+            return response()->json(['buttonMessage' => $message], Response::HTTP_OK);
         }
         return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
@@ -72,7 +76,8 @@ class   InquiryController extends Controller
         return response()->json(['inquires' => ConsigneeInquiryResource::collection($inquiries)], Response::HTTP_OK);
     }
 
-    public function inquiryAddRate(Request $request, $id)
+    public
+    function inquiryAddRate(Request $request, $id)
     {
         $inquiryForwarder = InquiryForwarder::find($id);
         $inquiryRates = $request->get('inquireRates');
@@ -104,7 +109,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function getInquiryRate($id)
+    public
+    function getInquiryRate($id)
     {
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->first();
@@ -114,7 +120,8 @@ class   InquiryController extends Controller
         );
     }
 
-    public function addExtendedForwarders(Request $request)
+    public
+    function addExtendedForwarders(Request $request)
     {
         $forwarders = $request->get('forwarder_ids');
         foreach ($forwarders as $forwarder) {
@@ -133,7 +140,8 @@ class   InquiryController extends Controller
         return response()->json(['message' => 'Successfully forwarded Inquiries'], Response::HTTP_OK);
     }
 
-    public function getExtraRate($id)
+    public
+    function getExtraRate($id)
     {
         $inquiryForwarder = InquiryForwarder::where('id', $id)->first();
         return response()->json(
@@ -143,14 +151,16 @@ class   InquiryController extends Controller
         );
     }
 
-    public function getConsigneeInquiryRate($id)
+    public
+    function getConsigneeInquiryRate($id)
     {
         $inquiry = Inquiry::find($id);
         $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 0)->get();
         return response()->json(['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
     }
 
-    public function consigneeInquiryAcceptRate($inquiryId, $inquiryForwarderRateId, Request $request)
+    public
+    function consigneeInquiryAcceptRate($inquiryId, $inquiryForwarderRateId, Request $request)
     {
         $inquiry = Inquiry::find($inquiryId);
         $inquiryForwarderRate = InquiryForwarderRate::find($inquiryForwarderRateId);
@@ -178,7 +188,8 @@ class   InquiryController extends Controller
         return response()->json(['message' => 'Successfully Accepted Rate'], Response::HTTP_OK);
     }
 
-    public function extendedForwarderRateAcceptance($id, $rate_id)
+    public
+    function extendedForwarderRateAcceptance($id, $rate_id)
     {
         $inquiryForwarder = InquiryForwarder::find($id);
         $inquiryForwarder->rate_status = 1;
@@ -190,7 +201,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function addDocument(Request $request)
+    public
+    function addDocument(Request $request)
     {
         $user = request()->user();
         $inquiry = Inquiry::find($request->get('inquiry_id'));
@@ -200,20 +212,23 @@ class   InquiryController extends Controller
         return response()->json(['message' => 'Successfully Added Document'], Response::HTTP_OK);
     }
 
-    public function getDocuments($id)
+    public
+    function getDocuments($id)
     {
         $inquiry = Inquiry::find($id);
         $documents = $inquiry->inquiryDocuments;
         return response()->json(['documents' => $documents], Response::HTTP_OK);
     }
 
-    public function getDocument($id)
+    public
+    function getDocument($id)
     {
         $document = InquiryDocument::find($id);
         return response()->json(['document' => $document], Response::HTTP_OK);
     }
 
-    public function inquiryChangeStatus(Request $request)
+    public
+    function inquiryChangeStatus(Request $request)
     {
         $inquiry = Inquiry::find($request->get('inquiry_id'));
         $inquiry->status = $request->get('status');
@@ -225,7 +240,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function getAcceptedInquiries()
+    public
+    function getAcceptedInquiries()
     {
         $user = request()->user();
         $inquiries = $user->inquiries()->where('status', '!=', 0)->latest()->get();
@@ -235,7 +251,8 @@ class   InquiryController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getForwarderAcceptedInquires()
+    public
+    function getForwarderAcceptedInquires()
     {
         $user = request()->user();
         $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)->latest()->get();
@@ -248,7 +265,8 @@ class   InquiryController extends Controller
         return response()->json(['inquiries' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
     }
 
-    public function getAcceptedRateConsignee($id)
+    public
+    function getAcceptedRateConsignee($id)
     {
         $inquiry = Inquiry::find($id);
         if ($inquiry) {
@@ -258,7 +276,8 @@ class   InquiryController extends Controller
         }
     }
 
-    public function getAcceptedRateForwarder($id)
+    public
+    function getAcceptedRateForwarder($id)
     {
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
@@ -270,7 +289,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function getInquiryAcceptedForwarderRate($id)
+    public
+    function getInquiryAcceptedForwarderRate($id)
     {
         $user = request()->user();
         $inquiryForwarders = InquiryForwarder::where('inquiry_id', $id)->whereHas('inquiryForwarderRate', function ($query) {
@@ -321,7 +341,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function inquiryVesselDeparted($id)
+    public
+    function inquiryVesselDeparted($id)
     {
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->where('status', '=', 2)->first();
@@ -335,7 +356,8 @@ class   InquiryController extends Controller
     }
 
 
-    public function updateDocument($id, Request $request)
+    public
+    function updateDocument($id, Request $request)
     {
         $document = InquiryDocument::find($id);
         if (request('document')) {
@@ -346,25 +368,26 @@ class   InquiryController extends Controller
     }
 
 
-    public function deleteDocument($id)
+    public
+    function deleteDocument($id)
     {
         $document = InquiryDocument::find($id);
         $user = request()->user();
-        if($user->id == $document->user_id) {
+        if ($user->id == $document->user_id) {
             $document->delete();
             return response()->json(['message' => 'Document Successfully Deleted'], Response::HTTP_OK);
-        }else{
+        } else {
             return response()->json(['error' => 'You are unauthorized to perform this action'], Response::HTTP_FORBIDDEN);
         }
     }
 
 
-    public function rateDelete($rate_id)
+    public
+    function rateDelete($rate_id)
     {
         $inquiryForwarderRate = InquiryForwarderRate::find($rate_id);
-        $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
-        foreach ($extendedForwarderRates as $extendedForwarderRate)
-        {
+        $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id', $inquiryForwarderRate->id)->get();
+        foreach ($extendedForwarderRates as $extendedForwarderRate) {
             $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
             $extendedForwarderRate->extraCharges()->delete();
             $extendedForwarderRate->viaPorts()->delete();
@@ -376,14 +399,13 @@ class   InquiryController extends Controller
         return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
     }
 
-    public function rateInquiryDelete($inquiryForwarderId)
+    public
+    function rateInquiryDelete($inquiryForwarderId)
     {
         $inquiryForwarder = InquiryForwarder::find($inquiryForwarderId);
-        foreach ($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate)
-        {
-            $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
-            foreach ($extendedForwarderRates as $extendedForwarderRate)
-            {
+        foreach ($inquiryForwarder->inquiryForwarderRate as $inquiryForwarderRate) {
+            $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id', $inquiryForwarderRate->id)->get();
+            foreach ($extendedForwarderRates as $extendedForwarderRate) {
                 $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
                 $extendedForwarderRate->extraCharges()->delete();
                 $extendedForwarderRate->viaPorts()->delete();
@@ -392,13 +414,10 @@ class   InquiryController extends Controller
             $inquiryForwarderRate->extraCharges()->delete();
             $inquiryForwarderRate->viaPorts()->delete();
         }
-        foreach ($inquiryForwarder->inquiryExtendedForwarders as $inquiryForwarderExtendedRate)
-        {
-            foreach ($inquiryForwarderExtendedRate->inquiryForwarderRate as $inquiryForwarderRate)
-            {
-                $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id',$inquiryForwarderRate->id)->get();
-                foreach ($extendedForwarderRates as $extendedForwarderRate)
-                {
+        foreach ($inquiryForwarder->inquiryExtendedForwarders as $inquiryForwarderExtendedRate) {
+            foreach ($inquiryForwarderExtendedRate->inquiryForwarderRate as $inquiryForwarderRate) {
+                $extendedForwarderRates = InquiryForwarderRate::where('inquiry_extended_forwarder_rate_id', $inquiryForwarderRate->id)->get();
+                foreach ($extendedForwarderRates as $extendedForwarderRate) {
                     $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
                     $extendedForwarderRate->extraCharges()->delete();
                     $extendedForwarderRate->viaPorts()->delete();

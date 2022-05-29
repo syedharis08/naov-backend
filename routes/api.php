@@ -98,6 +98,6 @@ Route::apiResource('role', RoleController::class);
 Route::apiResource('service', ServiceController::class);
 Route::apiResource('permission', PermissionController::class);
 
-Route::post('user/user-check/{email}',[
+Route::post('user/user-check/',[
    [UserController::class,'checkUser']
 ]);
