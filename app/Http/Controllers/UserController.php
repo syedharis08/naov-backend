@@ -435,7 +435,7 @@ class UserController extends Controller
 
     public function checkUser($email)
     {
-        $user = User::where('email',$email)->first();
+        $user = User::where('company_name',$email)->first();
         if($user)
         {
             return response()->json(
