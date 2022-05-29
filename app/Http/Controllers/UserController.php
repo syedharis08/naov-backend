@@ -439,12 +439,12 @@ class UserController extends Controller
         if($user)
         {
             return response()->json(
-                ['user' => $user],
+                ['message' => 'This email is already taken'],
                 Response::HTTP_OK
             );
         }else{
             return response()->json(
-                ['user' => 'user not found'],
+                ['message' => 'user not found'],
                 Response::HTTP_NOT_FOUND
             );
         }
