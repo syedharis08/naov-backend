@@ -31,7 +31,7 @@ class   InquiryController extends Controller
         $inquiry->seaFreight()->create($services);
         if ($user->forwarders) {
             $filterForwarders = $user->forwarders->filter(function ($query) {
-                return $query->pivot->status != 0;
+                return $query->pivot->status == 2;
             });
             foreach ($filterForwarders as $forwarder) {
                 $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
@@ -42,6 +42,8 @@ class   InquiryController extends Controller
         foreach ($containers as $container) {
             $inquiry->inquiryContainers()->create($container);
         }
+        $lastUserInquiry = $user->inquiries()->last();
+//        $inquiry->company_inquiry_id = "NA"-
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
     }
 
@@ -57,7 +59,7 @@ class   InquiryController extends Controller
         if (count($inquiryForwarders) < 1) {
             $shipper = $user->shippers->
             filter(function ($query) {
-                return $query->pivot->status != 0;
+                return $query->pivot->status == 2 ;
             });
             if (count($shipper) > 0) {
                 $message = "Inquiries from suppliers will appear here";
