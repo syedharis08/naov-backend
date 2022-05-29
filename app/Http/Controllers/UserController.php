@@ -167,9 +167,9 @@ class UserController extends Controller
         if (!$forwarder) {
             $forwarder = $this->model::create($request->all());
             $forwarder['url'] = 'https://naovinc.com/signup/service-provider/' . $forwarder->id;
-            $forwarder['button'] = "Sign Up";
+            $forwarder['button'] = "Accept Invitation Naov";
         } else {
-            $forwarder['button'] = "Accept Invite";
+            $forwarder['button'] = "Accept Invitation Naov";
         }
         $forwarder['invitation_user'] = $user->name;
         $forwarder['invitation_company'] = $user->company_name;
@@ -212,12 +212,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->delete();
-        $forwarderUser = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
-        if($forwarderUser)
-        {
+        $forwarderUser = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id', $user->id)->first();
+        if ($forwarderUser) {
             $forwarderUser->delete();
-
-        }else {
+        } else {
             ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->delete();
         }
         return response()->json(
@@ -232,18 +230,17 @@ class UserController extends Controller
         $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
         $forwarderUser->status = 2;
         $forwarderUser->save();
-        $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id',$user->id)->first();
-        if($userShipper){
+        $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id', $user->id)->first();
+        if ($userShipper) {
             $userShipper->status = 2;
             $userShipper->save();
-        }else {
+        } else {
             $userShipper = ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->first();
             $userShipper->status = 2;
             $userShipper->save();
         }
         $inquiryUser = $this->model::find($forwarder_id);
-        foreach ($inquiryUser->inquiries()->where('status',0)->get() as $inquiry)
-        {
+        foreach ($inquiryUser->inquiries()->where('status', 0)->get() as $inquiry) {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
                 'forwarder_id' => $user->id
             ]);
@@ -259,12 +256,10 @@ class UserController extends Controller
     {
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
-        $forwarderUser = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
-        if($forwarderUser)
-        {
-           $forwarderUser->delete();
-
-        }else {
+        $forwarderUser = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id', $user->id)->first();
+        if ($forwarderUser) {
+            $forwarderUser->delete();
+        } else {
             ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->delete();
         }
         return response()->json(
@@ -279,20 +274,18 @@ class UserController extends Controller
         $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
         $shipperUser->status = 2;
         $shipperUser->save();
-        $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id',$user->id)->first();
-        if($userShipper)
-        {
+        $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id', $user->id)->first();
+        if ($userShipper) {
             $userShipper->status = 2;
             $userShipper->save();
-        }else {
+        } else {
             $userShipper = ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->first();
             $userShipper->status = 2;
             $userShipper->save();
         }
 
         $inquiryUser = $this->model::find($shipper_id);
-        foreach ($inquiryUser->inquiries()->where('status',0)->get() as $inquiry)
-        {
+        foreach ($inquiryUser->inquiries()->where('status', 0)->get() as $inquiry) {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
                 'forwarder_id' => $user->id
             ]);
@@ -313,9 +306,9 @@ class UserController extends Controller
             $shipper['url'] = 'https://naovinc.com/signup/importer-exporter/' . $shipper->id;
             $address = $request->get('address');
             $shipper->address()->create($address);
-            $shipper['button'] = "Sign Up";
+            $shipper['button'] = "Accept Invitation Naov";
         } else {
-            $shipper['button'] = "Accept Invite";
+            $shipper['button'] = "Accept Invitation Naov";
         }
         $shipper['invitation_user'] = $user->name;
         $shipper['invitation_company'] = $user->company_name;
@@ -435,14 +428,13 @@ class UserController extends Controller
 
     public function checkUser(Request $request)
     {
-        $user = User::where('company_email',$request->email)->first();
-        if($user)
-        {
+        $user = User::where('company_email', $request->email)->first();
+        if ($user) {
             return response()->json(
                 ['message' => 'This email is already taken'],
                 Response::HTTP_CONFLICT
             );
-        }else{
+        } else {
             return response()->json(
                 ['message' => 'user not found'],
                 Response::HTTP_NOT_FOUND
