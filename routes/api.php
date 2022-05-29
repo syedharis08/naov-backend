@@ -84,6 +84,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('inquiry/change-status', [InquiryController::class, 'inquiryChangeStatus']);
     Route::get('/document/{id}', [InquiryController::class, 'getDocument']);
     Route::post('/update-document/{id}', [InquiryController::class, 'updateDocument']);
+    Route::delete('/delete-document/{id}', [InquiryController::class, 'deleteDocument']);
     Route::apiResource('carrier', CarrierController::class);
 
 });
@@ -96,3 +97,7 @@ Route::apiResource('container', ContainerController::class);
 Route::apiResource('role', RoleController::class);
 Route::apiResource('service', ServiceController::class);
 Route::apiResource('permission', PermissionController::class);
+
+Route::post('user/user-check/{email}',[
+   [UserController::class,'checkUser']
+]);

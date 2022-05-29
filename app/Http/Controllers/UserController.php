@@ -172,6 +172,7 @@ class UserController extends Controller
             $forwarder['button'] = "Accept Invite";
         }
         $forwarder['invitation_user'] = $user->name;
+        $forwarder['invitation_company'] = $user->company_name;
         $user->forwarders()->attach($forwarder->id);
 
         if ($user->role_id == 3) {
@@ -317,6 +318,7 @@ class UserController extends Controller
             $shipper['button'] = "Accept Invite";
         }
         $shipper['invitation_user'] = $user->name;
+        $shipper['invitation_company'] = $user->company_name;
         $user->shippers()->attach($shipper->id);
         if ($user->role_id == 3) {
             ShipperUser::create([
@@ -429,5 +431,22 @@ class UserController extends Controller
             ['message' => 'successfully deleted the inquiry'],
             Response::HTTP_OK
         );
+    }
+
+    public function checkUser($email)
+    {
+        $user = User::where('email',$email)->first();
+        if($user)
+        {
+            return response()->json(
+                ['user' => $user],
+                Response::HTTP_OK
+            );
+        }else{
+            return response()->json(
+                ['user' => 'user not found'],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 }

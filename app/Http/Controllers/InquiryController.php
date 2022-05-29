@@ -29,11 +29,15 @@ class   InquiryController extends Controller
         $services = $request->get('serviceFields');
         $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
-
-        foreach ($user->forwarders as $forwarder) {
+        if($user->forwarders) {
+            $filterForwarders = $user->forwarders->fixlter(function($u){
+                return $u->pivot->status != 0;
+            });
+            foreach ($filterForwarders as $forwarder) {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
                 'forwarder_id' => $forwarder->id
             ]);
+            }
         }
         foreach ($containers as $container) {
             $inquiry->inquiryContainers()->create($container);
@@ -50,7 +54,9 @@ class   InquiryController extends Controller
             })
             ->with('inquiry')
             ->latest()->get();
-        return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders)], Response::HTTP_OK);
+        $message = count($user->shippers) > 0 ? "Inquiries from suppliers will appear here" : "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
+        return response()->json(['inquires' => InquiryForwarderResource::collection($inquiryForwarders),
+            'message' =>  $message ], Response::HTTP_OK);
     }
 
     public function getConsigneeInquires()
@@ -331,6 +337,19 @@ class   InquiryController extends Controller
         }
         $document->update($request->all());
         return response()->json(['message' => 'Successfully Updated the Document'], Response::HTTP_OK);
+    }
+
+
+    public function deleteDocument($id)
+    {
+        $document = InquiryDocument::find($id);
+        $user = request()->user();
+        if($user->id == $document->user_id) {
+            $document->delete();
+            return response()->json(['message' => 'Document Successfully Deleted'], Response::HTTP_OK);
+        }else{
+            return response()->json(['error' => 'You are unauthorized to perform this action'], Response::HTTP_FORBIDDEN);
+        }
     }
 
 
