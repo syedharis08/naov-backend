@@ -19,6 +19,7 @@ class CreateInquiriesTable extends Migration
             $table->foreignId('service_id');
             $table->foreignId('forwarder_id')->nullable();
             $table->foreignId('shipper_id')->nullable();
+            $table->string('company_inquiry_id')->nullable();
             $table->string('volume')->nullable();
             $table->string('commodity')->nullable();
             $table->string('weight')->nullable();
