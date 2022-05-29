@@ -239,6 +239,14 @@ class UserController extends Controller
             $userShipper->status = 2;
             $userShipper->save();
         }
+        if($user->role_id == 3)
+        {
+            foreach ($user->inquiries()->where('status', 0)->get() as $inquiry) {
+                $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
+                    'forwarder_id' => $user->id
+                ]);
+            }
+        }
         $inquiryUser = $this->model::find($forwarder_id);
         foreach ($inquiryUser->inquiries()->where('status', 0)->get() as $inquiry) {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([

@@ -59,7 +59,7 @@ class   InquiryController extends Controller
         if (count($inquiryForwarders) < 1) {
             $shipper = $user->shippers->
             filter(function ($query) {
-                return $query->pivot->status == 2 ;
+                return $query->pivot->status == 2;
             });
             if (count($shipper) > 0) {
                 $message = "Inquiries from suppliers will appear here";
