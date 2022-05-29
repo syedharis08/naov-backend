@@ -9,10 +9,11 @@
     everyone.
     Join {{ $user->invitation_company }} in this cause and together help us make a difference in the world.
 
-    @component('mail::button', ['url' => $user->url])
+@component('mail::button', ['url' => $user->url])
         {{ $user->button }}
-    @endcomponent
+@endcomponent
 
-    Thanks,<br>
-    {{ config('app.name') }}
+
+Thanks,<br>
+{{ config('app.name') }}
 @endcomponent
