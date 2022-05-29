@@ -323,7 +323,7 @@ class UserController extends Controller
             ForwarderUser::create([
                 'user_id' => $shipper->id,
                 'forwarder_id' => $user->id,
-                'status' => '1',
+                'status' => '0',
             ]);
         }
         $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
