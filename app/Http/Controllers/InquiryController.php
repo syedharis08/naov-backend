@@ -30,8 +30,8 @@ class   InquiryController extends Controller
         $containers = $services['container'];
         $inquiry->seaFreight()->create($services);
         if($user->forwarders) {
-            $filterForwarders = $user->forwarders->fixlter(function($u){
-                return $u->pivot->status != 0;
+            $filterForwarders = $user->forwarders->filter(function($query){
+                return $query->pivot->status != 0;
             });
             foreach ($filterForwarders as $forwarder) {
             $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
