@@ -317,7 +317,7 @@ class UserController extends Controller
             ShipperUser::create([
                 'user_id' => $shipper->id,
                 'shipper_id' => $user->id,
-                'status' => '1',
+                'status' => '0',
             ]);
         } else if ($user->role_id == 2) {
             ForwarderUser::create([
