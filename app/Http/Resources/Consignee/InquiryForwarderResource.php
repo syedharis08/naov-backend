@@ -36,46 +36,43 @@ class InquiryForwarderResource extends JsonResource
             'status' => $this->status,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => '',
-            'forwarders'=> $this->user->forwarders,
+            'forwarders' => $this->user->forwarders,
             'inquiryForwarder' => $this->inquiryForwarder,
             'inquiryForwarderRate' => $this->inquiryForwarderRates
         ];
-        if(count($this->user->forwarders) > 0)        {
-            if(count($this->inquiryForwarder) > 0){
-                if(count($this->inquiryForwarderRates) > 0)
-                {
-                    $data['message'] = "Rates are available";
-                }else{
+        if (count($this->user->forwarders) > 0) {
+            if (count($this->inquiryForwarder) > 0) {
+                if (count($this->inquiryForwarderRates) > 0) {
+                    $data['message'] = "Rates are available, click to view";
+                } else {
                     $firstInquiry = $this->user->inquiries()->first();
-                    if($firstInquiry->id == $this->id)
+                    if ($firstInquiry->id == $this->id)
                         $data['message'] = "Forwarder Approved - waiting for rate";
                     else
                         $data['message'] = "Waiting for rate";
-
                 }
-            }else{
+            } else {
                 $data['message'] = "Awaiting forwarder approval";
             }
-
-        }else{
+        } else {
             $data['message'] = "Add forwarder in Forwarder/Supplier tab to get your first rate";
         }
 
 
         if ($this->user->id) {
             $userAddress = $this->user->address;
-//            $userAddress->country;
-//            $userAddress->state;
-//            $userAddress->city;
+            //            $userAddress->country;
+            //            $userAddress->state;
+            //            $userAddress->city;
             $data['user_address'] = $userAddress;
         }
 
         if ($this->shipper_id) {
             $data['shipper_id'] = $this->shipper_id;
             $shipperAddress = $this->shipper->address;
-//            $shipperAddress->country;
-//            $shipperAddress->state;
-//            $shipperAddress->city;
+            //            $shipperAddress->country;
+            //            $shipperAddress->state;
+            //            $shipperAddress->city;
             $data['shipper_address'] = $shipperAddress;
         }
         return $data;
