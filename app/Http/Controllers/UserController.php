@@ -334,7 +334,9 @@ class UserController extends Controller
                 'status' => '1',
             ]);
         }
-        $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
+        if ($user->role_id != 3) {
+            $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
+        }
         $response['message'] = "Successfully added the user suppliers";
         return response()->json(
             $response,
