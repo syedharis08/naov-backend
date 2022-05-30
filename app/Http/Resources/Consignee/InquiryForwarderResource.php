@@ -58,7 +58,7 @@ class InquiryForwarderResource extends JsonResource
             }
 
         }else{
-            $data['message'] = "Add forwarder in clients' tab to get your first rate";
+            $data['message'] = "Add forwarder in Forwarder/Supplier tab to get your first rate";
         }
 
 
