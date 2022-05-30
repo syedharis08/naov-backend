@@ -239,8 +239,7 @@ class UserController extends Controller
             $userShipper->status = 2;
             $userShipper->save();
         }
-        if($user->role_id == 3)
-        {
+        if ($user->role_id == 3) {
             foreach ($user->inquiries()->where('status', 0)->get() as $inquiry) {
                 $inquiryForwarderRates = $inquiry->inquiryForwarder()->create([
                     'forwarder_id' => $forwarder_id
@@ -337,6 +336,7 @@ class UserController extends Controller
         if ($user->role_id != 3) {
             $response['mail'] = Mail::to($shipper->company_email)->send(new InvitationMail($shipper));
         }
+        $response['user'] = $user;
         $response['message'] = "Successfully added the user suppliers";
         return response()->json(
             $response,
