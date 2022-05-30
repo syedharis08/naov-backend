@@ -21,6 +21,7 @@ class CreateInquiryForwardersTable extends Migration
             $table->integer('ref_forwarder_status')->default(0);
             $table->integer('rate_status')->default(0);
             $table->integer('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

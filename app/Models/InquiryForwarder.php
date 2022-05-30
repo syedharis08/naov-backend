@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InquiryForwarder extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected  $fillable = [
         'inquiry_id',
         'forwarder_id',
@@ -36,4 +37,5 @@ class InquiryForwarder extends Model
     {
         return $this->belongsTo(User::class, 'forwarder_id');
     }
+
 }

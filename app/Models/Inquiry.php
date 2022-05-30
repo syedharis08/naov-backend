@@ -86,4 +86,8 @@ class Inquiry extends Model
         return $this->belongsTo(User::class,'forwarder_id');
     }
 
+    public function inquiryForwarderDeleted()
+    {
+        return $this->hasMany(InquiryForwarder::class)->withTrashed();
+    }
 }

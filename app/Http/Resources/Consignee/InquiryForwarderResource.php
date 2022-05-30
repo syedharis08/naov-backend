@@ -52,7 +52,12 @@ class InquiryForwarderResource extends JsonResource
                         $data['message'] = "Waiting for rate";
                 }
             } else {
-                $data['message'] = "Awaiting forwarder approval";
+                if (count($this->inquiryForwarderDeleted) > 0 && count($this->user->forwarders) == count($this->inquiryForwarderDeleted) )
+                {
+                    $data['message'] = "Inquiry Rejected";
+                }else {
+                    $data['message'] = "Awaiting forwarder approval";
+                }
             }
         } else {
             $data['message'] = "Add forwarder in Forwarder/Supplier tab to get your first rate";
