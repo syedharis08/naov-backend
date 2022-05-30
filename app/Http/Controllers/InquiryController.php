@@ -57,10 +57,10 @@ class   InquiryController extends Controller
             ->with('inquiry')
             ->latest()->get();
         if (count($inquiryForwarders) < 1) {
-            $shipper = $user->shippers->filter(function ($query) {
-                    return $query->pivot->status == 2;
-                });
-            if (count($shipper) > 0) {
+//            $shipper = $user->shippers->filter(function ($query) {
+//                    return $query->pivot->status == 2;
+//                });
+            if (count($user->shippers) > 0) {
                 $message = "Inquiries from suppliers will appear here";
             } else {
                 $message = "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
