@@ -412,10 +412,12 @@ class   InquiryController extends Controller
                 $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
                 $extendedForwarderRate->extraCharges()->delete();
                 $extendedForwarderRate->viaPorts()->delete();
+                $extendedForwarderRate->delete();
             }
             $inquiryForwarderRate->inquiryForwarderContainerRates()->delete();
             $inquiryForwarderRate->extraCharges()->delete();
             $inquiryForwarderRate->viaPorts()->delete();
+            $inquiryForwarderRate->delete();
         }
         foreach ($inquiryForwarder->inquiryExtendedForwarders as $inquiryForwarderExtendedRate) {
             foreach ($inquiryForwarderExtendedRate->inquiryForwarderRate as $inquiryForwarderRate) {
@@ -424,13 +426,14 @@ class   InquiryController extends Controller
                     $extendedForwarderRate->inquiryForwarderContainerRates()->delete();
                     $extendedForwarderRate->extraCharges()->delete();
                     $extendedForwarderRate->viaPorts()->delete();
+                    $extendedForwarderRate->delete();
                 }
                 $inquiryForwarderExtendedRate->inquiryForwarderContainerRates()->delete();
                 $inquiryForwarderExtendedRate->extraCharges()->delete();
                 $inquiryForwarderExtendedRate->viaPorts()->delete();
+                $inquiryForwarderExtendedRate->delete();
             }
         }
-
         $inquiryForwarder->delete();
         return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
     }
