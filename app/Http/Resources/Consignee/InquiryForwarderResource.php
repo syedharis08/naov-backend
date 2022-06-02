@@ -54,7 +54,7 @@ class InquiryForwarderResource extends JsonResource
             } else {
                 if (count($this->inquiryForwarderDeleted) > 0 && count($this->user->forwarders) == count($this->inquiryForwarderDeleted) )
                 {
-                    $data['message'] = "All forwarders rejected the inquiry.";
+                    $data['message'] = "Inquiry declined by all forwarders.";
                 }else {
                     $data['message'] = "Awaiting forwarder approval";
                 }

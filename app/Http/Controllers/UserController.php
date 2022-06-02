@@ -6,6 +6,7 @@ use App\Http\Resources\Forwarder\ForwarderUserResource;
 use App\Mail\InvitationMail;
 use App\Models\ForwarderUser;
 use App\Models\Inquiry;
+use App\Models\InquiryForwarder;
 use App\Models\InquiryForwarderExtraCharge;
 use App\Models\ShipperUser;
 use App\Models\User;
@@ -218,6 +219,12 @@ class UserController extends Controller
         } else {
             ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->delete();
         }
+        if($user->role_id == 3)
+        {
+            foreach ($user->inquiries as $item) {
+                $item->inquiryForwarder()->where('forwarder_id',$forwarder_id)->delete();
+            }
+        }
         return response()->json(
             ['message' => 'successfully removed the forwarder'],
             Response::HTTP_OK
@@ -268,6 +275,10 @@ class UserController extends Controller
             $forwarderUser->delete();
         } else {
             ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->delete();
+        }
+        $shipperUser = User::find($shipper_id);
+        foreach ($shipperUser->inquiries as $inquiry){
+            $user->inquiryForwarder()->where('inquiry_id',$inquiry->id)->delete();
         }
         return response()->json(
             ['message' => 'successfully removed the forwarder'],
