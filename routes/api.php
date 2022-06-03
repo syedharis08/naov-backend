@@ -56,13 +56,7 @@ Route::middleware('auth:api')->group(function () {
         [InquiryController::class, 'extendedForwarderRateAcceptance']
     );
 
-
-
     Route::get('get-accepted-inquiries', [InquiryController::class, 'getAcceptedInquiries']);
-
-
-
-
     Route::post('inquiry-create', [InquiryController::class, 'create']);
 
     Route::prefix('forwarder')->group(function () {
