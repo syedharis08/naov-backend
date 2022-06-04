@@ -50,7 +50,6 @@ class UserController extends Controller
         }
 
         $address = $request->get('address');
-        return $address;
         $user->address()->create($address);
 
 
