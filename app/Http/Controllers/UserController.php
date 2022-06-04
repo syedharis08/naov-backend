@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'company_email' => 'required|string|email|max:255|unique:users',
+            'company_email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
             'is_terms_and_conditions' => 'required'
         ]);
@@ -41,7 +41,12 @@ class UserController extends Controller
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
         $request['is_terms_and_conditions'] = $request->has('is_terms_and_conditions');
-        $user = $this->model::create($request->toArray());
+        $user = $this->model::where('company_email', $request->get('email'))->first();
+        if ($user) {
+            $user = $user->update($request->toArray());
+        } else {
+            $user = $this->model::create($request->toArray());
+        }
         $address = $request->get('address');
         $user->address()->create($address);
 
@@ -79,7 +84,7 @@ class UserController extends Controller
                 return response()->json($response, Response::HTTP_OK);
             } else {
                 $response = ["message" => "Password mismatch"];
-                return response()->json($response, Response::HTTP_UNAUTHORIZED);
+                return response()->json($response, Response::HTTP_BAD_REQUEST);
             }
         } else {
             $response = ["message" => 'User does not exist'];
@@ -215,16 +220,15 @@ class UserController extends Controller
     {
         $user = request()->user();
         ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->delete();
-        $forwarderUser = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id', $user->id)->first();
+        $forwarderUser = ForwarderUser::where('user_id', $forwarder_id)->where('forwarder_id', $user->id)->first();
         if ($forwarderUser) {
             $forwarderUser->delete();
         } else {
             ShipperUser::where('user_id', $forwarder_id)->where('shipper_id', $user->id)->delete();
         }
-        if($user->role_id == 3)
-        {
+        if ($user->role_id == 3) {
             foreach ($user->inquiries as $item) {
-                $item->inquiryForwarder()->where('forwarder_id',$forwarder_id)->delete();
+                $item->inquiryForwarder()->where('forwarder_id', $forwarder_id)->delete();
             }
         }
         return response()->json(
@@ -239,7 +243,7 @@ class UserController extends Controller
         $forwarderUser = ForwarderUser::where('user_id', $user->id)->where('forwarder_id', $forwarder_id)->first();
         $forwarderUser->status = 2;
         $forwarderUser->save();
-        $userShipper = ForwarderUser::where('user_id',  $forwarder_id)->where('forwarder_id', $user->id)->first();
+        $userShipper = ForwarderUser::where('user_id', $forwarder_id)->where('forwarder_id', $user->id)->first();
         if ($userShipper) {
             $userShipper->status = 2;
             $userShipper->save();
@@ -272,15 +276,15 @@ class UserController extends Controller
     {
         $user = request()->user();
         ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->delete();
-        $forwarderUser = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id', $user->id)->first();
+        $forwarderUser = ForwarderUser::where('user_id', $shipper_id)->where('forwarder_id', $user->id)->first();
         if ($forwarderUser) {
             $forwarderUser->delete();
         } else {
             ShipperUser::where('user_id', $shipper_id)->where('shipper_id', $user->id)->delete();
         }
         $shipperUser = User::find($shipper_id);
-        foreach ($shipperUser->inquiries as $inquiry){
-            $user->inquiryForwarder()->where('inquiry_id',$inquiry->id)->delete();
+        foreach ($shipperUser->inquiries as $inquiry) {
+            $user->inquiryForwarder()->where('inquiry_id', $inquiry->id)->delete();
         }
         return response()->json(
             ['message' => 'successfully removed the forwarder'],
@@ -294,7 +298,7 @@ class UserController extends Controller
         $shipperUser = ShipperUser::where('user_id', $user->id)->where('shipper_id', $shipper_id)->first();
         $shipperUser->status = 2;
         $shipperUser->save();
-        $userShipper = ForwarderUser::where('user_id',  $shipper_id)->where('forwarder_id', $user->id)->first();
+        $userShipper = ForwarderUser::where('user_id', $shipper_id)->where('forwarder_id', $user->id)->first();
         if ($userShipper) {
             $userShipper->status = 2;
             $userShipper->save();
@@ -451,7 +455,7 @@ class UserController extends Controller
 
     public function checkUser(Request $request)
     {
-        $user = User::where('company_email', $request->email)->where('is_logged_in',1)->first();
+        $user = User::where('company_email', $request->email)->where('is_logged_in', 1)->first();
         if ($user) {
             return response()->json(
                 ['message' => 'This email is already taken'],
