@@ -79,7 +79,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/document/{id}', [InquiryController::class, 'getDocument']);
     Route::post('/update-document/{id}', [InquiryController::class, 'updateDocument']);
     Route::post('document/add-note/', [InquiryController::class, 'addNote']);
-    Route::post('document/get-note/{document_id}', [InquiryController::class, 'getNote']);
+    Route::get('g', [InquiryController::class, 'getNote']);
     Route::delete('/delete-document/{id}', [InquiryController::class, 'deleteDocument']);
     Route::apiResource('carrier', CarrierController::class);
     Route::apiResource('carrier', CarrierController::class);
