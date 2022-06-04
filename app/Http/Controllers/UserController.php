@@ -41,7 +41,7 @@ class UserController extends Controller
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
         $request['is_terms_and_conditions'] = $request->has('is_terms_and_conditions');
-        $user = $this->model::where('company_email', $request->get('email'))->first();
+        $user = $this->model::where('company_email', $request->get('email'))->get()->first();
         if ($user) {
             $user = $user->update($request->toArray());
         } else {

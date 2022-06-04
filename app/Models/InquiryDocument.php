@@ -21,4 +21,9 @@ class InquiryDocument extends Model
     {
         return asset('storage/' . $value);
     }
+
+    public function notes()
+    {
+        return $this->hasMany(DocumentNote::class,'document_id');
+    }
 }

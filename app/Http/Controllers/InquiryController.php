@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DocumentNotesResource;
 use App\Http\Resources\InquiryExtendedForwarderRateResource;
 use App\Http\Resources\InquiryForwarderRateResource;
 use App\Http\Resources\InquiryForwarderResource;
 use App\Http\Resources\Consignee\InquiryForwarderResource as ConsigneeInquiryResource;
+use App\Models\DocumentNote;
 use App\Models\Inquiry;
 use App\Models\InquiryDocument;
 use App\Models\InquiryForwarder;
@@ -437,4 +439,22 @@ class   InquiryController extends Controller
         $inquiryForwarder->delete();
         return response()->json(['message' => 'Rate Deleted Successfully'], Response::HTTP_OK);
     }
+
+    public function addNote(Request $request)
+    {
+        $user = request()->user();
+        $document = InquiryDocument::find($request->document_id);
+        $document->notes()->create([
+            'user_id' => $user->id,
+            'notes' => $request->notes,
+        ]);
+        return response()->json(['message' => 'Note Added Successfully'], Response::HTTP_OK);
+    }
+
+    public function getNote($document_id)
+    {
+        $notes = DocumentNote::where('document_id',$document_id)->get();
+        return response()->json(['notes' => DocumentNotesResource::collection($notes)], Response::HTTP_OK);
+    }
+
 }
