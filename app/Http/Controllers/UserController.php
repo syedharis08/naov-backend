@@ -50,7 +50,9 @@ class UserController extends Controller
         }
 
         $address = $request->get('address');
+        return $address;
         $user->address()->create($address);
+
 
         $service_ids = $request->get('service_ids');
         if (count($service_ids) > 0) {
