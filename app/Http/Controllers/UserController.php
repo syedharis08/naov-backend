@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Forwarder\ForwarderUserResource;
 use App\Mail\InvitationMail;
+use App\Models\Address;
 use App\Models\ForwarderUser;
 use App\Models\Inquiry;
 use App\Models\InquiryForwarder;
@@ -42,21 +43,27 @@ class UserController extends Controller
         }
         $request['is_terms_and_conditions'] = $request->has('is_terms_and_conditions');
         $request['is_logged_in'] = 1;
-        $user = $this->model::where('company_email', $request->get('company_email'))->get()->first();
+        $user = $this->model::where('company_email', $request->get('company_email'))->first();
         if ($user) {
             $user = $user->update($request->toArray());
         } else {
             $user = $this->model::create($request->toArray());
         }
 
-        $address = $request->get('address');
-        $user->address()->create($address);
+        $address = collect($request->get('address'));
+        Address::create([
+            'user_id' => $user->id,
+            'country_id' => $address->country_id,
+            'city_id' => $address->city_id,
+            'state_id' => $address->state_id,
+            'address' => $address->address,
+        ]);
 
 
-//        $service_ids = $request->get('service_ids');
-//        if (count($service_ids) > 0) {
-//            $user->services()->attach($service_ids);
-//        }
+        $service_ids = $request->get('service_ids');
+        if (count($service_ids) > 0) {
+            $user->services()->attach($service_ids);
+        }
 
         $response['user'] = $user;
         $response['token'] = $user->createToken('Naov')->accessToken;
