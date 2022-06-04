@@ -49,6 +49,8 @@ class UserController extends Controller
         if (count($service_ids) > 0) {
             $user->services()->attach($service_ids);
         }
+        $user->is_logged_in = 1;
+        $user->save();
         $response['user'] = $user;
         $response['token'] = $user->createToken('Naov')->accessToken;
         $response['message'] = "successfully user added";
@@ -449,7 +451,7 @@ class UserController extends Controller
 
     public function checkUser(Request $request)
     {
-        $user = User::where('company_email', $request->email)->first();
+        $user = User::where('company_email', $request->email)->where('is_logged_in',1)->first();
         if ($user) {
             return response()->json(
                 ['message' => 'This email is already taken'],
