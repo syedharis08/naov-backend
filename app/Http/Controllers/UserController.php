@@ -41,12 +41,14 @@ class UserController extends Controller
             return response(['errors' => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
         $request['is_terms_and_conditions'] = $request->has('is_terms_and_conditions');
+        $request['is_logged_in'] = 1;
         $user = $this->model::where('company_email', $request->get('company_email'))->get()->first();
         if ($user) {
             $user = $user->update($request->toArray());
         } else {
             $user = $this->model::create($request->toArray());
         }
+
         $address = $request->get('address');
         $user->address()->create($address);
 
@@ -54,8 +56,7 @@ class UserController extends Controller
         if (count($service_ids) > 0) {
             $user->services()->attach($service_ids);
         }
-        $user->is_logged_in = 1;
-        $user->save();
+
         $response['user'] = $user;
         $response['token'] = $user->createToken('Naov')->accessToken;
         $response['message'] = "successfully user added";
