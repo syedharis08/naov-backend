@@ -33,6 +33,7 @@ class InquiryForwarderResource extends JsonResource
             'commodity' => $this->inquiry->commodity ?? null,
             'shipper' => $this->inquiry->shipper ?? null,
             'shipper_id' => $this->inquiry->shipper_id ?? null,
+            'vessel_departure' => $this->inquiry->vessel_departure ?? null,
             'status' => $this->inquiry->status,
             'rateMessage' => count($this->inquiryForwarderRate) > 0 ? "Click to view rates" : " ",
             'containers' => InquiryContainerResource::collection($this->inquiry->inquiryContainers)
@@ -40,7 +41,7 @@ class InquiryForwarderResource extends JsonResource
 
 
         if ($this->inquiry->shipper_id) {
-            $data['shipper_address'] = $this->inquiry->shipper->address;
+            $data['shipper_address'] = AddressResource::make($this->inquiry->shipper->address);
         }
 
         return $data;

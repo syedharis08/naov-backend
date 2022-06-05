@@ -45,19 +45,13 @@ class UserController extends Controller
         $request['is_logged_in'] = 1;
         $user = $this->model::where('company_email', $request->get('company_email'))->first();
         if ($user) {
-            $user = $user->update($request->toArray());
+             $user->update($request->toArray());
         } else {
             $user = $this->model::create($request->toArray());
         }
 
-        $address = collect($request->get('address'));
-        Address::create([
-            'user_id' => $user->id,
-            'country_id' => $address->country_id,
-            'city_id' => $address->city_id,
-            'state_id' => $address->state_id,
-            'address' => $address->address,
-        ]);
+        $address = $request->get('address') ;
+        $user->address()->create($address);
 
 
         $service_ids = $request->get('service_ids');

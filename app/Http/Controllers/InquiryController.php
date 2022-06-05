@@ -457,4 +457,12 @@ class   InquiryController extends Controller
         return response()->json(['notes' => DocumentNotesResource::collection($notes)], Response::HTTP_OK);
     }
 
+    public function updateVesselDeparture($inquiry_id)
+    {
+        $inquiry = Inquiry::find($inquiry_id);
+        $inquiry->vessel_departure = now()->toDateString();
+        $inquiry->save();
+        return response()->json(['message' => 'Successfully added the vessal departure date'], Response::HTTP_OK);
+    }
+
 }

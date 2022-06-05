@@ -18,6 +18,7 @@ class Inquiry extends Model
         'company_inquiry_id',
         'volume',
         'commodity',
+        'vessel_departure',
         'weight',
         'notes',
         'is_dangerous',

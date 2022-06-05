@@ -83,7 +83,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/delete-document/{id}', [InquiryController::class, 'deleteDocument']);
     Route::apiResource('carrier', CarrierController::class);
     Route::apiResource('carrier', CarrierController::class);
-
+    Route::post('/add-vessel-departure/{inquiry_id}',[InquiryController::class,'updateVesselDeparture']);
 });
 
 Route::get('get-countries', [AddressController::class, 'getCountries']);

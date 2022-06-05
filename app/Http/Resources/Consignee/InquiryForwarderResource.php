@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Consignee;
 
+use App\Http\Resources\AddressResource;
 use App\Http\Resources\InquiryContainerResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -69,7 +70,7 @@ class InquiryForwarderResource extends JsonResource
             //            $userAddress->country;
             //            $userAddress->state;
             //            $userAddress->city;
-            $data['user_address'] = $userAddress;
+            $data['user_address'] = AddressResource::make($userAddress);
         }
 
         if ($this->shipper_id) {
@@ -78,7 +79,7 @@ class InquiryForwarderResource extends JsonResource
             //            $shipperAddress->country;
             //            $shipperAddress->state;
             //            $shipperAddress->city;
-            $data['shipper_address'] = $shipperAddress;
+            $data['shipper_address'] = AddressResource::make($shipperAddress);
         }
         return $data;
     }
