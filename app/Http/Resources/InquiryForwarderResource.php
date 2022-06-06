@@ -34,6 +34,7 @@ class InquiryForwarderResource extends JsonResource
             'shipper' => $this->inquiry->shipper ?? null,
             'shipper_id' => $this->inquiry->shipper_id ?? null,
             'vessel_departure' => $this->inquiry->vessel_departure ?? null,
+            'ship_transit_time' => $this->acceptedInquiryForwarderRate->ship_transit_time ?? null,
             'status' => $this->inquiry->status,
             'rateMessage' => count($this->inquiryForwarderRate) > 0 ? "Click to view rates" : " ",
             'containers' => InquiryContainerResource::collection($this->inquiry->inquiryContainers)

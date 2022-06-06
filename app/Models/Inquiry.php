@@ -46,6 +46,11 @@ class Inquiry extends Model
         return $this->hasMany(InquiryForwarderRate::class);
     }
 
+    public function acceptedInquiryForwarderRate()
+    {
+        return $this->hasOne(InquiryForwarderRate::class, 'inquiry_forwarder_id')->where('inquiry_forwarder_rates.status', '1');
+    }
+
     public function inquiryRates()
     {
         return $this->hasMany(InquiryForwarderRate::class);
