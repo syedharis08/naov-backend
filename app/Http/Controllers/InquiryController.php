@@ -59,9 +59,9 @@ class   InquiryController extends Controller
             ->with('inquiry')
             ->latest()->get();
         if (count($inquiryForwarders) < 1) {
-//            $shipper = $user->shippers->filter(function ($query) {
-//                    return $query->pivot->status == 2;
-//                });
+            //            $shipper = $user->shippers->filter(function ($query) {
+            //                    return $query->pivot->status == 2;
+            //                });
             if (count($user->shippers) > 0) {
                 $message = "Inquiries from suppliers will appear here";
             } else {
@@ -100,12 +100,12 @@ class   InquiryController extends Controller
             }
             foreach ($inquiryRate['containerRates'] as $containerRate) {
                 $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
-                // $inquiryContainerRates = $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
-                // if ($containerRate['extraCharges']) {
-                //     foreach ($containerRate['extraCharges'] as $containerRateExtraCharge) {
-                //         $inquiryContainerRates->inquiryForwarderContainerRateExtraCharges()->create($containerRateExtraCharge);
-                //     }
-                // }
+                $inquiryContainerRates = $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+                if ($containerRate['extraCharges']) {
+                    foreach ($containerRate['extraCharges'] as $containerRateExtraCharge) {
+                        $inquiryContainerRates->inquiryForwarderContainerRateExtraCharges()->create($containerRateExtraCharge);
+                    }
+                }
             }
         }
         return response()->json(['message' => 'Successfully added the Inquiry'], Response::HTTP_OK);
@@ -158,7 +158,7 @@ class   InquiryController extends Controller
     function getConsigneeInquiryRate($id)
     {
         $inquiry = Inquiry::find($id);
-        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 0)->orderBy('rate','ASC')->get();
+        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 0)->orderBy('rate', 'ASC')->get();
         return response()->json(['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
     }
 
@@ -258,7 +258,7 @@ class   InquiryController extends Controller
     function getForwarderAcceptedInquires()
     {
         $user = request()->user();
-        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)->orderBy('rate','ASC')->get();
+        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)->orderBy('rate', 'ASC')->get();
         //        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)
         //            ->whereHas('inquiryExtendedForwarders',
         //                function ($query) {
@@ -453,7 +453,7 @@ class   InquiryController extends Controller
 
     public function getNote($document_id)
     {
-        $notes = DocumentNote::where('document_id',$document_id)->get();
+        $notes = DocumentNote::where('document_id', $document_id)->get();
         return response()->json(['notes' => DocumentNotesResource::collection($notes)], Response::HTTP_OK);
     }
 
@@ -464,5 +464,4 @@ class   InquiryController extends Controller
         $inquiry->save();
         return response()->json(['message' => 'Successfully added the vessal departure date'], Response::HTTP_OK);
     }
-
 }
