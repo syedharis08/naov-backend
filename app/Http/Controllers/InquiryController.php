@@ -258,7 +258,7 @@ class   InquiryController extends Controller
     function getForwarderAcceptedInquires()
     {
         $user = request()->user();
-        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)->latest()->get();
+        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)->orderBy('rate','ASC')->get();
         //        $inquiryForwarders = $user->inquiryForwarder()->where('status', '!=', 0)
         //            ->whereHas('inquiryExtendedForwarders',
         //                function ($query) {
