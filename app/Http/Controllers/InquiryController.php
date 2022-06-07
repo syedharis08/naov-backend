@@ -117,7 +117,7 @@ class   InquiryController extends Controller
     {
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->first();
-        $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->orderBy('rate', 'ASC')->get();
+        $inquiryForwarderRate = collect($inquiryForwarder->inquiryForwarderRate()->get())->sortBy('rate');
         return response()->json(
             ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
             Response::HTTP_OK
