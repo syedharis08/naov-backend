@@ -16,8 +16,8 @@ class CreateInquiryForwarderContainerRateExtraChargesTable extends Migration
         Schema::create('inquiry_forwarder_container_rate_extra_charges', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('inquiry_forwarder_container_rate_id');
-            $table->string('name');
-            $table->double('rate');
+            $table->string('name')->nullable();
+            $table->double('rate')->nullable();
             $table->timestamps();
             $table->foreign('inquiry_forwarder_container_rate_id', 'container_rate_id_index')->references('id')->on('inquiry_forwarder_container_rates')->onDelete('cascade');
         });
