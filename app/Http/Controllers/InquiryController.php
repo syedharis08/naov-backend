@@ -63,7 +63,7 @@ class   InquiryController extends Controller
             //                    return $query->pivot->status == 2;
             //                });
             if (count($user->shippers) > 0) {
-                $message = "Inquiries from suppliers will appear here";
+                $message = "Inquiries from suppliers will appear here, go to Forwarder/Supplier tab to add suppliers";
             } else {
                 $message = "Add supplier in supplier/forwarder tab to get inquiries and manage shipments";
             }
@@ -99,7 +99,7 @@ class   InquiryController extends Controller
                 $inquiryForwarderRate->extraCharges()->create($extraCharge);
             }
             foreach ($inquiryRate['containerRates'] as $containerRate) {
-//                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+                //                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
                 $inquiryContainerRates = $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
                 if ($containerRate['extraCharges']) {
                     foreach ($containerRate['extraCharges'] as $containerRateExtraCharge) {
@@ -117,7 +117,7 @@ class   InquiryController extends Controller
     {
         $user = request()->user();
         $inquiryForwarder = $user->inquiryForwarder()->where('inquiry_id', $id)->first();
-        $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->orderBy('rate','ASC')->get();
+        $inquiryForwarderRate = $inquiryForwarder->inquiryForwarderRate()->orderBy('rate', 'ASC')->get();
         return response()->json(
             ['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRate)],
             Response::HTTP_OK
@@ -159,7 +159,7 @@ class   InquiryController extends Controller
     function getConsigneeInquiryRate($id)
     {
         $inquiry = Inquiry::find($id);
-        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 0)->orderBy('rate','DESC')->get();
+        $inquiryForwarderRates = $inquiry->inquiryForwarderRates()->where('inquiry_forwarders.status', 0)->orderBy('rate', 'DESC')->get();
         return response()->json(['inquiryRates' => InquiryForwarderRateResource::collection($inquiryForwarderRates)], Response::HTTP_OK);
     }
 
