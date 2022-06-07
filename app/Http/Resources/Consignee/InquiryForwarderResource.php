@@ -36,7 +36,7 @@ class InquiryForwarderResource extends JsonResource
             'commodity' => $this->commodity ?? null,
             'status' => $this->status,
             'vessel_departure' => $this->vessel_departure ?? null,
-            'ship_transit_time' => $this->acceptedInquiryForwarderRate->first()->ship_transit_time ,
+            'ship_transit_time' => $this->acceptedInquiryForwarderRate->first()->ship_transit_time ?? null ,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => '',
             'forwarders' => $this->user->forwarders,
