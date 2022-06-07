@@ -82,6 +82,7 @@ class   InquiryController extends Controller
     public
     function inquiryAddRate(Request $request, $id)
     {
+
         $inquiryForwarder = InquiryForwarder::find($id);
         $inquiryRates = $request->get('inquireRates');
         foreach ($inquiryRates as $inquiryRate) {
