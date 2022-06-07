@@ -99,7 +99,7 @@ class   InquiryController extends Controller
                 $inquiryForwarderRate->extraCharges()->create($extraCharge);
             }
             foreach ($inquiryRate['containerRates'] as $containerRate) {
-                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
+//                $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
                 $inquiryContainerRates = $inquiryForwarderRate->inquiryForwarderContainerRates()->create($containerRate);
                 if ($containerRate['extraCharges']) {
                     foreach ($containerRate['extraCharges'] as $containerRateExtraCharge) {
