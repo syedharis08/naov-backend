@@ -16,7 +16,7 @@ class InquiryForwarderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $inquiryAcceptedRate = $this->inquiryForwarderRates->where('inquiry_forwarder_rates.status', '=','2');->first();
+        $inquiryAcceptedRate = $this->inquiryForwarderRates->where('inquiry_forwarder_rates.status', '=','2')->first();
         $data = [
             'forwarder_id' => $this->forwarder_id ?? null,
             'forwarder' => $this->forwarder ?? null,
