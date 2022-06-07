@@ -16,9 +16,8 @@ class InquiryForwarderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $inquiryAcceptedRate = $this->inquiryForwarderRates->where('inquiry_forwarder_rates.status', '=','1')->first();
+
         $data = [
-            'inquiryAcceptedRate' => $inquiryAcceptedRate,
             'forwarder_id' => $this->forwarder_id ?? null,
             'forwarder' => $this->forwarder ?? null,
             'shipper' => $this->shipper ?? 'null',
@@ -37,7 +36,7 @@ class InquiryForwarderResource extends JsonResource
             'commodity' => $this->commodity ?? null,
             'status' => $this->status,
             'vessel_departure' => $this->vessel_departure ?? null,
-//            'ship_transit_time' => $inquiryAcceptedRate->ship_transit_time ,
+            'ship_transit_time' => $this->acceptedInquiryForwarderRate->first()->ship_transit_time ,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => '',
             'forwarders' => $this->user->forwarders,
