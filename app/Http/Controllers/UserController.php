@@ -45,12 +45,12 @@ class UserController extends Controller
         $request['is_logged_in'] = 1;
         $user = $this->model::where('company_email', $request->get('company_email'))->first();
         if ($user) {
-             $user->update($request->toArray());
+            $user->update($request->toArray());
         } else {
             $user = $this->model::create($request->toArray());
         }
 
-        $address = $request->get('address') ;
+        $address = $request->get('address');
         $user->address()->create($address);
 
 
@@ -235,7 +235,7 @@ class UserController extends Controller
             }
         }
         return response()->json(
-            ['message' => 'successfully removed the forwarder'],
+            ['message' => 'Successfully removed the forwarder'],
             Response::HTTP_OK
         );
     }
@@ -290,7 +290,7 @@ class UserController extends Controller
             $user->inquiryForwarder()->where('inquiry_id', $inquiry->id)->delete();
         }
         return response()->json(
-            ['message' => 'successfully removed the forwarder'],
+            ['message' => 'Successfully removed the supplier'],
             Response::HTTP_OK
         );
     }
