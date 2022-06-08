@@ -74,49 +74,49 @@ class DatabaseSeeder extends Seeder
         foreach ($shipment_lines as $shipment_line) {
             Carrier::create(['name' => $shipment_line]);
         }
-        // $this->call(UsersTableSeeder::class);
-        // $this->call(ForwarderUsersTableSeeder::class);
-        // $this->call(AddressesTableSeeder::class);
-        // $this->call(ShipperUsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(ForwarderUsersTableSeeder::class);
+        $this->call(AddressesTableSeeder::class);
+        $this->call(ShipperUsersTableSeeder::class);
         $this->call(ContainersTableSeeder::class);
 
 
-        $sea_ports = [
-            'Shanghai, China',
-            'Singapore',
-            'Ningbo-Zhoushan, China',
-            'Shenzhen, China',
-            'Guangzhou Harbor, China',
-            'Busan, South Korea',
-            'Qingdao, China',
-            'Hong Kong, S.A.R, China',
-            'Tianjin, China',
-            'Rotterdam, The Netherlands',
-            'Jebel Ali, Dubai, United Arab Emirates',
-            'Port Klang, Malaysia',
-            'Xiamen, China',
-            'Antwerp, Belgium',
-            'Kaohsiung, Taiwan, China',
-            'Dalian, China',
-            'Los Angeles, U.S.A',
-            'Hamburg, Germany',
-            'Tanjung Pelepas, Malaysia',
-            'Laem Chabang, Thailand',
-            'Keihin Ports, Japan',
-            'Long Beach, U.S.A.',
-            'Tanjung Priok, Jakarta, Indonesia',
-            'New York-New Jersey, U.S.A.',
-            'Colombo, Sri Lanka',
-            'Ho Chi Minh City, Vietnam',
-            'Suzhou, China',
-            'Piraeus, Greece',
-            'Yingkou, China',
-            'Valencia, Spain',
-            'Manila, Philippines'
-        ];
+        // $sea_ports = [
+        //     'Shanghai, China',
+        //     'Singapore',
+        //     'Ningbo-Zhoushan, China',
+        //     'Shenzhen, China',
+        //     'Guangzhou Harbor, China',
+        //     'Busan, South Korea',
+        //     'Qingdao, China',
+        //     'Hong Kong, S.A.R, China',
+        //     'Tianjin, China',
+        //     'Rotterdam, The Netherlands',
+        //     'Jebel Ali, Dubai, United Arab Emirates',
+        //     'Port Klang, Malaysia',
+        //     'Xiamen, China',
+        //     'Antwerp, Belgium',
+        //     'Kaohsiung, Taiwan, China',
+        //     'Dalian, China',
+        //     'Los Angeles, U.S.A',
+        //     'Hamburg, Germany',
+        //     'Tanjung Pelepas, Malaysia',
+        //     'Laem Chabang, Thailand',
+        //     'Keihin Ports, Japan',
+        //     'Long Beach, U.S.A.',
+        //     'Tanjung Priok, Jakarta, Indonesia',
+        //     'New York-New Jersey, U.S.A.',
+        //     'Colombo, Sri Lanka',
+        //     'Ho Chi Minh City, Vietnam',
+        //     'Suzhou, China',
+        //     'Piraeus, Greece',
+        //     'Yingkou, China',
+        //     'Valencia, Spain',
+        //     'Manila, Philippines'
+        // ];
 
-        foreach ($sea_ports as $sea_port) {
-            SeaPort::create(['name' => $sea_port]);
-        }
+        // foreach ($sea_ports as $sea_port) {
+        //     SeaPort::create(['name' => $sea_port]);
+        // }
     }
 }
