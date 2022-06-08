@@ -36,7 +36,7 @@ class InquiryForwarderResource extends JsonResource
             'commodity' => $this->commodity ?? null,
             'status' => $this->status,
             'vessel_departure' => $this->vessel_departure ?? null,
-            'ship_transit_time' => $this->acceptedInquiryForwarderRate->first()->ship_transit_time ?? null ,
+            'ship_transit_time' => $this->acceptedInquiryForwarderRate->first()->ship_transit_time ?? null,
             'containers' => InquiryContainerResource::collection($this->inquiryContainers),
             'message' => '',
             'forwarders' => $this->user->forwarders,
@@ -50,15 +50,14 @@ class InquiryForwarderResource extends JsonResource
                 } else {
                     $firstInquiry = $this->user->inquiries()->first();
                     if ($firstInquiry->id == $this->id)
-                        $data['message'] = "Forwarder Approved - waiting for rate";
+                        $data['message'] = "Forwarder Available - waiting for rate";
                     else
                         $data['message'] = "Waiting for rate";
                 }
             } else {
-                if (count($this->inquiryForwarderDeleted) > 0 && count($this->user->forwarders) == count($this->inquiryForwarderDeleted) )
-                {
+                if (count($this->inquiryForwarderDeleted) > 0 && count($this->user->forwarders) == count($this->inquiryForwarderDeleted)) {
                     $data['message'] = "Inquiry declined by all forwarders.";
-                }else {
+                } else {
                     $data['message'] = "Awaiting forwarder approval";
                 }
             }
